@@ -3,6 +3,16 @@ A Custom C# Library and SDK for bHaptics Support.
 Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics Gear as well as supporting me wherever needed! :D  
 
 ---
+  
+| WHATS NEW: |
+| - |
+| Additional Methods and Functionality |
+| New JSON based Direct Object Instancing and Manipulation |
+| New Thread-Safe Queue based Backend for handling Request Packets |
+| Improved Auto-Detection of bHaptics Player Installations  (STEAM & STANDALONE) |
+| Removed Needless Object Creations and Conversions between ``JSON <--> Object`` |
+  
+---
 
 ### LICENSING & CREDITS:
 

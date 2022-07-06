@@ -42,6 +42,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <None Remove=".gitignore" />
 	  <None Remove="LICENSE.md" />
 	  <None Remove="README.md" />
 	</ItemGroup>

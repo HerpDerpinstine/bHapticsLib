@@ -17,5 +17,7 @@ namespace bHapticsLib
             => Clamp<Double>(value, min, max);
         internal static Single Clamp(this Single value, Single min, Single max)
             => Clamp<Single>(value, min, max);
+
+
     }
 }

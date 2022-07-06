@@ -1,5 +1,4 @@
 ﻿using bHapticsLib.SimpleJSON;
-using bHapticsLib.Internal;
 
 namespace bHapticsLib
 {
