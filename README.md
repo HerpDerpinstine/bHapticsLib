@@ -1,5 +1,5 @@
 # bHapticsLib
-A C# Library and SDK for bHaptics Support.  
+A Custom C# Library and SDK for bHaptics Support.  
 Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics Gear as well as supporting me wherever needed! :D  
 
 ---
