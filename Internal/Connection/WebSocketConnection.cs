@@ -44,7 +44,6 @@ namespace bHapticsLib.Internal.Connection
             Socket.OnMessage += (sender, args) =>
             {
                 LastResponse = (PlayerResponse)JSONNode.Parse(args.Data);
-
             };
 
             Socket.OnOpen += (sender, args) =>

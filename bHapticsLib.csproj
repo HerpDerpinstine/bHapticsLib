@@ -31,7 +31,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Compile Remove="OLD\CommonUtils.cs" />
 	  <Compile Remove="OLD\HapticFeedback.cs" />
 	  <Compile Remove="OLD\HapticPlayer.cs" />
 	  <Compile Remove="OLD\IHapticPlayer.cs" />
@@ -48,7 +47,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <None Include="OLD\CommonUtils.cs" />
 	  <None Include="OLD\HapticFeedback.cs" />
 	  <None Include="OLD\HapticPlayer.cs" />
 	  <None Include="OLD\IHapticPlayer.cs" />
