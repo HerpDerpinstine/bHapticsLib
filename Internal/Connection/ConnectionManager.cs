@@ -104,7 +104,7 @@ namespace bHapticsLib.Internal.Connection
             }
         }
 
-        internal bool IsConnected() => Socket?.IsConnected ?? false;
+        internal bool IsPlayerConnected() => Socket?.IsConnected ?? false;
         internal bool IsDeviceConnected(PositionType type) => Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type) ?? false;
         internal bool IsAnyDeviceConnected() => (Socket?.LastResponse?.ConnectedDeviceCount > 0);
 

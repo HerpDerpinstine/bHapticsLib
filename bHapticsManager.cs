@@ -49,7 +49,9 @@ namespace bHapticsLib
             Connection.EndInit();
         }
 
-        public static bool IsConnected() => Connection.IsConnected();
+        public static bool IsInitialized() => Connection.IsAlive();
+
+        public static bool IsPlayerConnected() => Connection.IsPlayerConnected();
         public static bool IsDeviceConnected(PositionType type) => Connection.IsDeviceConnected(type);
         public static bool IsAnyDeviceConnected() => Connection.IsAnyDeviceConnected();
 
