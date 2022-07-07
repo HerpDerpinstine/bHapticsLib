@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using bHapticsLib.Internal.Connection.Models;
 
@@ -13,7 +14,10 @@ namespace bHapticsLib.Internal.Connection
         internal WebSocketConnection Socket;
 
         private PlayerPacket Packet = new PlayerPacket();
-        internal ConcurrentQueue<RegisterRequest> RegisterQueue = new ConcurrentQueue<RegisterRequest>();
+
+        private List<RegisterRequest> RegisterCache = new List<RegisterRequest>();
+        private ConcurrentQueue<RegisterRequest> RegisterQueue = new ConcurrentQueue<RegisterRequest>();
+
         private ConcurrentQueue<SubmitRequest> SubmitQueue = new ConcurrentQueue<SubmitRequest>();
 
         internal override bool BeginInitInternal()
@@ -21,7 +25,7 @@ namespace bHapticsLib.Internal.Connection
             if (Socket != null)
                 EndInit();
 
-            Socket = new WebSocketConnection(ID, Name, TryReconnect);
+            Socket = new WebSocketConnection(this, ID, Name, TryReconnect);
             ShouldRun = true;
             return true;
         }
@@ -56,6 +60,7 @@ namespace bHapticsLib.Internal.Connection
                     Thread.Sleep(1);
                 else
                 {
+                    RegisterCache.Clear();
                     Socket.Dispose();
                     Socket = null;
                 }
@@ -74,5 +79,20 @@ namespace bHapticsLib.Internal.Connection
         internal void StopPlayingAll() => SubmitQueue.Enqueue(new SubmitRequest { type = "turnOffAll" });
 
         internal bool IsFeedbackRegistered(string key) => Socket?.LastResponse?.RegisteredKeys?.ContainsValue(key) ?? false;
+
+        internal void RequestRegister(RegisterRequest request)
+        {
+            RegisterCache.Add(request);
+            RegisterQueue.Enqueue(request);
+        }
+
+        internal void QueueRegisterCache()
+        {
+            if (RegisterCache.Count <= 0)
+                return;
+            List<RegisterRequest>.Enumerator enumerator = RegisterCache.GetEnumerator();
+            while (enumerator.MoveNext())
+                RegisterQueue.Enqueue(enumerator.Current);
+        }
     }
 }

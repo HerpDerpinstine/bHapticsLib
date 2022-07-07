@@ -27,7 +27,7 @@ namespace bHapticsLib.Internal.Connection
 
         internal PlayerResponse LastResponse;
 
-        internal WebSocketConnection(string id, string name, bool tryReconnect = true)
+        internal WebSocketConnection(ConnectionManager manager, string id, string name, bool tryReconnect = true)
         {
             ID = HttpUtility.UrlEncode(id.Replace(" ", "_"));
             Name = HttpUtility.UrlEncode(name.Replace(" ", "_"));
@@ -49,9 +49,7 @@ namespace bHapticsLib.Internal.Connection
             Socket.OnOpen += (sender, args) =>
             {
                 IsConnected = true;
-
-                //AddRegister(_registered);
-
+                manager.QueueRegisterCache();
                 Console.WriteLine($"bHapticsLib Connected!");
                 ConnectionChanged?.Invoke(IsConnected);
             };
@@ -63,7 +61,6 @@ namespace bHapticsLib.Internal.Connection
                 ConnectionChanged?.Invoke(IsConnected);
                 LastResponse = null;
             };
-
 
             Socket.Connect();
         }
