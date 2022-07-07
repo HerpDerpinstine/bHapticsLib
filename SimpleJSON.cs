@@ -881,7 +881,7 @@ namespace bHapticsLib.SimpleJSON
 
     public partial class JSONObject : JSONNode
     {
-        private Dictionary<string, JSONNode> m_Dict = new Dictionary<string, JSONNode>();
+        internal Dictionary<string, JSONNode> m_Dict = new Dictionary<string, JSONNode>();
 
         private bool inline = false;
         public override bool Inline

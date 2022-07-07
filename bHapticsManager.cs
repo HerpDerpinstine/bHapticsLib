@@ -6,9 +6,10 @@ namespace bHapticsLib
     public static class bHapticsManager
     {
         public const int MaxIntensity = 500;
+        public const int MaxMotorCount = 3;
         public const int MaxBufferSize = 20;
 
-        private static RequestManager Request;
+        private static ConnectionManager Connection = new ConnectionManager();
 
         public static void Initialize(string id, string name, bool tryreconnect = true)
         {
@@ -20,13 +21,13 @@ namespace bHapticsLib
             //    && !SteamLibraryCheck())
             //    throw new Exception("bHaptics Player is Not Installed!");
 
-            if (Request != null)
-                Request.EndInit();
-            else
-                Request = new RequestManager(id, name);
+            Connection.EndInit();
 
-            Request.TryReconnect = tryreconnect;
-            Request.BeginInit();
+            Connection.ID = id;
+            Connection.Name = name;
+            Connection.TryReconnect = tryreconnect;
+
+            Connection.BeginInit();
         }
 
         /*
@@ -44,68 +45,36 @@ namespace bHapticsLib
 
         public static void Quit()
         {
-            Request?.StopPlayingAll();
-            Request?.EndInit();
+            Connection.StopPlayingAll();
+            Connection.EndInit();
         }
 
-        public static bool IsConnected() => Request?.IsConnected() ?? false;
+        public static bool IsConnected() => Connection.IsConnected();
+        public static bool IsDeviceConnected(PositionType type) => Connection.IsDeviceConnected(type);
+        public static bool IsAnyDeviceConnected() => Connection.IsAnyDeviceConnected();
 
-        public static bool IsPlaying(string key) => Request?.IsPlaying(key) ?? false;
-        public static bool IsPlaying(PositionType type) => Request?.IsPlaying(type) ?? false;
-        public static bool IsPlayingAny() => Request?.IsPlayingAny() ?? false;
+        public static bool IsPlaying(string key) => Connection.IsPlaying(key);
+        //public static bool IsPlaying(PositionType type) => Connection.IsPlaying(type);
+        public static bool IsPlayingAny() => Connection.IsPlayingAny();
 
-        public static void StopPlaying(string key) => Request?.StopPlaying(key);
-        public static void StopPlayingAll() => Request?.StopPlayingAll();
+        public static void StopPlaying(string key) => Connection.StopPlaying(key);
+        public static void StopPlayingAll() => Connection.StopPlayingAll();
 
-        public static void RegisterFeedbackFromTactFile(string key, string tactFileStr) => Request?.RegisterTactFileStr(key, tactFileStr);
+        public static bool IsFeedbackRegistered(string key) => (!_waserror && NativeLib.IsFeedbackRegistered(Marshal.StringToHGlobalAnsi(key)));
 
-        public static void Submit(string key, PositionType position, byte[] bytes, int durationMillis) => Request?.Submit(key, position, bytes, durationMillis);
-        public static void Submit(string key, PositionType position, List<DotPoint> points, int durationMillis) => Request?.Submit(key, position, points, durationMillis);
-        public static void Submit(string key, PositionType position, List<PathPoint> points, int durationMillis) => Request?.Submit(key, position, points, durationMillis);
+        public static void RegisterFeedback(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedback(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }
+        public static void RegisterFeedbackFromTactFile(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedbackFromTactFile(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }
+        public static void RegisterFeedbackFromTactFileReflected(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedbackFromTactFileReflected(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }
 
-        public static void SubmitRegistered(string key) => Request?.SubmitRegistered(key);
-        public static void SubmitRegistered(string key, int startTimeMillis) => Request?.SubmitRegistered(key, startTimeMillis);
-        public static void SubmitRegistered(string key, string altKey, ScaleOption option) => Request?.SubmitRegistered(key, altKey, option);
-        public static void SubmitRegistered(string key, string altKey, ScaleOption sOption, RotationOption rOption) => Request?.SubmitRegisteredVestRotation(key, altKey, rOption, sOption);
+        public static void Submit(string key, PositionType position, byte[] bytes, int durationMillis) => Connection.Submit(key, position, bytes, durationMillis);
+        public static void Submit(string key, PositionType position, List<DotPoint> points, int durationMillis) => Connection.Submit(key, position, points, durationMillis);
+        public static void Submit(string key, PositionType position, List<PathPoint> points, int durationMillis) => Connection.Submit(key, position, points, durationMillis);
 
-        public static string PositionTypeToOscAddress(PositionType positionType)
-        {
-            switch (positionType)
-            {
-                // Head
-                case PositionType.Head:
-                    return "/head";
+        public static void SubmitRegistered(string key) { if (!_waserror) NativeLib.SubmitRegistered(Marshal.StringToHGlobalAnsi(key)); }
+        public static void SubmitRegistered(string key, int startTimeMillis) => NativeLib.SubmitRegisteredStartMillis(Marshal.StringToHGlobalAnsi(key), startTimeMillis);
 
-                // Vest
-                case PositionType.Vest:
-                    return "/vest";
-                case PositionType.VestFront:
-                    return "/vest/front";
-                case PositionType.VestBack:
-                    return "/vest/back";
-
-                // Arms
-                case PositionType.ForearmL:
-                    return "/arm/left";
-                case PositionType.ForearmR:
-                    return "/arm/right";
-
-                // Hands
-                case PositionType.HandL:
-                    return "/hand/left";
-                case PositionType.HandR:
-                    return "/hand/right";
-
-                // Feet
-                case PositionType.FootL:
-                    return "/foot/left";
-                case PositionType.FootR:
-                    return "/foot/right";
-
-                // Unknown
-                default:
-                    return "/unknown";
-            }
-        }
+        public static void SubmitRegistered(string key, string altKey, ScaleOption option) { if (!_waserror) NativeLib.SubmitRegisteredWithOption(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(altKey), option.Intensity, option.Duration, 1f, 1f); }
+        public static void SubmitRegistered(string key, string altKey, RotationOption option) { if (!_waserror) NativeLib.SubmitRegisteredWithOption(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(altKey), option.Intensity, option.Duration, 1f, 1f); }
+        public static void SubmitRegistered(string key, string altKey, ScaleOption sOption, RotationOption rOption) { if (!_waserror) NativeLib.SubmitRegisteredWithOption(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(altKey), sOption.Intensity, sOption.Duration, rOption.OffsetX, rOption.OffsetY); }
     }
 }

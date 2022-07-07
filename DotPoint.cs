@@ -4,7 +4,7 @@ namespace bHapticsLib
 {
     public class DotPoint : JSONObject
     {
-        public DotPoint(int index, int intensity)
+        public DotPoint(int index, int intensity = 50)
         {
             if (index < 0)
                 throw new bHapticsException("Invalid argument index : " + index);
@@ -22,7 +22,7 @@ namespace bHapticsLib
         public int intensity
         {
             get => this[nameof(intensity)].AsInt;
-            set => this[nameof(intensity)] = value;
+            set => this[nameof(intensity)] = value.Clamp(0, bHapticsManager.MaxIntensity);
         }
     }
 }

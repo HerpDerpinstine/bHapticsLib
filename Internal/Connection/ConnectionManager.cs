@@ -1,26 +1,23 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using bHapticsLib.Internal.Connection.Models;
+using bHapticsLib.SimpleJSON;
 
 namespace bHapticsLib.Internal.Connection
 {
-    internal class RequestManager : ThreadedTask
+    internal class ConnectionManager : ThreadedTask
     {
-        private string ID, Name;
         private bool ShouldRun = true;
 
+        internal string ID, Name;
         internal bool TryReconnect = true;
         internal WebSocketConnection Socket;
 
         private PlayerPacket Packet = new PlayerPacket();
         internal ConcurrentQueue<RegisterRequest> RegisterQueue = new ConcurrentQueue<RegisterRequest>();
         private ConcurrentQueue<SubmitRequest> SubmitQueue = new ConcurrentQueue<SubmitRequest>();
-
-        internal RequestManager(string id, string name)
-        {
-            ID = id;
-            Name = name;
-        }
 
         internal override bool BeginInitInternal()
         {
@@ -68,12 +65,24 @@ namespace bHapticsLib.Internal.Connection
             }
         }
 
-        internal bool IsConnected()
-            => Socket?.IsConnected ?? false;
+        internal bool IsConnected() => Socket?.IsConnected ?? false;
+        internal bool IsDeviceConnected(PositionType type)
+        {
+            if ((Socket == null) || (Socket.LastResponse == null))
+                return false;
+            JSONNode.Enumerator enumerator = Socket.LastResponse.GetEnumerator();
+            while (enumerator.MoveNext())
+                if ((PositionType)enumerator.Current.Value?.AsInt == type)
+                    return true;
+            return false;
+        }
+        internal bool IsAnyDeviceConnected() => (Socket?.LastResponse?.ConnectedDeviceCount > 0);
 
-        internal void StopPlaying(string key)
-            => SubmitQueue.Enqueue(new SubmitRequest { key = key, type = "turnOff" });
-        internal void StopPlayingAll()
-            => SubmitQueue.Enqueue(new SubmitRequest { type = "turnOffAll" });
+        internal bool IsPlaying(string key) => Socket?.LastResponse?.ActiveKeys.HasKey(key) ?? false;
+        //internal bool IsPlaying(PositionType type) => Socket?.LastResponse?.ActiveKeys.HasKey(key) ?? false;
+        internal bool IsPlayingAny() => (Socket?.LastResponse?.ActiveKeys.Count > 0);
+
+        internal void StopPlaying(string key) => SubmitQueue.Enqueue(new SubmitRequest { key = key, type = "turnOff" });
+        internal void StopPlayingAll() => SubmitQueue.Enqueue(new SubmitRequest { type = "turnOffAll" });
     }
 }
