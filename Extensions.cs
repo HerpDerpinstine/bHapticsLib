@@ -76,7 +76,7 @@ namespace bHapticsLib
             while (enumerator.MoveNext())
             {
                 JSONNode currentNode = enumerator.Current;
-                if (currentNode.IsNull)
+                if ((currentNode == null) || currentNode.IsNull)
                     continue;
                 if (currentNode.IsBoolean && (currentNode.AsBool == value))
                     return true;

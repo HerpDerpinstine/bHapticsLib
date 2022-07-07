@@ -44,12 +44,15 @@ namespace bHapticsLib.Internal.Connection
             Socket.OnMessage += (sender, args) =>
             {
                 LastResponse = (PlayerResponse)JSONNode.Parse(args.Data);
+                manager.CheckRegisterCache();
             };
 
             Socket.OnOpen += (sender, args) =>
             {
                 IsConnected = true;
+
                 manager.QueueRegisterCache();
+
                 Console.WriteLine($"bHapticsLib Connected!");
                 ConnectionChanged?.Invoke(IsConnected);
             };

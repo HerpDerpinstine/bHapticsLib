@@ -67,6 +67,43 @@ namespace bHapticsLib.Internal.Connection
             }
         }
 
+        private void RequestRegister(RegisterRequest request)
+        {
+            RegisterCache.Add(request);
+            RegisterQueue.Enqueue(request);
+        }
+
+        internal void QueueRegisterCache()
+        {
+            if (RegisterCache.Count <= 0)
+                return;
+            List<RegisterRequest>.Enumerator enumerator = RegisterCache.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                RegisterRequest request = enumerator.Current;
+                if ((request == null)
+                    || request.IsNull)
+                    continue;
+                RegisterQueue.Enqueue(enumerator.Current);
+            }
+        }
+
+        internal void CheckRegisterCache()
+        {
+            if ((RegisterCache.Count <= 0) || (Socket == null) || (Socket.LastResponse == null) || (Socket.LastResponse.RegisteredKeys == null))
+                return;
+            List<RegisterRequest>.Enumerator enumerator = RegisterCache.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                RegisterRequest request = enumerator.Current;
+                if ((request == null)
+                    || request.IsNull)
+                    continue;
+                if (!Socket.LastResponse.RegisteredKeys.ContainsValue(enumerator.Current.key))
+                    RegisterCache.Remove(enumerator.Current);
+            }
+        }
+
         internal bool IsConnected() => Socket?.IsConnected ?? false;
         internal bool IsDeviceConnected(PositionType type) => Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type) ?? false;
         internal bool IsAnyDeviceConnected() => (Socket?.LastResponse?.ConnectedDeviceCount > 0);
@@ -80,19 +117,5 @@ namespace bHapticsLib.Internal.Connection
 
         internal bool IsFeedbackRegistered(string key) => Socket?.LastResponse?.RegisteredKeys?.ContainsValue(key) ?? false;
 
-        internal void RequestRegister(RegisterRequest request)
-        {
-            RegisterCache.Add(request);
-            RegisterQueue.Enqueue(request);
-        }
-
-        internal void QueueRegisterCache()
-        {
-            if (RegisterCache.Count <= 0)
-                return;
-            List<RegisterRequest>.Enumerator enumerator = RegisterCache.GetEnumerator();
-            while (enumerator.MoveNext())
-                RegisterQueue.Enqueue(enumerator.Current);
-        }
     }
 }
