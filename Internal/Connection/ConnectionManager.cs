@@ -99,7 +99,7 @@ namespace bHapticsLib.Internal.Connection
                 if ((request == null)
                     || request.IsNull)
                     continue;
-                if (!Socket.LastResponse.RegisteredKeys.ContainsValue(enumerator.Current.key))
+                if (!Socket.LastResponse.RegisteredKeys.ContainsValue(request.key))
                     RegisterCache.Remove(request);
             }
         }

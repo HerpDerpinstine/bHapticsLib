@@ -43,6 +43,7 @@ namespace bHapticsLib.Internal.Connection
             Socket.OnError += (sender, args) => OnError?.Invoke(sender, args);
             Socket.OnMessage += (sender, args) =>
             {
+                Debug.WriteLine(args.Data);
                 LastResponse = (PlayerResponse)JSONNode.Parse(args.Data);
                 manager.CheckRegisterCache();
             };
