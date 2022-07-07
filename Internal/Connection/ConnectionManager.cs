@@ -1,9 +1,6 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using bHapticsLib.Internal.Connection.Models;
-using bHapticsLib.SimpleJSON;
 
 namespace bHapticsLib.Internal.Connection
 {
@@ -66,23 +63,16 @@ namespace bHapticsLib.Internal.Connection
         }
 
         internal bool IsConnected() => Socket?.IsConnected ?? false;
-        internal bool IsDeviceConnected(PositionType type)
-        {
-            if ((Socket == null) || (Socket.LastResponse == null))
-                return false;
-            JSONNode.Enumerator enumerator = Socket.LastResponse.ConnectedPositions.GetEnumerator();
-            while (enumerator.MoveNext())
-                if ((PositionType)enumerator.Current.Value?.AsInt == type)
-                    return true;
-            return false;
-        }
+        internal bool IsDeviceConnected(PositionType type) => Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type) ?? false;
         internal bool IsAnyDeviceConnected() => (Socket?.LastResponse?.ConnectedDeviceCount > 0);
 
-        internal bool IsPlaying(string key) => Socket?.LastResponse?.ActiveKeys.HasKey(key) ?? false;
+        internal bool IsPlaying(string key) => Socket?.LastResponse?.ActiveKeys?.ContainsValue(key) ?? false;
         //internal bool IsPlaying(PositionType type) => Socket?.LastResponse?.ActiveKeys.HasKey(key) ?? false;
-        internal bool IsPlayingAny() => (Socket?.LastResponse?.ActiveKeys.Count > 0);
+        internal bool IsPlayingAny() => (Socket?.LastResponse?.ActiveKeys?.Count > 0);
 
         internal void StopPlaying(string key) => SubmitQueue.Enqueue(new SubmitRequest { key = key, type = "turnOff" });
         internal void StopPlayingAll() => SubmitQueue.Enqueue(new SubmitRequest { type = "turnOffAll" });
+
+        internal bool IsFeedbackRegistered(string key) => Socket?.LastResponse?.RegisteredKeys?.ContainsValue(key) ?? false;
     }
 }

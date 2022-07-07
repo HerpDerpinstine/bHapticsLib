@@ -60,7 +60,7 @@ namespace bHapticsLib
         public static void StopPlaying(string key) => Connection.StopPlaying(key);
         public static void StopPlayingAll() => Connection.StopPlayingAll();
 
-        public static bool IsFeedbackRegistered(string key) => (!_waserror && NativeLib.IsFeedbackRegistered(Marshal.StringToHGlobalAnsi(key)));
+        public static bool IsFeedbackRegistered(string key) => Connection.IsFeedbackRegistered(key);
 
         public static void RegisterFeedback(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedback(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }
         public static void RegisterFeedbackFromTactFile(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedbackFromTactFile(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }

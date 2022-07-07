@@ -1,6 +1,6 @@
 ﻿namespace bHapticsLib
 {
-    public enum PositionType
+    public enum PositionType : int
     {
         All = 0,
 
