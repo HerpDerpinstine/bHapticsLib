@@ -86,6 +86,7 @@ namespace bHapticsLib.Internal.Connection
                     continue;
                 RegisterQueue.Enqueue(request);
             }
+            enumerator.Dispose();
         }
 
         internal void CheckRegisterCache()
@@ -102,6 +103,7 @@ namespace bHapticsLib.Internal.Connection
                 if (!Socket.LastResponse.RegisteredKeys.ContainsValue(request.key))
                     RegisterCache.Remove(request);
             }
+            enumerator.Dispose();
         }
 
         internal bool IsPlayerConnected() => Socket?.IsConnected ?? false;
