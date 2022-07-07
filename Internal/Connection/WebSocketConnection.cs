@@ -50,9 +50,7 @@ namespace bHapticsLib.Internal.Connection
             Socket.OnOpen += (sender, args) =>
             {
                 IsConnected = true;
-
                 manager.QueueRegisterCache();
-
                 Console.WriteLine($"bHapticsLib Connected!");
                 ConnectionChanged?.Invoke(IsConnected);
             };

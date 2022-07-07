@@ -84,7 +84,7 @@ namespace bHapticsLib.Internal.Connection
                 if ((request == null)
                     || request.IsNull)
                     continue;
-                RegisterQueue.Enqueue(enumerator.Current);
+                RegisterQueue.Enqueue(request);
             }
         }
 
@@ -100,7 +100,7 @@ namespace bHapticsLib.Internal.Connection
                     || request.IsNull)
                     continue;
                 if (!Socket.LastResponse.RegisteredKeys.ContainsValue(enumerator.Current.key))
-                    RegisterCache.Remove(enumerator.Current);
+                    RegisterCache.Remove(request);
             }
         }
 
