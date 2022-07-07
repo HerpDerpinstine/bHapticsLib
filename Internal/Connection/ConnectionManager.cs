@@ -70,7 +70,7 @@ namespace bHapticsLib.Internal.Connection
         {
             if ((Socket == null) || (Socket.LastResponse == null))
                 return false;
-            JSONNode.Enumerator enumerator = Socket.LastResponse.GetEnumerator();
+            JSONNode.Enumerator enumerator = Socket.LastResponse.ConnectedPositions.GetEnumerator();
             while (enumerator.MoveNext())
                 if ((PositionType)enumerator.Current.Value?.AsInt == type)
                     return true;
