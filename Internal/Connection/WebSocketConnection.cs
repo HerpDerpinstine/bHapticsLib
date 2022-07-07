@@ -95,7 +95,7 @@ namespace bHapticsLib.Internal.Connection
             try
             {
                 Socket.Send(msg);
-                Debug.WriteLine("Send(string): " + msg);
+                Debug.WriteLine("Sent: " + msg);
             }
             catch (Exception e) { Console.Write($"{e.Message} {e}\n"); }
         }
