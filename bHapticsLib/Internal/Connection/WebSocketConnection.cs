@@ -63,7 +63,6 @@ namespace bHapticsLib.Internal.Connection
 
         public void Dispose()
         {
-            Console.WriteLine("Disposing Socket...");
             try
             {
                 Socket.Close();
