@@ -12,8 +12,14 @@ namespace TestApplication
             bHapticsManager.Initialize("bHapticsLib", "TestApplication");
             Console.WriteLine();
 
-            Console.WriteLine($"Press F1 for {nameof(bHapticsManager.IsPlayerConnected)}()");
-            Console.WriteLine($"Press F2 for {nameof(bHapticsManager.IsAnyDevicesConnected)}()");
+            Console.WriteLine($"Press 1 for {nameof(bHapticsManager.IsPlayerConnected)}()");
+            Console.WriteLine();
+
+            Console.WriteLine($"Press 2 for {nameof(bHapticsManager.GetConnectedDeviceCount)}()");
+            Console.WriteLine($"Press 3 for {nameof(bHapticsManager.IsAnyDevicesConnected)}()");
+            Console.WriteLine();
+
+            Console.WriteLine($"Press NUMPAD-3 for {nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
             Console.WriteLine();
 
             Console.WriteLine("Press Enter to Disconnect.");
@@ -27,20 +33,8 @@ namespace TestApplication
                     Thread.Sleep(1);
             }
 
-            if (bHapticsManager.IsPlayerConnected())
-            {
-                Console.WriteLine();
-                Console.WriteLine("Disconnecting from bHaptics Player...");
-                Console.WriteLine();
-                if (!bHapticsManager.Quit())
-                    Console.WriteLine("Failed to Disconnect!");
-                else
-                    Console.WriteLine("Disconnected from bHaptics Player!");
-            }
-
-            Console.WriteLine("Press Enter to Exit.");
-            while (Console.ReadKey(false).Key != ConsoleKey.Enter)
-                Thread.Sleep(1);
+            if (!bHapticsManager.Quit())
+                Console.WriteLine("Failed to Disconnect!");
         }
 
         static bool KeyCheck()
@@ -54,11 +48,19 @@ namespace TestApplication
                 case ConsoleKey.Enter:
                     return true;
 
-                case ConsoleKey.F1:
+                case ConsoleKey.D1:
                     Console.WriteLine($"{nameof(bHapticsManager.IsPlayerConnected)}(): {bHapticsManager.IsPlayerConnected()}");
                     goto default;
-                case ConsoleKey.F2:
+
+                case ConsoleKey.D2:
+                    Console.WriteLine($"{nameof(bHapticsManager.GetConnectedDeviceCount)}(): {bHapticsManager.GetConnectedDeviceCount()}");
+                    goto default;
+                case ConsoleKey.D3:
                     Console.WriteLine($"{nameof(bHapticsManager.IsAnyDevicesConnected)}(): {bHapticsManager.IsAnyDevicesConnected()}");
+                    goto default;
+
+                case ConsoleKey.NumPad3:
+                    Console.WriteLine($"{nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionType)}.{nameof(PositionType.Vest)}): {bHapticsManager.IsDeviceConnected(PositionType.Vest)}");
                     goto default;
 
                 default:

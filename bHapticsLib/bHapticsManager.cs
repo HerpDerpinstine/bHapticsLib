@@ -7,6 +7,7 @@ namespace bHapticsLib
         public const int MaxIntensity = 500;
         public const int MaxMotorCount = 3;
         public const int MaxBufferSize = 20;
+        public const int MaxConnectionRetryCount = 5;
 
         private static ConnectionManager Connection = new ConnectionManager();
         private static string PlayerPath = null;
@@ -43,11 +44,12 @@ namespace bHapticsLib
 
         public static bool IsInitialized() => Connection.IsAlive();
 
-        public static string GetPlayerInstallPath() => PlayerPath;
+        public static string GetPlayerExecutablePath() => PlayerPath;
         public static bool IsPlayerConnected() => Connection.IsPlayerConnected();
 
+        public static int GetConnectedDeviceCount() => Connection.GetConnectedDeviceCount();
+        public static bool IsAnyDevicesConnected() => GetConnectedDeviceCount() > 0;
         public static bool IsDeviceConnected(PositionType type) => Connection.IsDeviceConnected(type);
-        public static bool IsAnyDevicesConnected() => Connection.IsAnyDeviceConnected();
 
         public static bool IsPlaying(string key) => Connection.IsPlaying(key);
         //public static bool IsPlaying(PositionType type) => Connection.IsPlaying(type);

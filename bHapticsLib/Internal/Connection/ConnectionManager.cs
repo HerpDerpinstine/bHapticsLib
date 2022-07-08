@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -91,8 +92,24 @@ namespace bHapticsLib.Internal.Connection
         }
 
         internal bool IsPlayerConnected() => Socket?.IsConnected() ?? false;
+
+        internal int GetConnectedDeviceCount()
+        {
+            if (Socket == null)
+            {
+                Console.WriteLine("Socket is null");
+                return 0;
+            }
+            if (Socket.LastResponse == null)
+            {
+                Console.WriteLine("LastResponse is null");
+                return 0;
+            }
+
+            Console.WriteLine("Found connected device count");
+            return Socket.LastResponse.ConnectedDeviceCount;
+        }
         internal bool IsDeviceConnected(PositionType type) => Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type) ?? false;
-        internal bool IsAnyDeviceConnected() => (Socket?.LastResponse?.ConnectedDeviceCount > 0);
 
         internal bool IsPlaying(string key) => Socket?.LastResponse?.ActiveKeys?.ContainsValue(key) ?? false;
         //internal bool IsPlaying(PositionType type) => Socket?.LastResponse?.ActiveKeys.HasKey(key) ?? false;
