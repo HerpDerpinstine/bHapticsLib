@@ -12,22 +12,18 @@ namespace bHapticsLib.Internal.Connection
     {
         private readonly string URL = "ws://127.0.0.1:15881/v2/feedbacks";
         private string ID, Name;
-
         private WebSocket Socket;
         private Timer UpTime;
-
         private int RetryCount;
-        private static int MaxRetryCount = 5;
 
-        internal bool IsConnected { get; private set; }
+        internal bool IsConnected;
+        internal PlayerResponse LastResponse;
 
         internal event Action<bool> ConnectionChanged;
         internal event Action<string> LogReceived;
         internal event Action<object, ErrorEventArgs> OnError;
 
-        internal PlayerResponse LastResponse;
-
-        internal WebSocketConnection(ConnectionManager manager, string id, string name, bool tryReconnect = true)
+        internal WebSocketConnection(ConnectionManager manager, string id, string name, bool tryReconnect)
         {
             ID = HttpUtility.UrlEncode(id.Replace(" ", "_"));
             Name = HttpUtility.UrlEncode(name.Replace(" ", "_"));
@@ -43,23 +39,22 @@ namespace bHapticsLib.Internal.Connection
             Socket.OnError += (sender, args) => OnError?.Invoke(sender, args);
             Socket.OnMessage += (sender, args) =>
             {
-                Debug.WriteLine(args.Data);
-                LastResponse = (PlayerResponse)JSONNode.Parse(args.Data);
-                manager.CheckRegisterCache();
+                string data = args.Data;
+                Debug.WriteLine($"Response: {data}");
+                LastResponse = JSONNode.Parse(data) as PlayerResponse;
+                LogReceived?.Invoke(data);
             };
 
             Socket.OnOpen += (sender, args) =>
             {
                 IsConnected = true;
                 manager.QueueRegisterCache();
-                Console.WriteLine($"bHapticsLib Connected!");
                 ConnectionChanged?.Invoke(IsConnected);
             };
 
             Socket.OnClose += (sender, args) =>
             {
                 IsConnected = false;
-                Console.WriteLine($"bHapticsLib Disconnected!");
                 ConnectionChanged?.Invoke(IsConnected);
                 LastResponse = null;
             };
@@ -69,7 +64,11 @@ namespace bHapticsLib.Internal.Connection
 
         public void Dispose()
         {
-            try { Socket.Close(); }
+            try
+            {
+                Socket.Close();
+                UpTime.Stop();
+            }
             catch (Exception e) { Console.WriteLine(e); }
         }
 
@@ -81,12 +80,12 @@ namespace bHapticsLib.Internal.Connection
             RetryCount++;
             Socket.Connect();
 
-            if (RetryCount >= MaxRetryCount)
+            if (RetryCount >= bHapticsManager.MaxConnectionRetryCount)
                 UpTime.Stop();
         }
 
         internal void Send(JSONObject jsonNode)
-            => Send(jsonNode.Value);
+            => Send(jsonNode.ToString());
         internal void Send(string msg)
         {
             if (!IsConnected)

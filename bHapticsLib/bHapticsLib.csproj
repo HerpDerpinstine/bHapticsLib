@@ -7,7 +7,7 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<OutputPath>$(SolutionDir)Output\$(Configuration)\</OutputPath>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	    <ApplicationIcon>../bhaptics_icon.ico</ApplicationIcon>
+	    <ApplicationIcon></ApplicationIcon>
 		<OutputType>Library</OutputType>
 		<StartupObject />
 		<RootNamespace>bHapticsLib</RootNamespace>
@@ -25,35 +25,14 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-	  <Compile Remove="Output\**" />
-	  <EmbeddedResource Remove="Output\**" />
-	  <None Remove="Output\**" />
+	  <Compile Remove="..\Output\**" />
+	  <EmbeddedResource Remove="..\Output\**" />
+	  <None Remove="..\Output\**" />
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Compile Remove="OLD\HapticFeedback.cs" />
-	  <Compile Remove="OLD\HapticPlayer.cs" />
-	  <Compile Remove="OLD\IHapticPlayer.cs" />
-	  <Compile Remove="OLD\ISender.cs" />
-	  <Compile Remove="OLD\PlayerRequest.cs" />
-	  <Compile Remove="OLD\Project.cs" />
-	  <Compile Remove="OLD\WebSocketdder - Copy.cs" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Remove=".gitignore" />
-	  <None Remove="LICENSE.md" />
-	  <None Remove="README.md" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Include="OLD\HapticFeedback.cs" />
-	  <None Include="OLD\HapticPlayer.cs" />
-	  <None Include="OLD\IHapticPlayer.cs" />
-	  <None Include="OLD\ISender.cs" />
-	  <None Include="OLD\PlayerRequest.cs" />
-	  <None Include="OLD\Project.cs" />
-	  <None Include="OLD\WebSocketdder - Copy.cs" />
+	  <Compile Include="..\Properties\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
+	  <Compile Include="..\Properties\BuildInfo.cs" Link="Properties\BuildInfo.cs" />
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -62,5 +41,9 @@
 	
 	<ItemGroup>
 	  <Reference Include="System.Web" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Properties\" />
 	</ItemGroup>
 </Project>

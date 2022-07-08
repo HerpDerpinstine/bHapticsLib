@@ -8,6 +8,7 @@ namespace bHapticsLib
         public const int MaxIntensity = 500;
         public const int MaxMotorCount = 3;
         public const int MaxBufferSize = 20;
+        public const int MaxConnectionRetryCount = 5;
 
         private static ConnectionManager Connection = new ConnectionManager();
 
@@ -64,6 +65,7 @@ namespace bHapticsLib
 
         public static bool IsFeedbackRegistered(string key) => Connection.IsFeedbackRegistered(key);
 
+        /*
         public static void RegisterFeedback(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedback(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }
         public static void RegisterFeedbackFromTactFile(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedbackFromTactFile(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }
         public static void RegisterFeedbackFromTactFileReflected(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedbackFromTactFileReflected(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }
@@ -78,5 +80,6 @@ namespace bHapticsLib
         public static void SubmitRegistered(string key, string altKey, ScaleOption option) { if (!_waserror) NativeLib.SubmitRegisteredWithOption(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(altKey), option.Intensity, option.Duration, 1f, 1f); }
         public static void SubmitRegistered(string key, string altKey, RotationOption option) { if (!_waserror) NativeLib.SubmitRegisteredWithOption(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(altKey), option.Intensity, option.Duration, 1f, 1f); }
         public static void SubmitRegistered(string key, string altKey, ScaleOption sOption, RotationOption rOption) { if (!_waserror) NativeLib.SubmitRegisteredWithOption(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(altKey), sOption.Intensity, sOption.Duration, rOption.OffsetX, rOption.OffsetY); }
+        */
     }
 }
