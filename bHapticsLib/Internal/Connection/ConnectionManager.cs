@@ -36,6 +36,11 @@ namespace bHapticsLib.Internal.Connection
 
             ShouldRun = false;
             while (IsAlive()) { Thread.Sleep(1); }
+
+            RegisterCache.Clear();
+            Socket.Dispose();
+            Socket = null;
+
             return true;
         }
 
@@ -43,7 +48,7 @@ namespace bHapticsLib.Internal.Connection
         {
             while (ShouldRun)
             {
-                if (Socket.IsConnected)
+                if (IsPlayerConnected())
                 {
                     while (RegisterQueue.TryDequeue(out RegisterRequest request))
                         Packet.Register.Add(request);
@@ -57,12 +62,6 @@ namespace bHapticsLib.Internal.Connection
 
                 if (ShouldRun)
                     Thread.Sleep(1);
-                else
-                {
-                    RegisterCache.Clear();
-                    Socket.Dispose();
-                    Socket = null;
-                }
             }
         }
 
@@ -91,7 +90,7 @@ namespace bHapticsLib.Internal.Connection
             enumerator.Dispose();
         }
 
-        internal bool IsPlayerConnected() => Socket?.IsConnected ?? false;
+        internal bool IsPlayerConnected() => Socket?.IsConnected() ?? false;
         internal bool IsDeviceConnected(PositionType type) => Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type) ?? false;
         internal bool IsAnyDeviceConnected() => (Socket?.LastResponse?.ConnectedDeviceCount > 0);
 

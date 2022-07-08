@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using bHapticsLib.Internal.Connection;
+﻿using bHapticsLib.Internal.Connection;
 
 namespace bHapticsLib
 {
@@ -8,11 +7,11 @@ namespace bHapticsLib
         public const int MaxIntensity = 500;
         public const int MaxMotorCount = 3;
         public const int MaxBufferSize = 20;
-        public const int MaxConnectionRetryCount = 5;
 
         private static ConnectionManager Connection = new ConnectionManager();
+        private static string PlayerPath = null;
 
-        public static void Initialize(string id, string name, bool tryreconnect = true)
+        public static bool Initialize(string id, string name, bool tryreconnect = true)
         {
             // To-Do: Null Check and Throw Exception
             // id
@@ -22,13 +21,9 @@ namespace bHapticsLib
             //    && !SteamLibraryCheck())
             //    throw new Exception("bHaptics Player is Not Installed!");
 
-            Connection.EndInit();
-
             Connection.ID = id;
             Connection.Name = name;
-            Connection.TryReconnect = tryreconnect;
-
-            Connection.BeginInit();
+            return Connection.BeginInit();
         }
 
         /*
@@ -44,17 +39,15 @@ namespace bHapticsLib
             => !string.IsNullOrEmpty(SteamManifestReader.GetInstallPathFromAppId("1573010"));
         */
 
-        public static void Quit()
-        {
-            Connection.StopPlayingAll();
-            Connection.EndInit();
-        }
+        public static bool Quit() => Connection.EndInit();
 
         public static bool IsInitialized() => Connection.IsAlive();
 
+        public static string GetPlayerInstallPath() => PlayerPath;
         public static bool IsPlayerConnected() => Connection.IsPlayerConnected();
+
         public static bool IsDeviceConnected(PositionType type) => Connection.IsDeviceConnected(type);
-        public static bool IsAnyDeviceConnected() => Connection.IsAnyDeviceConnected();
+        public static bool IsAnyDevicesConnected() => Connection.IsAnyDeviceConnected();
 
         public static bool IsPlaying(string key) => Connection.IsPlaying(key);
         //public static bool IsPlaying(PositionType type) => Connection.IsPlaying(type);

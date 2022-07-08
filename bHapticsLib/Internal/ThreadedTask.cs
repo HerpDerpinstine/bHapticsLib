@@ -10,17 +10,21 @@ namespace bHapticsLib.Internal
             => (thread == null) ? false : thread.IsAlive;
 
         internal abstract bool BeginInitInternal();
-        internal void BeginInit()
+        internal bool BeginInit()
         {
-            if (BeginInitInternal())
-                RunThread();
+            if (!BeginInitInternal())
+                return false;
+            RunThread();
+            return true;
         }
 
         internal abstract bool EndInitInternal();
-        internal void EndInit()
+        internal bool EndInit()
         {
-            if (EndInitInternal())
-                KillThread();
+            if (!EndInitInternal())
+                return false;
+            KillThread();
+            return true;
         }
 
         internal abstract void WithinThread();
