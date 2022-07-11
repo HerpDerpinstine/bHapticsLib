@@ -4,6 +4,7 @@ namespace bHapticsLib
 {
     public class PathPoint : JSONObject
     {
+        public PathPoint() { }
         public PathPoint(float x, float y, int intensity = 50, int motorCount = 3)
         {
             this.x = x;
