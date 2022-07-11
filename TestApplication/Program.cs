@@ -28,6 +28,7 @@ namespace TestApplication
             bHapticsManager.Initialize("bHapticsLib", "TestApplication");
             Console.WriteLine();
 
+            Console.WriteLine($"Press 0 for {nameof(bHapticsManager.IsInitialized)}()");
             Console.WriteLine($"Press 1 for {nameof(bHapticsManager.IsPlayerConnected)}()");
             Console.WriteLine();
 
@@ -84,6 +85,10 @@ namespace TestApplication
                 case ConsoleKey.Enter:
                     return true;
 
+
+                case ConsoleKey.D0:
+                    Console.WriteLine($"{nameof(bHapticsManager.IsInitialized)}(): {bHapticsManager.IsInitialized()}");
+                    goto default;
                 case ConsoleKey.D1:
                     Console.WriteLine($"{nameof(bHapticsManager.IsPlayerConnected)}(): {bHapticsManager.IsPlayerConnected()}");
                     goto default;

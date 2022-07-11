@@ -26,8 +26,11 @@ namespace bHapticsLib.Internal.Connection
         internal event Action ResponseReceived;
         internal event Action<object, ErrorEventArgs> OnError;
 
-        internal WebSocketConnection(ConnectionManager manager, string id, string name, bool tryToReconnect, int maxRetries)
+        private ConnectionManager Parent;
+
+        internal WebSocketConnection(ConnectionManager parent, string id, string name, bool tryToReconnect, int maxRetries)
         {
+            Parent = parent;
             ID = HttpUtility.UrlEncode(id.Replace(" ", "_"));
             Name = HttpUtility.UrlEncode(name.Replace(" ", "_"));
             TryToReconnect = tryToReconnect;
@@ -69,7 +72,7 @@ namespace bHapticsLib.Internal.Connection
                 RetryCount = 0;
                 IsSocketConnected = true;
 
-                manager.QueueRegisterCache();
+                Parent.QueueRegisterCache();
 
                 ConnectionChanged?.Invoke();
             };
@@ -107,7 +110,7 @@ namespace bHapticsLib.Internal.Connection
             {
                 if (RetryCount >= MaxRetries)
                 {
-                    UpTime.Stop();
+                    Parent.EndInit();
                     return;
                 }
 
