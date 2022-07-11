@@ -25,7 +25,6 @@ namespace TestApplication
             string testFeedbackStr = File.ReadAllText(testFeedbackPath);
 
             Console.WriteLine("Initializing...");
-            bHapticsManager.Debug = true;
             bHapticsManager.Initialize("bHapticsLib", "TestApplication");
             Console.WriteLine();
 

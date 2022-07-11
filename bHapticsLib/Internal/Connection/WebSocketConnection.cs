@@ -9,10 +9,10 @@ namespace bHapticsLib.Internal.Connection
 {
     internal class WebSocketConnection : IDisposable
     {
-        private string URL = $"ws://{bHapticsManager.IPAddress}:15881/v2/feedbacks";
+        private string URL = $"ws://{bHapticsManager.IPAddress}:{bHapticsManager.Port}/{bHapticsManager.Endpoint}";
         private string ID, Name;
-        private bool TryReconnect = true;
-        private int MaxRetries = 5;
+        private bool TryReconnect;
+        private int MaxRetries;
 
         private int RetryCount;
         private Timer UpTime;

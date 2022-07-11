@@ -10,8 +10,8 @@ namespace bHapticsLib.Internal.Connection
         private bool ShouldRun = true;
 
         internal string ID, Name;
-        internal bool TryReconnect = true;
-        internal int MaxRetries = 5;
+        internal bool TryReconnect;
+        internal int MaxRetries;
         internal WebSocketConnection Socket;
 
         private PlayerPacket Packet = new PlayerPacket();

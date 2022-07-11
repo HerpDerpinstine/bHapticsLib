@@ -10,8 +10,9 @@ namespace bHapticsLib
         public static readonly int MaxMotorCount = 3;
         public static readonly int MaxBufferSize = 20;
 
-        public static bool Debug = false;
         public static IPAddress IPAddress = IPAddress.Loopback;
+        internal static int Port = 15881;
+        internal static string Endpoint = "v2/feedbacks";
 
         private static ConnectionManager Connection = new ConnectionManager();
         private static string PlayerPath = null;
@@ -31,7 +32,7 @@ namespace bHapticsLib
             Connection.ID = id;
             Connection.Name = name;
             Connection.TryReconnect = tryReconnect;
-            Connection.MaxRetries = maxRetries;
+            Connection.MaxRetries = maxRetries.Clamp(0, int.MaxValue);
 
             return Connection.BeginInit();
         }
