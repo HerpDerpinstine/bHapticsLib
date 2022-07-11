@@ -55,7 +55,7 @@ namespace bHapticsLib
         public static bool IsInitialized() => Connection.IsAlive();
 
         public static string GetPlayerExecutablePath() => PlayerPath;
-        public static bool IsPlayerConnected() => Connection.IsPlayerConnected();
+        public static bool IsPlayerConnected() => IsInitialized() && Connection.IsPlayerConnected();
 
         public static int GetConnectedDeviceCount() => Connection.GetConnectedDeviceCount();
         public static bool IsAnyDevicesConnected() => GetConnectedDeviceCount() > 0;
