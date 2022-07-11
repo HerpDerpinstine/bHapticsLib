@@ -41,5 +41,16 @@ namespace bHapticsLib.Internal.Connection.Models
                 return this[key].AsArray;
             }
         }
+
+        internal JSONObject Status
+        {
+            get
+            {
+                string key = nameof(Status);
+                if (this[key] == null)
+                    this[key] = new JSONObject();
+                return this[key].AsObject;
+            }
+        }
     }
 }

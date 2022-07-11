@@ -1,7 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using bHapticsLib.Internal.Connection.Models;
+using bHapticsLib.SimpleJSON;
 
 namespace bHapticsLib.Internal.Connection
 {
@@ -89,10 +91,50 @@ namespace bHapticsLib.Internal.Connection
         internal bool IsPlayerConnected() => Socket?.IsConnected() ?? false;
 
         internal int GetConnectedDeviceCount() => Socket?.LastResponse?.ConnectedDeviceCount ?? 0;
-        internal bool IsDeviceConnected(PositionType type) => Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type) ?? false;
+        internal bool IsDeviceConnected(PositionType type)
+        {
+            if ((type == PositionType.VestFront)
+                || (type == PositionType.VestBack))
+                type = PositionType.Vest;
+            return Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type) ?? false;
+        }
+        internal int[] GetDeviceStatus(PositionType type)
+        {
+            if ((Socket == null)
+                || (Socket.LastResponse == null))
+                return default;
+
+            JSONNode statusArray = Socket.LastResponse.Status;
+            if (type == PositionType.Vest)
+            {
+                JSONNode frontStatus = statusArray[PositionType.VestFront.ToString()];
+                JSONNode backStatus = statusArray[PositionType.VestBack.ToString()];
+
+                int totalCount = frontStatus.Count + backStatus.Count;
+                int[] returnval = new int[totalCount];
+                for (int i = 0; i < totalCount; i++)
+                {
+                    if (i < frontStatus.Count)
+                        returnval[i] = frontStatus[i].AsInt;
+                    else
+                        returnval[i] = backStatus[i - frontStatus.Count].AsInt;
+                }
+
+                return returnval;
+            }
+            else
+            {
+                JSONNode posArray = statusArray[type.ToString()];
+                int totalCount = posArray.Count;
+                int[] returnval = new int[totalCount];
+                for (int i = 0; i < totalCount; i++)
+                    returnval[i] = posArray[i].AsInt;
+                return returnval;
+            }
+        }
 
         internal bool IsPlaying(string key) => Socket?.LastResponse?.ActiveKeys?.ContainsValue(key) ?? false;
-        //internal bool IsPlaying(PositionType type) => Socket?.LastResponse?.Status?.ContainsValue(key) ?? false;
+        
         internal bool IsPlayingAny() => (Socket?.LastResponse?.ActiveKeys?.Count > 0);
 
         internal void StopPlaying(string key) => SubmitQueue.Enqueue(new SubmitRequest { key = key, type = "turnOff" });
@@ -102,6 +144,9 @@ namespace bHapticsLib.Internal.Connection
 
         internal void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints)
         {
+            if (dotPoints?.Count > bHapticsManager.MaxBufferSize)
+                return; // To-Do: Throw Exception
+
             if (position == PositionType.Vest)
             {
                 Submit($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);
@@ -121,6 +166,9 @@ namespace bHapticsLib.Internal.Connection
 
         internal void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints)
         {
+            if (dotPoints?.Length > bHapticsManager.MaxBufferSize)
+                return; // To-Do: Throw Exception
+
             if (position == PositionType.Vest)
             {
                 Submit($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);

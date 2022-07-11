@@ -167,5 +167,16 @@ namespace bHapticsLib
 
         internal static bool ContainsValue<T>(this T arr, PositionType value) where T : JSONNode
             => ContainsValue(arr, value.ToString());
+
+        internal static bool ContainsValueMoreThan<T>(this T[] arr, T value) where T : IComparable<T>
+        {
+            int count = arr.Length;
+            if (count <= 0)
+                return false;
+            for (int i = 0; i < count; i++)
+                if (arr[i].CompareTo(value) > 0)
+                    return true;
+            return false;
+        }
     }
 }

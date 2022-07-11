@@ -60,10 +60,12 @@ namespace bHapticsLib
         public static int GetConnectedDeviceCount() => Connection.GetConnectedDeviceCount();
         public static bool IsAnyDevicesConnected() => GetConnectedDeviceCount() > 0;
         public static bool IsDeviceConnected(PositionType type) => Connection.IsDeviceConnected(type);
+        public static int[] GetDeviceStatus(PositionType type) => Connection.GetDeviceStatus(type);
 
         public static bool IsPlaying(string key) => Connection.IsPlaying(key);
-        //public static bool IsPlaying(PositionType type) => Connection.IsPlaying(type);
+
         public static bool IsPlayingAny() => Connection.IsPlayingAny();
+        public static bool IsPlayingAny(PositionType type) => GetDeviceStatus(type)?.ContainsValueMoreThan(0) ?? false;
 
         public static void StopPlaying(string key) => Connection.StopPlaying(key);
         public static void StopPlayingAll() => Connection.StopPlayingAll();
@@ -77,7 +79,7 @@ namespace bHapticsLib
         public static void RegisterFeedbackFromTactFileReflected(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedbackFromTactFileReflected(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }
         */
 
-        //public static void Submit(string key, int durationMillis, PositionType position, byte[] rawBytes) => Connection.Submit(key, durationMillis, position, rawBytes);
+        //public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints) => Connection.Submit(key, durationMillis, position, rawBytes);
 
         public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
         public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);

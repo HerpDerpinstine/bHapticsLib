@@ -36,6 +36,14 @@ namespace TestApplication
             Console.WriteLine();
 
             Console.WriteLine($"Press 4 for {nameof(bHapticsManager.IsPlayingAny)}()");
+            Console.WriteLine($"Press 5 for {nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
+            Console.WriteLine($"Press 6 for {nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.VestFront)})");
+            Console.WriteLine($"Press 7 for {nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.VestBack)})");
+            Console.WriteLine();
+
+            Console.WriteLine($"Press I for {nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
+            Console.WriteLine($"Press O for {nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionType)}.{nameof(PositionType.VestFront)})");
+            Console.WriteLine($"Press P for {nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionType)}.{nameof(PositionType.VestBack)})");
             Console.WriteLine();
 
             Console.WriteLine($"Press NUMPAD-1 for {nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
@@ -92,6 +100,26 @@ namespace TestApplication
                 case ConsoleKey.D4:
                     Console.WriteLine($"{nameof(bHapticsManager.IsPlayingAny)}(): {bHapticsManager.IsPlayingAny()}");
                     goto default;
+                case ConsoleKey.D5:
+                    Console.WriteLine($"{nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.Vest)}): {bHapticsManager.IsPlayingAny(PositionType.Vest)}");
+                    goto default;
+                case ConsoleKey.D6:
+                    Console.WriteLine($"{nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.VestFront)}): {bHapticsManager.IsPlayingAny(PositionType.VestFront)}");
+                    goto default;
+                case ConsoleKey.D7:
+                    Console.WriteLine($"{nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.VestBack)}): {bHapticsManager.IsPlayingAny(PositionType.VestBack)}");
+                    goto default;
+
+
+                case ConsoleKey.I:
+                    Console.WriteLine($"{nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionType)}.{nameof(PositionType.Vest)}): {bHapticsManager.GetDeviceStatus(PositionType.Vest).ToArrayString()}");
+                    goto default;
+                case ConsoleKey.O:
+                    Console.WriteLine($"{nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionType)}.{nameof(PositionType.VestFront)}): {bHapticsManager.GetDeviceStatus(PositionType.VestFront).ToArrayString()}");
+                    goto default;
+                case ConsoleKey.P:
+                    Console.WriteLine($"{nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionType)}.{nameof(PositionType.VestBack)}): {bHapticsManager.GetDeviceStatus(PositionType.VestBack).ToArrayString()}");
+                    goto default;
 
 
                 case ConsoleKey.NumPad1:
@@ -124,6 +152,25 @@ namespace TestApplication
                 default:
                     return false;
             }
+        }
+    }
+
+    internal static class Extensions
+    {
+        internal static string ToArrayString<T>(this T[] arr) where T : IComparable<T>
+        {
+            int count = arr.Length;
+            if (count <= 0)
+                return "{ }";
+            string returnval = "{";
+            for (int i = 0; i < count; i++)
+            {
+                returnval += $" {arr[i]}";
+                if (i < count - 1)
+                    returnval += ",";
+            }
+            returnval += " }";
+            return returnval;
         }
     }
 }
