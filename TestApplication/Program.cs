@@ -107,6 +107,9 @@ namespace TestApplication
                 case ConsoleKey.NumPad5:
                     Console.WriteLine($"{nameof(bHapticsManager.IsPlaying)}(\"testSubmitFront\"): {bHapticsManager.IsPlaying("testSubmitFront")}");
                     goto default;
+                case ConsoleKey.NumPad6:
+                    Console.WriteLine($"{nameof(bHapticsManager.IsPlaying)}(\"testSubmitBack\"): {bHapticsManager.IsPlaying("testSubmitBack")}");
+                    goto default;
 
 
                 case ConsoleKey.NumPad7:

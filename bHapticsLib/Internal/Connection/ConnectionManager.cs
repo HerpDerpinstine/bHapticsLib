@@ -106,6 +106,13 @@ namespace bHapticsLib.Internal.Connection
 
         internal void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints)
         {
+            if (position == PositionType.Vest)
+            {
+                Submit($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);
+                Submit($"{key}Back", durationMillis, PositionType.VestBack, dotPoints, pathPoints);
+                return;
+            }
+
             SubmitRequest request = new SubmitRequest { key = key, type = "frame" };
             request.Frame.durationMillis = durationMillis;
             request.Frame.position = position;
@@ -118,6 +125,13 @@ namespace bHapticsLib.Internal.Connection
 
         internal void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints)
         {
+            if (position == PositionType.Vest)
+            {
+                Submit($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);
+                Submit($"{key}Back", durationMillis, PositionType.VestBack, dotPoints, pathPoints);
+                return;
+            }
+
             SubmitRequest request = new SubmitRequest { key = key, type = "frame" };
             request.Frame.durationMillis = durationMillis;
             request.Frame.position = position;
