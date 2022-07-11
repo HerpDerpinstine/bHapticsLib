@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using bHapticsLib.Internal.Connection.Models;
 
@@ -68,9 +67,6 @@ namespace bHapticsLib.Internal.Connection
 
         private void RequestRegister(RegisterRequest request)
         {
-            if (RegisterCache.FirstOrDefault(x => x.key.Equals(request.key)) != null)
-                return; // To-Do: Exception Here
-
             RegisterCache.Add(request);
             RegisterQueue.Enqueue(request);
         }

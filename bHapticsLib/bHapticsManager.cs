@@ -6,9 +6,9 @@ namespace bHapticsLib
 {
     public static class bHapticsManager
     {
-        public const int MaxIntensity = 500;
-        public const int MaxMotorCount = 3;
-        public const int MaxBufferSize = 20;
+        public static readonly int MaxIntensity = 500;
+        public static readonly int MaxMotorCount = 3;
+        public static readonly int MaxBufferSize = 20;
 
         public static bool Debug = false;
         public static IPAddress IPAddress = IPAddress.Loopback;
