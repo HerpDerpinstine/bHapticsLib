@@ -77,9 +77,9 @@ namespace bHapticsLib
         internal static Single Clamp(this Single value, Single min, Single max)
             => Clamp<Single>(value, min, max);
 
-        internal static bool ContainsValue(this JSONNode arr, bool value)
+        internal static bool ContainsValue<T>(this T arr, bool value) where T : JSONNode
         {
-            JSONNode.ValueEnumerator enumerator = arr.Values;
+            IEnumerator<JSONNode> enumerator = arr.Children.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 JSONNode currentNode = enumerator.Current;
@@ -91,9 +91,9 @@ namespace bHapticsLib
             return false;
         }
 
-        internal static bool ContainsValue(this JSONNode arr, string value)
+        internal static bool ContainsValue<T>(this T arr, string value) where T : JSONNode
         {
-            JSONNode.ValueEnumerator enumerator = arr.Values;
+            IEnumerator<JSONNode> enumerator = arr.Children.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 JSONNode currentNode = enumerator.Current;
@@ -105,18 +105,7 @@ namespace bHapticsLib
             return false;
         }
 
-        internal static bool ContainsValue(this JSONNode arr, PositionType value)
-        {
-            JSONNode.ValueEnumerator enumerator = arr.Values;
-            while (enumerator.MoveNext())
-            {
-                JSONNode currentNode = enumerator.Current;
-                if ((currentNode == null) || currentNode.IsNull)
-                    continue;
-                if (currentNode.IsNumber && ((PositionType)currentNode.AsInt == value))
-                    return true;
-            }
-            return false;
-        }
+        internal static bool ContainsValue<T>(this T arr, PositionType value) where T : JSONNode
+            => ContainsValue(arr, value.ToString());
     }
 }

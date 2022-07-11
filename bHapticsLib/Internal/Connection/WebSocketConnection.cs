@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Timers;
 using System.Web;
 using WebSocketSharp;
@@ -12,6 +11,9 @@ namespace bHapticsLib.Internal.Connection
     {
         private readonly string URL = "ws://127.0.0.1:15881/v2/feedbacks";
         private string ID, Name;
+        private bool TryReconnect = true;
+        private int MaxRetries = 5;
+
         private int RetryCount;
         private Timer UpTime;
         internal WebSocket Socket;
@@ -24,12 +26,14 @@ namespace bHapticsLib.Internal.Connection
         internal event Action ResponseReceived;
         internal event Action<object, ErrorEventArgs> OnError;
 
-        internal WebSocketConnection(ConnectionManager manager, string id, string name, bool tryReconnect)
+        internal WebSocketConnection(ConnectionManager manager, string id, string name, bool tryReconnect, int maxRetries)
         {
             ID = HttpUtility.UrlEncode(id.Replace(" ", "_"));
             Name = HttpUtility.UrlEncode(name.Replace(" ", "_"));
+            TryReconnect = tryReconnect;
+            MaxRetries = maxRetries;
 
-            if (tryReconnect)
+            if (TryReconnect)
             {
                 UpTime = new Timer(3 * 1000); // 3 sec
                 UpTime.Elapsed += (sender, args) => Connect();
@@ -86,7 +90,8 @@ namespace bHapticsLib.Internal.Connection
             try
             {
                 Socket.Close();
-                UpTime.Stop();
+                if (TryReconnect)
+                    UpTime.Stop();
             }
             catch (Exception e) { Console.WriteLine(e); }
         }
@@ -95,13 +100,20 @@ namespace bHapticsLib.Internal.Connection
         {
             if (IsConnected())
                 return;
-            if (RetryCount >= bHapticsManager.MaxConnectionRetryCount)
-            {
-                UpTime.Stop();
+            if (!TryReconnect)
                 return;
+
+            if (MaxRetries > 0)
+            {
+                if (RetryCount >= MaxRetries)
+                {
+                    UpTime.Stop();
+                    return;
+                }
+
+                RetryCount++;
             }
 
-            RetryCount++;
             Socket.Connect();
         }
 

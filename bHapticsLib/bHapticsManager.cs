@@ -7,16 +7,19 @@ namespace bHapticsLib
         public const int MaxIntensity = 500;
         public const int MaxMotorCount = 3;
         public const int MaxBufferSize = 20;
-        public const int MaxConnectionRetryCount = 5;
+
+        public static bool Debug = false;
 
         private static ConnectionManager Connection = new ConnectionManager();
         private static string PlayerPath = null;
 
-        public static bool Initialize(string id, string name, bool tryreconnect = true)
+        public static bool Initialize(string id, string name, bool tryReconnect = true, int maxRetries = 5)
         {
-            // To-Do: Null Check and Throw Exception
-            // id
-            // name
+            if (string.IsNullOrEmpty(id))
+                return false; // To-Do: Throw Exception
+
+            if (string.IsNullOrEmpty(name))
+                return false; // To-Do: Throw Exception
 
             //if (!ExePathCheck()
             //    && !SteamLibraryCheck())
@@ -24,6 +27,9 @@ namespace bHapticsLib
 
             Connection.ID = id;
             Connection.Name = name;
+            Connection.TryReconnect = tryReconnect;
+            Connection.MaxRetries = maxRetries;
+
             return Connection.BeginInit();
         }
 

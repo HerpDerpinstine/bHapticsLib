@@ -13,6 +13,7 @@ namespace bHapticsLib.Internal.Connection
 
         internal string ID, Name;
         internal bool TryReconnect = true;
+        internal int MaxRetries = 5;
         internal WebSocketConnection Socket;
 
         private PlayerPacket Packet = new PlayerPacket();
@@ -25,7 +26,7 @@ namespace bHapticsLib.Internal.Connection
             if (Socket != null)
                 EndInit();
 
-            Socket = new WebSocketConnection(this, ID, Name, TryReconnect);
+            Socket = new WebSocketConnection(this, ID, Name, TryReconnect, MaxRetries);
             ShouldRun = true;
             return true;
         }
@@ -93,26 +94,11 @@ namespace bHapticsLib.Internal.Connection
 
         internal bool IsPlayerConnected() => Socket?.IsConnected() ?? false;
 
-        internal int GetConnectedDeviceCount()
-        {
-            if (Socket == null)
-            {
-                Console.WriteLine("Socket is null");
-                return 0;
-            }
-            if (Socket.LastResponse == null)
-            {
-                Console.WriteLine("LastResponse is null");
-                return 0;
-            }
-
-            Console.WriteLine("Found connected device count");
-            return Socket.LastResponse.ConnectedDeviceCount;
-        }
+        internal int GetConnectedDeviceCount() => Socket?.LastResponse?.ConnectedDeviceCount ?? 0;
         internal bool IsDeviceConnected(PositionType type) => Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type) ?? false;
 
         internal bool IsPlaying(string key) => Socket?.LastResponse?.ActiveKeys?.ContainsValue(key) ?? false;
-        //internal bool IsPlaying(PositionType type) => Socket?.LastResponse?.ActiveKeys.HasKey(key) ?? false;
+        //internal bool IsPlaying(PositionType type) => Socket?.LastResponse?.Status?.ContainsValue(key) ?? false;
         internal bool IsPlayingAny() => (Socket?.LastResponse?.ActiveKeys?.Count > 0);
 
         internal void StopPlaying(string key) => SubmitQueue.Enqueue(new SubmitRequest { key = key, type = "turnOff" });
