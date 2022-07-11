@@ -17,7 +17,7 @@ namespace bHapticsLib
         private static ConnectionManager Connection = new ConnectionManager();
         private static string PlayerPath = null;
 
-        public static bool Initialize(string id, string name, bool tryReconnect = true, int maxRetries = 5)
+        public static bool Initialize(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
         {
             if (string.IsNullOrEmpty(id))
                 return false; // To-Do: Throw Exception
@@ -31,7 +31,7 @@ namespace bHapticsLib
 
             Connection.ID = id;
             Connection.Name = name;
-            Connection.TryReconnect = tryReconnect;
+            Connection.TryToReconnect = tryToReconnect;
             Connection.MaxRetries = maxRetries.Clamp(0, int.MaxValue);
 
             return Connection.BeginInit();

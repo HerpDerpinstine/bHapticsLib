@@ -12,7 +12,7 @@ namespace bHapticsLib.Internal.Connection
         private bool ShouldRun = true;
 
         internal string ID, Name;
-        internal bool TryReconnect;
+        internal bool TryToReconnect;
         internal int MaxRetries;
         internal WebSocketConnection Socket;
 
@@ -26,7 +26,7 @@ namespace bHapticsLib.Internal.Connection
             if (Socket != null)
                 EndInit();
 
-            Socket = new WebSocketConnection(this, ID, Name, TryReconnect, MaxRetries);
+            Socket = new WebSocketConnection(this, ID, Name, TryToReconnect, MaxRetries);
             ShouldRun = true;
             return true;
         }

@@ -11,7 +11,7 @@ namespace bHapticsLib.Internal.Connection
     {
         private string URL = $"ws://{bHapticsManager.IPAddress}:{bHapticsManager.Port}/{bHapticsManager.Endpoint}";
         private string ID, Name;
-        private bool TryReconnect;
+        private bool TryToReconnect;
         private int MaxRetries;
 
         private int RetryCount;
@@ -26,14 +26,14 @@ namespace bHapticsLib.Internal.Connection
         internal event Action ResponseReceived;
         internal event Action<object, ErrorEventArgs> OnError;
 
-        internal WebSocketConnection(ConnectionManager manager, string id, string name, bool tryReconnect, int maxRetries)
+        internal WebSocketConnection(ConnectionManager manager, string id, string name, bool tryToReconnect, int maxRetries)
         {
             ID = HttpUtility.UrlEncode(id.Replace(" ", "_"));
             Name = HttpUtility.UrlEncode(name.Replace(" ", "_"));
-            TryReconnect = tryReconnect;
+            TryToReconnect = tryToReconnect;
             MaxRetries = maxRetries;
 
-            if (TryReconnect)
+            if (TryToReconnect)
             {
                 UpTime = new Timer(3 * 1000); // 3 sec
                 UpTime.Elapsed += (sender, args) => Connect();
@@ -90,7 +90,7 @@ namespace bHapticsLib.Internal.Connection
             try
             {
                 Socket.Close();
-                if (TryReconnect)
+                if (TryToReconnect)
                     UpTime.Stop();
             }
             catch (Exception e) { Console.WriteLine(e); }
@@ -100,7 +100,7 @@ namespace bHapticsLib.Internal.Connection
         {
             if (IsConnected())
                 return;
-            if (!TryReconnect)
+            if (!TryToReconnect)
                 return;
 
             if (MaxRetries > 0)
