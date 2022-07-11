@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bHapticsLib", "bHapticsLib\bHapticsLib.csproj", "{284C9360-2D56-4922-81CA-ACDCC03FD493}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplication\TestApplication.csproj", "{5F69D9D7-6905-4E0E-B49D-926858611291}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApplication", "TestApplication\TestApplication.csproj", "{5F69D9D7-6905-4E0E-B49D-926858611291}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
