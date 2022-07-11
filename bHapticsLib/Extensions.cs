@@ -79,7 +79,7 @@ namespace bHapticsLib
 
         internal static void AddRange<T, Z>(this T arr, List<Z> value) where T : JSONNode where Z : JSONNode
         {
-            if (value == null)
+            if ((value == null) || arr.IsNull)
                 return;
             int count = value.Count;
             if (count <= 0)
@@ -95,7 +95,7 @@ namespace bHapticsLib
 
         internal static void AddRange<T, Z>(this T arr, Z[] value) where T : JSONNode where Z : JSONNode
         {
-            if (value == null)
+            if ((value == null) || arr.IsNull)
                 return;
             int count = value.Length;
             if (count <= 0)
@@ -111,15 +111,19 @@ namespace bHapticsLib
 
         internal static bool ContainsValue<T, Z>(this T arr, Z value) where T : JSONNode where Z : JSONNode
         {
-            IEnumerator<JSONNode> enumerator = arr.Children.GetEnumerator();
-            while (enumerator.MoveNext())
+            if (arr.IsNull || (value == null) || value.IsNull)
+                return false;
+            int count = arr.Count;
+            if (count <= 0)
+                return false;
+            for (int i = 0; i < count; i++)
             {
-                JSONNode currentNode = enumerator.Current;
-                if ((currentNode == null) || currentNode.IsNull)
+                JSONNode node = arr[i];
+                if ((node == null) || node.IsNull)
                     continue;
-                if (value.IsObject && currentNode.IsObject && (currentNode.AsObject == value))
+                if (value.IsObject && node.IsObject && (node.AsObject == value))
                     return true;
-                if (value.IsArray && currentNode.IsArray && (currentNode.AsArray == value))
+                if (value.IsArray && node.IsArray && (node.AsArray == value))
                     return true;
             }
             return false;
@@ -127,13 +131,17 @@ namespace bHapticsLib
 
         internal static bool ContainsValue<T>(this T arr, bool value) where T : JSONNode
         {
-            IEnumerator<JSONNode> enumerator = arr.Children.GetEnumerator();
-            while (enumerator.MoveNext())
+            if (arr.IsNull)
+                return false;
+            int count = arr.Count;
+            if (count <= 0)
+                return false;
+            for (int i = 0; i < count; i++)
             {
-                JSONNode currentNode = enumerator.Current;
-                if ((currentNode == null) || currentNode.IsNull)
+                JSONNode node = arr[i];
+                if ((node == null) || node.IsNull)
                     continue;
-                if (currentNode.IsBoolean && (currentNode.AsBool == value))
+                if (node.IsBoolean && (node.AsBool == value))
                     return true;
             }
             return false;
@@ -141,13 +149,17 @@ namespace bHapticsLib
 
         internal static bool ContainsValue<T>(this T arr, string value) where T : JSONNode
         {
-            IEnumerator<JSONNode> enumerator = arr.Children.GetEnumerator();
-            while (enumerator.MoveNext())
+            if (arr.IsNull || string.IsNullOrEmpty(value))
+                return false;
+            int count = arr.Count;
+            if (count <= 0)
+                return false;
+            for (int i = 0; i < count; i++)
             {
-                JSONNode currentNode = enumerator.Current;
-                if ((currentNode == null) || currentNode.IsNull)
+                JSONNode node = arr[i];
+                if ((node == null) || node.IsNull)
                     continue;
-                if (currentNode.IsString && (currentNode.Value != null) && currentNode.Value.Equals(value))
+                if (node.IsString && !string.IsNullOrEmpty(node.Value) && node.Value.Equals(value))
                     return true;
             }
             return false;

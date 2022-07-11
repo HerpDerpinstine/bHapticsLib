@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -78,18 +77,17 @@ namespace bHapticsLib.Internal.Connection
 
         internal void QueueRegisterCache()
         {
-            if (RegisterCache.Count <= 0)
+            int cacheCount = RegisterCache.Count;
+            if (cacheCount <= 0)
                 return;
-            List<RegisterRequest>.Enumerator enumerator = RegisterCache.GetEnumerator();
-            while (enumerator.MoveNext())
+            for (int i = 0; i < cacheCount; i++)
             {
-                RegisterRequest request = enumerator.Current;
+                RegisterRequest request = RegisterCache[i];
                 if ((request == null)
                     || request.IsNull)
                     continue;
                 RegisterQueue.Enqueue(request);
             }
-            enumerator.Dispose();
         }
 
         internal bool IsPlayerConnected() => Socket?.IsConnected() ?? false;

@@ -1,5 +1,6 @@
-﻿using bHapticsLib.Internal.Connection;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Net;
+using bHapticsLib.Internal.Connection;
 
 namespace bHapticsLib
 {
@@ -10,6 +11,7 @@ namespace bHapticsLib
         public const int MaxBufferSize = 20;
 
         public static bool Debug = false;
+        public static IPAddress IPAddress = IPAddress.Loopback;
 
         private static ConnectionManager Connection = new ConnectionManager();
         private static string PlayerPath = null;
