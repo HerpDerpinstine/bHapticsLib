@@ -134,7 +134,6 @@ namespace bHapticsLib.Internal.Connection
         }
 
         internal bool IsPlaying(string key) => Socket?.LastResponse?.ActiveKeys?.ContainsValue(key) ?? false;
-        
         internal bool IsPlayingAny() => (Socket?.LastResponse?.ActiveKeys?.Count > 0);
 
         internal void StopPlaying(string key) => SubmitQueue.Enqueue(new SubmitRequest { key = key, type = "turnOff" });

@@ -63,9 +63,7 @@ namespace bHapticsLib
         public static int[] GetDeviceStatus(PositionType type) => Connection.GetDeviceStatus(type);
 
         public static bool IsPlaying(string key) => Connection.IsPlaying(key);
-
         public static bool IsPlayingAny() => Connection.IsPlayingAny();
-        public static bool IsPlayingAny(PositionType type) => GetDeviceStatus(type)?.ContainsValueMoreThan(0) ?? false;
 
         public static void StopPlaying(string key) => Connection.StopPlaying(key);
         public static void StopPlayingAll() => Connection.StopPlayingAll();
@@ -81,12 +79,11 @@ namespace bHapticsLib
         //public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints)
 
         public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
-        public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
-
         public static void Submit(string key, int durationMillis, PositionType position, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, null, pathPoints);
-        public static void Submit(string key, int durationMillis, PositionType position, List<PathPoint> pathPoints) => Connection.Submit(key, durationMillis, position, null, pathPoints);
-
         public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+
+        public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
+        public static void Submit(string key, int durationMillis, PositionType position, List<PathPoint> pathPoints) => Connection.Submit(key, durationMillis, position, null, pathPoints);
         public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
 
         public static void SubmitRegistered(string key) => Connection.SubmitRegistered(key);
