@@ -117,5 +117,17 @@ namespace bHapticsLib.Internal.Connection
                 request.Frame.pathPoints.AddRange(pathPoints);
             SubmitQueue.Enqueue(request);
         }
+
+        internal void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints)
+        {
+            SubmitRequest request = new SubmitRequest { key = key, type = "frame" };
+            request.Frame.durationMillis = durationMillis;
+            request.Frame.position = position;
+            if (dotPoints != null)
+                request.Frame.dotPoints.AddRange(dotPoints);
+            if (pathPoints != null)
+                request.Frame.pathPoints.AddRange(pathPoints);
+            SubmitQueue.Enqueue(request);
+        }
     }
 }

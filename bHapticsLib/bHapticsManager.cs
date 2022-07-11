@@ -67,12 +67,6 @@ namespace bHapticsLib
 
         public static bool IsFeedbackRegistered(string key) => Connection.IsFeedbackRegistered(key);
 
-        //public static void Submit(string key, int durationMillis, PositionType position, byte[] rawBytes) => Connection.Submit(key, durationMillis, position, rawBytes);
-
-        public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints) => Submit(key, durationMillis, position, dotPoints, null);
-        public static void Submit(string key, int durationMillis, PositionType position, List<PathPoint> pathPoints) => Submit(key, durationMillis, position, null, pathPoints);
-        public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
-
         /*
         public static void RegisterFeedback(string key, string tactFileStr) => Connection.RegisterFeedback(key, tactFileStr);
 
@@ -80,11 +74,18 @@ namespace bHapticsLib
         public static void RegisterFeedbackFromTactFileReflected(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedbackFromTactFileReflected(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }
         */
 
-        /*
-        public static void Submit(string key, PositionType position, byte[] bytes, int durationMillis) => Connection.Submit(key, position, bytes, durationMillis);
-        public static void Submit(string key, PositionType position, List<DotPoint> points, int durationMillis) => Connection.Submit(key, position, points, durationMillis);
-        public static void Submit(string key, PositionType position, List<PathPoint> points, int durationMillis) => Connection.Submit(key, position, points, durationMillis);
+        //public static void Submit(string key, int durationMillis, PositionType position, byte[] rawBytes) => Connection.Submit(key, durationMillis, position, rawBytes);
 
+        public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
+        public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
+
+        public static void Submit(string key, int durationMillis, PositionType position, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, null, pathPoints);
+        public static void Submit(string key, int durationMillis, PositionType position, List<PathPoint> pathPoints) => Connection.Submit(key, durationMillis, position, null, pathPoints);
+
+        public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+        public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+
+        /*
         public static void SubmitRegistered(string key) { if (!_waserror) NativeLib.SubmitRegistered(Marshal.StringToHGlobalAnsi(key)); }
         public static void SubmitRegistered(string key, int startTimeMillis) => NativeLib.SubmitRegisteredStartMillis(Marshal.StringToHGlobalAnsi(key), startTimeMillis);
 

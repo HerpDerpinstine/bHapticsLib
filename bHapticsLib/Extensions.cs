@@ -81,11 +81,32 @@ namespace bHapticsLib
         {
             if (value == null)
                 return;
-            if (value.Count <= 0)
+            int count = value.Count;
+            if (count <= 0)
                 return;
-            IEnumerator<Z> enumerator = value.GetEnumerator();
-            while (enumerator.MoveNext())
-                arr.Add(enumerator.Current);
+            for (int i = 0; i < count; i++)
+            {
+                Z node = value[i];
+                if ((node == null) || node.IsNull)
+                    continue;
+                arr.Add(value[i]);
+            }
+        }
+
+        internal static void AddRange<T, Z>(this T arr, Z[] value) where T : JSONNode where Z : JSONNode
+        {
+            if (value == null)
+                return;
+            int count = value.Length;
+            if (count <= 0)
+                return;
+            for (int i = 0; i < count; i++)
+            {
+                Z node = value[i];
+                if ((node == null) || node.IsNull)
+                    continue;
+                arr.Add(value[i]);
+            }
         }
 
         internal static bool ContainsValue<T, Z>(this T arr, Z value) where T : JSONNode where Z : JSONNode
