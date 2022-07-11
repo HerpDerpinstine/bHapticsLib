@@ -185,5 +185,27 @@ namespace bHapticsLib.Internal.Connection
                 request.Frame.pathPoints.AddRange(pathPoints);
             SubmitQueue.Enqueue(request);
         }
+
+        internal void SubmitRegistered(string key) => SubmitQueue.Enqueue(new SubmitRequest { key = key, type = "key" });
+        
+        /*
+        internal void SubmitRegistered(string key, float ratio)
+        {
+            SubmitRequest request = new SubmitRequest { key = key, type = "key" };
+            request.Parameters["ratio"] = ratio;
+            SubmitQueue.Enqueue(request);
+        }
+        */
+
+        public void SubmitRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption)
+        {
+            SubmitRequest request = new SubmitRequest { key = key, type = "key" };
+            request.Parameters["altKey"] = altKey;
+            if (scaleOption != null)
+                request.Parameters["scaleOption"] = scaleOption;
+            if (rotationOption != null)
+                request.Parameters["rotationOption"] = rotationOption;
+            SubmitQueue.Enqueue(request);
+        }
     }
 }

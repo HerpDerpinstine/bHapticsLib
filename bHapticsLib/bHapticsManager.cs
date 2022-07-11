@@ -74,12 +74,11 @@ namespace bHapticsLib
 
         /*
         public static void RegisterFeedback(string key, string tactFileStr) => Connection.RegisterFeedback(key, tactFileStr);
-
-        public static void RegisterFeedbackFromTactFile(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedbackFromTactFile(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }
-        public static void RegisterFeedbackFromTactFileReflected(string key, string tactFileStr) { if (!_waserror) NativeLib.RegisterFeedbackFromTactFileReflected(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(tactFileStr)); }
+        public static void RegisterFeedbackFromTactFile(string key, string tactFileStr)
+        public static void RegisterFeedbackFromTactFileReflected(string key, string tactFileStr)
         */
 
-        //public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints) => Connection.Submit(key, durationMillis, position, rawBytes);
+        //public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints)
 
         public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
         public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
@@ -90,13 +89,16 @@ namespace bHapticsLib
         public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
         public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
 
-        /*
-        public static void SubmitRegistered(string key) { if (!_waserror) NativeLib.SubmitRegistered(Marshal.StringToHGlobalAnsi(key)); }
-        public static void SubmitRegistered(string key, int startTimeMillis) => NativeLib.SubmitRegisteredStartMillis(Marshal.StringToHGlobalAnsi(key), startTimeMillis);
+        public static void SubmitRegistered(string key) => Connection.SubmitRegistered(key);
+        public static void SubmitRegistered(string key, ScaleOption option) => Connection.SubmitRegistered(key, key, option, null);
+        public static void SubmitRegistered(string key, RotationOption option) => Connection.SubmitRegistered(key, key, null, option);
+        public static void SubmitRegistered(string key, ScaleOption scaleOption, RotationOption rotationOption) => Connection.SubmitRegistered(key, key, scaleOption, rotationOption);
 
-        public static void SubmitRegistered(string key, string altKey, ScaleOption option) { if (!_waserror) NativeLib.SubmitRegisteredWithOption(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(altKey), option.Intensity, option.Duration, 1f, 1f); }
-        public static void SubmitRegistered(string key, string altKey, RotationOption option) { if (!_waserror) NativeLib.SubmitRegisteredWithOption(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(altKey), option.Intensity, option.Duration, 1f, 1f); }
-        public static void SubmitRegistered(string key, string altKey, ScaleOption sOption, RotationOption rOption) { if (!_waserror) NativeLib.SubmitRegisteredWithOption(Marshal.StringToHGlobalAnsi(key), Marshal.StringToHGlobalAnsi(altKey), sOption.Intensity, sOption.Duration, rOption.OffsetX, rOption.OffsetY); }
-        */
+        public static void SubmitRegistered(string key, string altKey) => Connection.SubmitRegistered(key, altKey, null, null);
+        public static void SubmitRegistered(string key, string altKey, ScaleOption option) => Connection.SubmitRegistered(key, altKey, option, null);
+        public static void SubmitRegistered(string key, string altKey, RotationOption option) => Connection.SubmitRegistered(key, altKey, null, option);
+        public static void SubmitRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption) => Connection.SubmitRegistered(key, altKey, scaleOption, rotationOption);
+
+        //public static void SubmitRegistered(string key, int startTimeMillis)
     }
 }
