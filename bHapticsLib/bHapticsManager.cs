@@ -7,8 +7,8 @@ namespace bHapticsLib
     public static class bHapticsManager
     {
         public static readonly int MaxIntensity = 500;
-        public static readonly int MaxMotorCount = 3;
-        public static readonly int MaxBufferSize = 20;
+        public static readonly int MaxMotorsPerPathPoint = 3;
+        public static readonly int MaxMotorsPerPositionType = 20;
 
         public static IPAddress IPAddress = IPAddress.Loopback;
         internal static int Port = 15881;

@@ -144,7 +144,7 @@ namespace bHapticsLib.Internal.Connection
 
         internal void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints)
         {
-            if (dotPoints?.Count > bHapticsManager.MaxBufferSize)
+            if (dotPoints?.Count > bHapticsManager.MaxMotorsPerPositionType)
                 return; // To-Do: Throw Exception
 
             if (position == PositionType.Vest)
@@ -166,7 +166,7 @@ namespace bHapticsLib.Internal.Connection
 
         internal void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints)
         {
-            if (dotPoints?.Length > bHapticsManager.MaxBufferSize)
+            if (dotPoints?.Length > bHapticsManager.MaxMotorsPerPositionType)
                 return; // To-Do: Throw Exception
 
             if (position == PositionType.Vest)
