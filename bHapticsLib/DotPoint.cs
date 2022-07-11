@@ -4,6 +4,7 @@ namespace bHapticsLib
 {
     public class DotPoint : JSONObject
     {
+        public DotPoint() { }
         public DotPoint(int index, int intensity = 50)
         {
             if (index < 0)

@@ -4,6 +4,7 @@ using System.Web;
 using WebSocketSharp;
 using bHapticsLib.SimpleJSON;
 using bHapticsLib.Internal.Connection.Models;
+using System.IO;
 
 namespace bHapticsLib.Internal.Connection
 {
@@ -24,7 +25,7 @@ namespace bHapticsLib.Internal.Connection
 
         internal event Action ConnectionChanged;
         internal event Action ResponseReceived;
-        internal event Action<object, ErrorEventArgs> OnError;
+        internal event Action<object, WebSocketSharp.ErrorEventArgs> OnError;
 
         internal WebSocketConnection(ConnectionManager manager, string id, string name, bool tryReconnect, int maxRetries)
         {
@@ -128,6 +129,11 @@ namespace bHapticsLib.Internal.Connection
             try
             {
                 Socket.Send(msg);
+
+                //StreamWriter writer = File.AppendText("debug.log");
+                //writer.WriteLine(msg);
+                //writer.Close();
+
                 //Console.WriteLine("Sent: " + msg);
             }
             catch (Exception e) { Console.Write($"{e.Message} {e}\n"); }

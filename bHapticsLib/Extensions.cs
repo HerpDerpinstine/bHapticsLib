@@ -77,6 +77,33 @@ namespace bHapticsLib
         internal static Single Clamp(this Single value, Single min, Single max)
             => Clamp<Single>(value, min, max);
 
+        internal static void AddRange<T, Z>(this T arr, List<Z> value) where T : JSONNode where Z : JSONNode
+        {
+            if (value == null)
+                return;
+            if (value.Count <= 0)
+                return;
+            IEnumerator<Z> enumerator = value.GetEnumerator();
+            while (enumerator.MoveNext())
+                arr.Add(enumerator.Current);
+        }
+
+        internal static bool ContainsValue<T, Z>(this T arr, Z value) where T : JSONNode where Z : JSONNode
+        {
+            IEnumerator<JSONNode> enumerator = arr.Children.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                JSONNode currentNode = enumerator.Current;
+                if ((currentNode == null) || currentNode.IsNull)
+                    continue;
+                if (value.IsObject && currentNode.IsObject && (currentNode.AsObject == value))
+                    return true;
+                if (value.IsArray && currentNode.IsArray && (currentNode.AsArray == value))
+                    return true;
+            }
+            return false;
+        }
+
         internal static bool ContainsValue<T>(this T arr, bool value) where T : JSONNode
         {
             IEnumerator<JSONNode> enumerator = arr.Children.GetEnumerator();

@@ -106,5 +106,16 @@ namespace bHapticsLib.Internal.Connection
 
         internal bool IsFeedbackRegistered(string key) => Socket?.LastResponse?.RegisteredKeys?.ContainsValue(key) ?? false;
 
+        internal void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints)
+        {
+            SubmitRequest request = new SubmitRequest { key = key, type = "frame" };
+            request.Frame.durationMillis = durationMillis;
+            request.Frame.position = position;
+            if (dotPoints != null)
+                request.Frame.dotPoints.AddRange(dotPoints);
+            if (pathPoints != null)
+                request.Frame.pathPoints.AddRange(pathPoints);
+            SubmitQueue.Enqueue(request);
+        }
     }
 }

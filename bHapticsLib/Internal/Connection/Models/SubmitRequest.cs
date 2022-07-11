@@ -26,5 +26,16 @@ namespace bHapticsLib.Internal.Connection.Models
                 return this[key].AsArray;
             }
         }
+
+        internal SubmitRequestFrame Frame
+        {
+            get
+            {
+                string key = nameof(Frame);
+                if (this[key] == null)
+                    this[key] = new SubmitRequestFrame();
+                return this[key].AsObject as SubmitRequestFrame;
+            }
+        }
     }
 }

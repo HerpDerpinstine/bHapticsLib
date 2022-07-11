@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using bHapticsLib;
 
@@ -8,6 +10,20 @@ namespace TestApplication
     {
         static void Main()
         {
+            string programLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            string testFeedbackPath = Path.Combine(programLocation, "testfeedback.tact");
+            if (!File.Exists(testFeedbackPath))
+            {
+                Console.WriteLine("testfeedback.tact was Not Found!");
+                Console.WriteLine("Please place test feedback tact file next to application.");
+                Console.WriteLine("Press any key to Exit.");
+                while (!Console.KeyAvailable)
+                    Thread.Sleep(1);
+                return;
+            }
+
+            string testFeedbackStr = File.ReadAllText(testFeedbackPath);
+
             Console.WriteLine("Initializing...");
             bHapticsManager.Debug = true;
             bHapticsManager.Initialize("bHapticsLib", "TestApplication");
@@ -23,17 +39,16 @@ namespace TestApplication
             Console.WriteLine($"Press 4 for {nameof(bHapticsManager.IsPlayingAny)}()");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-3 for {nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
+            Console.WriteLine($"Press NUMPAD-1 for {nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-4 for {nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback1\")");
-            Console.WriteLine($"Press NUMPAD-5 for {nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback2\")");
-            Console.WriteLine($"Press NUMPAD-6 for {nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback3\")");
+            Console.WriteLine($"Press NUMPAD-4 for {nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback\")");
+            Console.WriteLine($"Press NUMPAD-5 for {nameof(bHapticsManager.IsPlaying)}(\"testSubmitFront\")");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-7 for {nameof(bHapticsManager.IsPlaying)}(\"testfeedback1\")");
-            Console.WriteLine($"Press NUMPAD-8 for {nameof(bHapticsManager.IsPlaying)}(\"testfeedback2\")");
-            Console.WriteLine($"Press NUMPAD-9 for {nameof(bHapticsManager.IsPlaying)}(\"testfeedback3\")");
+            Console.WriteLine($"Press NUMPAD-7 for {nameof(bHapticsManager.Submit)}(\"testSubmit\", 1000, {nameof(PositionType)}.{nameof(PositionType.Vest)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
+            Console.WriteLine($"Press NUMPAD-8 for {nameof(bHapticsManager.Submit)}(\"testSubmitFront\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestFront)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
+            Console.WriteLine($"Press NUMPAD-9 for {nameof(bHapticsManager.Submit)}(\"testSubmitBack\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestBack)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
             Console.WriteLine();
 
             Console.WriteLine("Press Enter to Disconnect.");
@@ -80,30 +95,28 @@ namespace TestApplication
                     goto default;
 
 
-                case ConsoleKey.NumPad3:
+                case ConsoleKey.NumPad1:
                     Console.WriteLine($"{nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionType)}.{nameof(PositionType.Vest)}): {bHapticsManager.IsDeviceConnected(PositionType.Vest)}");
                     goto default;
 
 
                 case ConsoleKey.NumPad4:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback1\"): {bHapticsManager.IsFeedbackRegistered("testfeedback1")}");
+                    Console.WriteLine($"{nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback\"): {bHapticsManager.IsFeedbackRegistered("testfeedback")}");
                     goto default;
+
                 case ConsoleKey.NumPad5:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback2\"): {bHapticsManager.IsFeedbackRegistered("testfeedback2")}");
-                    goto default;
-                case ConsoleKey.NumPad6:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback3\"): {bHapticsManager.IsFeedbackRegistered("testfeedback3")}");
+                    Console.WriteLine($"{nameof(bHapticsManager.IsPlaying)}(\"testSubmitFront\"): {bHapticsManager.IsPlaying("testSubmitFront")}");
                     goto default;
 
 
                 case ConsoleKey.NumPad7:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsPlaying)}(\"testfeedback1\"): {bHapticsManager.IsPlaying("testfeedback1")}");
+                    bHapticsManager.Submit("testSubmit", 1000, PositionType.Vest, new List<DotPoint> { new DotPoint { index = 0, intensity = 100 } });
                     goto default;
                 case ConsoleKey.NumPad8:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsPlaying)}(\"testfeedback2\"): {bHapticsManager.IsPlaying("testfeedback2")}");
+                    bHapticsManager.Submit("testSubmitFront", 1000, PositionType.VestFront, new List<DotPoint> { new DotPoint { index = 0, intensity = 100 } });
                     goto default;
                 case ConsoleKey.NumPad9:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsPlaying)}(\"testfeedback3\"): {bHapticsManager.IsPlaying("testfeedback3")}");
+                    bHapticsManager.Submit("testSubmitBack", 1000, PositionType.VestBack, new List<DotPoint> { new DotPoint { index = 0, intensity = 100 } });
                     goto default;
 
                 default:
