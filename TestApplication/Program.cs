@@ -10,19 +10,8 @@ namespace TestApplication
     {
         static void Main()
         {
-            string programLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
-            string testFeedbackPath = Path.Combine(programLocation, "testfeedback.tact");
-            if (!File.Exists(testFeedbackPath))
-            {
-                Console.WriteLine("testfeedback.tact was Not Found!");
-                Console.WriteLine("Please place test feedback tact file next to application.");
-                Console.WriteLine("Press any key to Exit.");
-                while (!Console.KeyAvailable)
-                    Thread.Sleep(1);
-                return;
-            }
-
-            bHapticsManager.RegisterFeedbackFromText("testfeedback", File.ReadAllText(testFeedbackPath));
+            string testFeedbackPath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "testfeedback.tact");
+            bHapticsManager.RegisterFeedbackFromFile("testfeedback", testFeedbackPath);
 
             Console.WriteLine("Initializing...");
             bHapticsManager.Initialize("bHapticsLib", "TestApplication");
@@ -37,9 +26,9 @@ namespace TestApplication
             Console.WriteLine();
 
             Console.WriteLine($"Press 4 for {nameof(bHapticsManager.IsPlayingAny)}()");
-            Console.WriteLine($"Press 5 for {nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
-            Console.WriteLine($"Press 6 for {nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.VestFront)})");
-            Console.WriteLine($"Press 7 for {nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.VestBack)})");
+            Console.WriteLine($"Press 5 for {nameof(bHapticsManager.IsAnyMotorActive)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
+            Console.WriteLine($"Press 6 for {nameof(bHapticsManager.IsAnyMotorActive)}({nameof(PositionType)}.{nameof(PositionType.VestFront)})");
+            Console.WriteLine($"Press 7 for {nameof(bHapticsManager.IsAnyMotorActive)}({nameof(PositionType)}.{nameof(PositionType.VestBack)})");
             Console.WriteLine();
 
             Console.WriteLine($"Press I for {nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
@@ -113,13 +102,13 @@ namespace TestApplication
                     Console.WriteLine($"{nameof(bHapticsManager.IsPlayingAny)}(): {bHapticsManager.IsPlayingAny()}");
                     goto default;
                 case ConsoleKey.D5:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.Vest)}): {bHapticsManager.IsPlayingAny(PositionType.Vest)}");
+                    Console.WriteLine($"{nameof(bHapticsManager.IsAnyMotorActive)}({nameof(PositionType)}.{nameof(PositionType.Vest)}): {bHapticsManager.IsAnyMotorActive(PositionType.Vest)}");
                     goto default;
                 case ConsoleKey.D6:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.VestFront)}): {bHapticsManager.IsPlayingAny(PositionType.VestFront)}");
+                    Console.WriteLine($"{nameof(bHapticsManager.IsAnyMotorActive)}({nameof(PositionType)}.{nameof(PositionType.VestFront)}): {bHapticsManager.IsAnyMotorActive(PositionType.VestFront)}");
                     goto default;
                 case ConsoleKey.D7:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsPlayingAny)}({nameof(PositionType)}.{nameof(PositionType.VestBack)}): {bHapticsManager.IsPlayingAny(PositionType.VestBack)}");
+                    Console.WriteLine($"{nameof(bHapticsManager.IsAnyMotorActive)}({nameof(PositionType)}.{nameof(PositionType.VestBack)}): {bHapticsManager.IsAnyMotorActive(PositionType.VestBack)}");
                     goto default;
 
 
