@@ -131,9 +131,6 @@ namespace TestApplication
                 case ConsoleKey.NumPad2:
                     bHapticsManager.SubmitRegistered("testfeedback");
                     goto default;
-                case ConsoleKey.NumPad3:
-                    bHapticsManager.SubmitRegistered("testfeedback", 100);
-                    goto default;
 
 
                 case ConsoleKey.NumPad4:
