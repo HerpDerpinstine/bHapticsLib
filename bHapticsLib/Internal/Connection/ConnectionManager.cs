@@ -205,9 +205,6 @@ namespace bHapticsLib.Internal.Connection
         {
             SubmitRequest request = new SubmitRequest { key = key, type = "key" };
 
-            if (durationRatio != 1f)
-                request.Parameters["ratio"] = durationRatio;
-
             if (!string.IsNullOrEmpty(altKey))
                 request.Parameters["altKey"] = altKey;
 
@@ -216,6 +213,9 @@ namespace bHapticsLib.Internal.Connection
 
             if (rotationOption != null)
                 request.Parameters["rotationOption"] = rotationOption;
+
+            if (durationRatio != 1f)
+                request.Parameters["ratio"] = durationRatio;
 
             SubmitQueue.Enqueue(request);
         }
