@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace bHapticsLib
+namespace bHapticsLib.Internal
 {
     internal class ThreadSafeQueue<T> : IEnumerable<T>, IEnumerable, ICollection
     {
