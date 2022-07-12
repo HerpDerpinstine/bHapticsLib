@@ -141,6 +141,14 @@ namespace bHapticsLib.Internal.Connection
 
         internal bool IsFeedbackRegistered(string key) => Socket?.LastResponse?.RegisteredKeys?.ContainsValue(key) ?? false;
 
+        internal void RegisterFeedback(string key, string tactFileStr)
+        {
+            RegisterRequest request = new RegisterRequest();
+            request.key = key;
+            request.project = JSON.Parse(tactFileStr)["project"].AsObject;
+            RequestRegister(request);
+        }
+
         internal void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints)
         {
             if (dotPoints?.Count > bHapticsManager.MaxMotorsPerPositionType)
@@ -185,25 +193,22 @@ namespace bHapticsLib.Internal.Connection
             SubmitQueue.Enqueue(request);
         }
 
-        internal void SubmitRegistered(string key) => SubmitQueue.Enqueue(new SubmitRequest { key = key, type = "key" });
-        
-        /*
-        internal void SubmitRegistered(string key, float ratio)
+        internal void SubmitRegistered(string key, string altKey = null, ScaleOption scaleOption = null, RotationOption rotationOption = null, float durationRatio = 1f)
         {
             SubmitRequest request = new SubmitRequest { key = key, type = "key" };
-            request.Parameters["ratio"] = ratio;
-            SubmitQueue.Enqueue(request);
-        }
-        */
 
-        public void SubmitRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption)
-        {
-            SubmitRequest request = new SubmitRequest { key = key, type = "key" };
-            request.Parameters["altKey"] = altKey;
+            if (durationRatio != 1f)
+                request.Parameters["ratio"] = durationRatio;
+
+            if (!string.IsNullOrEmpty(altKey))
+                request.Parameters["altKey"] = altKey;
+
             if (scaleOption != null)
                 request.Parameters["scaleOption"] = scaleOption;
+
             if (rotationOption != null)
                 request.Parameters["rotationOption"] = rotationOption;
+
             SubmitQueue.Enqueue(request);
         }
     }

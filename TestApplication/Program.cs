@@ -23,6 +23,7 @@ namespace TestApplication
             }
 
             string testFeedbackStr = File.ReadAllText(testFeedbackPath);
+            bHapticsManager.RegisterFeedback("testfeedback", testFeedbackStr);
 
             Console.WriteLine("Initializing...");
             bHapticsManager.Initialize("bHapticsLib", "TestApplication");
@@ -50,8 +51,15 @@ namespace TestApplication
             Console.WriteLine($"Press NUMPAD-1 for {nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
             Console.WriteLine();
 
+            Console.WriteLine($"Press NUMPAD-2 for {nameof(bHapticsManager.SubmitRegistered)}(\"testfeedback\")");
+            Console.WriteLine($"Press NUMPAD-3 for {nameof(bHapticsManager.SubmitRegistered)}(\"testfeedback\", 2f)");
+            Console.WriteLine();
+
             Console.WriteLine($"Press NUMPAD-4 for {nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback\")");
+            Console.WriteLine();
+
             Console.WriteLine($"Press NUMPAD-5 for {nameof(bHapticsManager.IsPlaying)}(\"testSubmitFront\")");
+            Console.WriteLine($"Press NUMPAD-6 for {nameof(bHapticsManager.IsPlaying)}(\"testSubmitBack\")");
             Console.WriteLine();
 
             Console.WriteLine($"Press NUMPAD-7 for {nameof(bHapticsManager.Submit)}(\"testSubmit\", 1000, {nameof(PositionType)}.{nameof(PositionType.Vest)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
@@ -132,10 +140,17 @@ namespace TestApplication
                     goto default;
 
 
+                case ConsoleKey.NumPad2:
+                    bHapticsManager.SubmitRegistered("testfeedback");
+                    goto default;
+                case ConsoleKey.NumPad3:
+                    bHapticsManager.SubmitRegistered("testfeedback", 2f);
+                    goto default;
+
+
                 case ConsoleKey.NumPad4:
                     Console.WriteLine($"{nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback\"): {bHapticsManager.IsFeedbackRegistered("testfeedback")}");
                     goto default;
-
                 case ConsoleKey.NumPad5:
                     Console.WriteLine($"{nameof(bHapticsManager.IsPlaying)}(\"testSubmitFront\"): {bHapticsManager.IsPlaying("testSubmitFront")}");
                     goto default;
