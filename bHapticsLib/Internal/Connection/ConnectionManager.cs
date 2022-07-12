@@ -141,12 +141,20 @@ namespace bHapticsLib.Internal.Connection
 
         internal bool IsFeedbackRegistered(string key) => Socket?.LastResponse?.RegisteredKeys?.ContainsValue(key) ?? false;
 
-        internal void RegisterFeedback(string key, string tactFileStr)
+        internal void RegisterFeedbackFromText(string key, string tactFileStr)
         {
             RegisterRequest request = new RegisterRequest();
             request.key = key;
             request.project = JSON.Parse(tactFileStr)["project"].AsObject;
             RequestRegister(request);
+        }
+
+        internal void RegisterFeedbackFromFile(string key, string tactFilePath)
+        {
+            RegisterRequest request = new RegisterRequest();
+            request.key = key;
+            //request.project = JSON.Parse(tactFileStr)["project"].AsObject;
+            //RequestRegister(request);
         }
 
         internal void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints)

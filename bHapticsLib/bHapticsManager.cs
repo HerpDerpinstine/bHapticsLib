@@ -71,12 +71,10 @@ namespace bHapticsLib
 
         public static bool IsFeedbackRegistered(string key) => Connection.IsFeedbackRegistered(key);
 
-        public static void RegisterFeedback(string key, string tactFileStr) => Connection.RegisterFeedback(key, tactFileStr);
-
-        /*
-        public static void RegisterFeedbackFromTactFile(string key, string tactFileStr)
-        public static void RegisterFeedbackFromTactFileReflected(string key, string tactFileStr)
-        */
+        public static void RegisterFeedbackFromText(string key, string tactFileStr) => Connection.RegisterFeedbackFromText(key, tactFileStr);
+        //public static void RegisterFeedbackFromTextReflected(string key, string tactFileStr) => Connection.RegisterFeedbackFromTextReflected(key, tactFileStr);
+        public static void RegisterFeedbackFromFile(string key, string tactFilePath) => Connection.RegisterFeedbackFromFile(key, tactFilePath);
+        //public static void RegisterFeedbackFromFileReflected(string key, string tactFilePath) => Connection.RegisterFeedbackFromFileReflected(key, tactFilePath);
 
         //public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints)
         //public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints)
