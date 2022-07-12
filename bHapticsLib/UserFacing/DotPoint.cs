@@ -14,7 +14,7 @@ namespace bHapticsLib
         public int index
         {
             get => this[nameof(index)].AsInt;
-            set => this[nameof(index)] = value.Clamp(0, bHapticsManager.MaxMotorsPerPositionType);
+            set => this[nameof(index)] = value.Clamp(0, bHapticsManager.MaxMotorsPerDotPoint);
         }
 
         public int intensity
