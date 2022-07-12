@@ -9,8 +9,8 @@ namespace bHapticsLib
         {
             this.x = x;
             this.y = y;
-            this.intensity = intensity.Clamp(0, bHapticsManager.MaxIntensity);
-            this.motorCount = motorCount.Clamp(0, bHapticsManager.MaxMotorsPerPathPoint);
+            this.intensity = intensity;
+            this.motorCount = motorCount;
         }
 
         public float x

@@ -73,6 +73,7 @@ namespace bHapticsLib
 
         public static void RegisterFeedbackFromText(string key, string tactFileStr) => Connection.RegisterFeedbackFromText(key, tactFileStr);
         //public static void RegisterFeedbackFromTextReflected(string key, string tactFileStr) => Connection.RegisterFeedbackFromTextReflected(key, tactFileStr);
+
         public static void RegisterFeedbackFromFile(string key, string tactFilePath) => Connection.RegisterFeedbackFromFile(key, tactFilePath);
         //public static void RegisterFeedbackFromFileReflected(string key, string tactFilePath) => Connection.RegisterFeedbackFromFileReflected(key, tactFilePath);
 
@@ -90,19 +91,15 @@ namespace bHapticsLib
         public static void SubmitRegistered(string key) => Connection.SubmitRegistered(key);
         public static void SubmitRegistered(string key, float durationRatio) => Connection.SubmitRegistered(key, durationRatio: durationRatio);
         public static void SubmitRegistered(string key, ScaleOption option) => Connection.SubmitRegistered(key, scaleOption: option);
-        public static void SubmitRegistered(string key, ScaleOption option, float durationRatio) => Connection.SubmitRegistered(key, scaleOption: option, durationRatio: durationRatio);
         public static void SubmitRegistered(string key, RotationOption option) => Connection.SubmitRegistered(key, rotationOption: option);
         public static void SubmitRegistered(string key, RotationOption option, float durationRatio) => Connection.SubmitRegistered(key, rotationOption: option, durationRatio: durationRatio);
         public static void SubmitRegistered(string key, ScaleOption scaleOption, RotationOption rotationOption) => Connection.SubmitRegistered(key, null, scaleOption, rotationOption);
-        public static void SubmitRegistered(string key, ScaleOption scaleOption, RotationOption rotationOption, float durationRatio) => Connection.SubmitRegistered(key, null, scaleOption, rotationOption, durationRatio: durationRatio);
 
         public static void SubmitRegistered(string key, string altKey) => Connection.SubmitRegistered(key, altKey);
         public static void SubmitRegistered(string key, string altKey, float durationRatio) => Connection.SubmitRegistered(key, altKey, durationRatio: durationRatio);
         public static void SubmitRegistered(string key, string altKey, ScaleOption option) => Connection.SubmitRegistered(key, altKey, scaleOption: option);
-        public static void SubmitRegistered(string key, string altKey, ScaleOption option, float durationRatio) => Connection.SubmitRegistered(key, altKey, scaleOption: option, durationRatio: durationRatio);
         public static void SubmitRegistered(string key, string altKey, RotationOption option) => Connection.SubmitRegistered(key, altKey, rotationOption: option);
         public static void SubmitRegistered(string key, string altKey, RotationOption option, float durationRatio) => Connection.SubmitRegistered(key, altKey, rotationOption: option, durationRatio: durationRatio);
         public static void SubmitRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption) => Connection.SubmitRegistered(key, altKey, scaleOption, rotationOption);
-        public static void SubmitRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption, float durationRatio) => Connection.SubmitRegistered(key, altKey, scaleOption, rotationOption, durationRatio: durationRatio);
     }
 }

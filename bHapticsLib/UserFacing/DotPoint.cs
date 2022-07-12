@@ -7,17 +7,14 @@ namespace bHapticsLib
         public DotPoint() { }
         public DotPoint(int index, int intensity = 50)
         {
-            if (index < 0)
-                throw new bHapticsException("Invalid argument index : " + index);
-
             this.index = index;
-            this.intensity = intensity.Clamp(0, bHapticsManager.MaxIntensity);
+            this.intensity = intensity;
         }
 
         public int index
         {
             get => this[nameof(index)].AsInt;
-            set => this[nameof(index)] = value;
+            set => this[nameof(index)] = value.Clamp(0, bHapticsManager.MaxMotorsPerPositionType);
         }
 
         public int intensity
