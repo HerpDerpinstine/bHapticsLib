@@ -40,7 +40,6 @@ namespace TestApplication
             Console.WriteLine();
 
             Console.WriteLine($"Press NUMPAD-2 for {nameof(bHapticsManager.SubmitRegistered)}(\"testfeedback\")");
-            Console.WriteLine($"Press NUMPAD-3 for {nameof(bHapticsManager.SubmitRegistered)}(\"testfeedback\", 2000)");
             Console.WriteLine();
 
             Console.WriteLine($"Press NUMPAD-4 for {nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback\")");
