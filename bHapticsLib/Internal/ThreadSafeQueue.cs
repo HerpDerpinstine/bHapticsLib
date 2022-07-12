@@ -6,7 +6,7 @@ namespace bHapticsLib.Internal
 {
     internal class ThreadSafeQueue<T> : IEnumerable<T>, IEnumerable, ICollection
     {
-        private readonly Queue<T> queue = new Queue<T>();
+        private Queue<T> queue = new Queue<T>();
         public int Count { get => queue.Count; }
         public object SyncRoot { get => ((ICollection)queue).SyncRoot; }
         public bool IsSynchronized { get => true; }
