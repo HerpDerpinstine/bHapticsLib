@@ -64,7 +64,8 @@ namespace bHapticsLib
 
         public static bool IsPlaying(string key) => Connection.IsPlaying(key);
         public static bool IsPlayingAny() => Connection.IsPlayingAny();
-        public static bool IsPlayingAny(PositionType type) => GetDeviceStatus(type)?.ContainsValueMoreThan(0) ?? false;
+
+        public static bool IsAnyMotorActive(PositionType type) => GetDeviceStatus(type)?.ContainsValueMoreThan(0) ?? false;
 
         public static void StopPlaying(string key) => Connection.StopPlaying(key);
         public static void StopPlayingAll() => Connection.StopPlayingAll();
@@ -89,21 +90,13 @@ namespace bHapticsLib
         public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
 
         public static void SubmitRegistered(string key) => Connection.SubmitRegistered(key);
-        public static void SubmitRegistered(string key, int startTimeMillis) => Connection.SubmitRegistered(key, startTimeMillis: startTimeMillis);
         public static void SubmitRegistered(string key, ScaleOption option) => Connection.SubmitRegistered(key, scaleOption: option);
-        public static void SubmitRegistered(string key, ScaleOption option, int startTimeMillis) => Connection.SubmitRegistered(key, scaleOption: option, startTimeMillis: startTimeMillis);
         public static void SubmitRegistered(string key, RotationOption option) => Connection.SubmitRegistered(key, rotationOption: option);
-        public static void SubmitRegistered(string key, RotationOption option, int startTimeMillis) => Connection.SubmitRegistered(key, rotationOption: option, startTimeMillis: startTimeMillis);
         public static void SubmitRegistered(string key, ScaleOption scaleOption, RotationOption rotationOption) => Connection.SubmitRegistered(key, null, scaleOption, rotationOption);
-        public static void SubmitRegistered(string key, ScaleOption scaleOption, RotationOption rotationOption, int startTimeMillis) => Connection.SubmitRegistered(key, null, scaleOption, rotationOption, startTimeMillis);
 
         public static void SubmitRegistered(string key, string altKey) => Connection.SubmitRegistered(key, altKey);
-        public static void SubmitRegistered(string key, string altKey, int startTimeMillis) => Connection.SubmitRegistered(key, altKey, startTimeMillis: startTimeMillis);
         public static void SubmitRegistered(string key, string altKey, ScaleOption option) => Connection.SubmitRegistered(key, altKey, scaleOption: option);
-        public static void SubmitRegistered(string key, string altKey, ScaleOption option, int startTimeMillis) => Connection.SubmitRegistered(key, altKey, scaleOption: option, startTimeMillis: startTimeMillis);
         public static void SubmitRegistered(string key, string altKey, RotationOption option) => Connection.SubmitRegistered(key, altKey, rotationOption: option);
-        public static void SubmitRegistered(string key, string altKey, RotationOption option, int startTimeMillis) => Connection.SubmitRegistered(key, altKey, rotationOption: option, startTimeMillis: startTimeMillis);
         public static void SubmitRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption) => Connection.SubmitRegistered(key, altKey, scaleOption, rotationOption);
-        public static void SubmitRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption, int startTimeMillis) => Connection.SubmitRegistered(key, altKey, scaleOption, rotationOption, startTimeMillis);
     }
 }

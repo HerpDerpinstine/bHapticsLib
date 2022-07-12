@@ -233,13 +233,7 @@ namespace bHapticsLib.Internal.Connection
             SubmitQueue.Enqueue(request);
         }
 
-        internal void SubmitRegistered(string key,
-            string altKey = null, 
-            ScaleOption scaleOption = null, 
-            RotationOption rotationOption = null,
-            //float durationRatio = 1f
-            int startTimeMillis = 0
-            )
+        internal void SubmitRegistered(string key, string altKey = null, ScaleOption scaleOption = null, RotationOption rotationOption = null)
         {
             SubmitRequest request = new SubmitRequest { key = key, type = "key" };
 
@@ -251,12 +245,6 @@ namespace bHapticsLib.Internal.Connection
 
             if (rotationOption != null)
                 request.Parameters["rotationOption"] = rotationOption.node;
-
-            //if (durationRatio != 1f)
-            //    request.Parameters["ratio"] = durationRatio;
-
-            if (startTimeMillis > 0)
-                request.Parameters["startTimeMillis"] = startTimeMillis;
 
             SubmitQueue.Enqueue(request);
         }
