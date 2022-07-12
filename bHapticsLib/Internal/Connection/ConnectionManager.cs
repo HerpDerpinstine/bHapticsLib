@@ -169,10 +169,29 @@ namespace bHapticsLib.Internal.Connection
             SubmitRequest request = new SubmitRequest { key = key, type = "frame" };
             request.Frame.durationMillis = durationMillis;
             request.Frame.position = position;
-            if (dotPoints != null)
-                request.Frame.dotPoints.AddRange(dotPoints);
-            if (pathPoints != null)
-                request.Frame.pathPoints.AddRange(pathPoints);
+
+            if ((dotPoints != null) && (dotPoints.Count > 0))
+            {
+                for (int i = 0; i < dotPoints.Count; i++)
+                {
+                    DotPoint point = dotPoints[i];
+                    if (point == null)
+                        continue;
+                    request.Frame.dotPoints.Add(point.node);
+                }
+            }
+
+            if ((pathPoints != null) && (pathPoints.Count > 0))
+            {
+                for (int i = 0; i < pathPoints.Count; i++)
+                {
+                    PathPoint point = pathPoints[i];
+                    if (point == null)
+                        continue;
+                    request.Frame.pathPoints.Add(point.node);
+                }
+            }
+
             SubmitQueue.Enqueue(request);
         }
 
@@ -188,10 +207,29 @@ namespace bHapticsLib.Internal.Connection
             SubmitRequest request = new SubmitRequest { key = key, type = "frame" };
             request.Frame.durationMillis = durationMillis;
             request.Frame.position = position;
-            if (dotPoints != null)
-                request.Frame.dotPoints.AddRange(dotPoints);
-            if (pathPoints != null)
-                request.Frame.pathPoints.AddRange(pathPoints);
+
+            if ((dotPoints != null) && (dotPoints.Length > 0))
+            {
+                for (int i = 0; i < dotPoints.Length; i++)
+                {
+                    DotPoint point = dotPoints[i];
+                    if (point == null)
+                        continue;
+                    request.Frame.dotPoints.Add(point.node);
+                }
+            }
+
+            if ((pathPoints != null) && (pathPoints.Length > 0))
+            {
+                for (int i = 0; i < pathPoints.Length; i++)
+                {
+                    PathPoint point = pathPoints[i];
+                    if (point == null)
+                        continue;
+                    request.Frame.pathPoints.Add(point.node);
+                }
+            }
+
             SubmitQueue.Enqueue(request);
         }
 
@@ -209,10 +247,10 @@ namespace bHapticsLib.Internal.Connection
                 request.Parameters["altKey"] = altKey;
 
             if (scaleOption != null)
-                request.Parameters["scaleOption"] = scaleOption;
+                request.Parameters["scaleOption"] = scaleOption.node;
 
             if (rotationOption != null)
-                request.Parameters["rotationOption"] = rotationOption;
+                request.Parameters["rotationOption"] = rotationOption.node;
 
             //if (durationRatio != 1f)
             //    request.Parameters["ratio"] = durationRatio;

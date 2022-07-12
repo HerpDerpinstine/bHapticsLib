@@ -159,13 +159,13 @@ namespace TestApplication
 
 
                 case ConsoleKey.NumPad7:
-                    bHapticsManager.Submit("testSubmit", 1000, PositionType.Vest, new List<DotPoint> { new DotPoint { index = 0, intensity = 100 } });
+                    bHapticsManager.Submit("testSubmit", 1000, PositionType.Vest, new List<DotPoint> { new DotPoint { Index = 0, Intensity = 100 } });
                     goto default;
                 case ConsoleKey.NumPad8:
-                    bHapticsManager.Submit("testSubmitFront", 1000, PositionType.VestFront, new List<DotPoint> { new DotPoint { index = 0, intensity = 100 } });
+                    bHapticsManager.Submit("testSubmitFront", 1000, PositionType.VestFront, new List<DotPoint> { new DotPoint { Index = 0, Intensity = 100 } });
                     goto default;
                 case ConsoleKey.NumPad9:
-                    bHapticsManager.Submit("testSubmitBack", 1000, PositionType.VestBack, new List<DotPoint> { new DotPoint { index = 0, intensity = 100 } });
+                    bHapticsManager.Submit("testSubmitBack", 1000, PositionType.VestBack, new List<DotPoint> { new DotPoint { Index = 0, Intensity = 100 } });
                     goto default;
 
                 default:
