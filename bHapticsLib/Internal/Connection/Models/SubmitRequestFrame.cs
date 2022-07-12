@@ -13,12 +13,7 @@ namespace bHapticsLib.Internal.Connection.Models
 
         internal PositionType position
         {
-            get
-            {
-                if (Enum.TryParse(this[nameof(position)], out PositionType value))
-                    return value;
-                return default;
-            }
+            get => (PositionType)Enum.Parse(typeof(PositionType), this[nameof(position)]);
             set => this[nameof(position)] = value.ToString();
         }
 

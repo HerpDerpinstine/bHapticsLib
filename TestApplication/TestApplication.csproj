@@ -27,4 +27,10 @@
 	  <Compile Include="..\Properties\BuildInfo.cs" Link="Properties\BuildInfo.cs" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="testfeedback.tact">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

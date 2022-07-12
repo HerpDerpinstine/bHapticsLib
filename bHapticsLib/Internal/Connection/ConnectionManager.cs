@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using bHapticsLib.Internal.Connection.Models;
 using bHapticsLib.SimpleJSON;
@@ -18,8 +16,8 @@ namespace bHapticsLib.Internal.Connection
 
         private PlayerPacket Packet = new PlayerPacket();
         private List<RegisterRequest> RegisterCache = new List<RegisterRequest>();
-        private ConcurrentQueue<RegisterRequest> RegisterQueue = new ConcurrentQueue<RegisterRequest>();
-        private ConcurrentQueue<SubmitRequest> SubmitQueue = new ConcurrentQueue<SubmitRequest>();
+        private ThreadSafeQueue<RegisterRequest> RegisterQueue = new ThreadSafeQueue<RegisterRequest>();
+        private ThreadSafeQueue<SubmitRequest> SubmitQueue = new ThreadSafeQueue<SubmitRequest>();
 
         internal override bool BeginInitInternal()
         {
@@ -52,11 +50,13 @@ namespace bHapticsLib.Internal.Connection
             {
                 if (IsPlayerConnected())
                 {
-                    while (RegisterQueue.TryDequeue(out RegisterRequest request))
-                        Packet.Register.Add(request);
+                    RegisterRequest registerRequest;
+                    while ((registerRequest = RegisterQueue.Dequeue()) != null)
+                        Packet.Register.Add(registerRequest);
 
-                    while (SubmitQueue.TryDequeue(out SubmitRequest request))
-                        Packet.Submit.Add(request);
+                    SubmitRequest submitRequest;
+                    while ((submitRequest = SubmitQueue.Dequeue()) != null)
+                        Packet.Submit.Add(submitRequest);
 
                     Socket.Send(Packet);
                     Packet.Clear();
@@ -195,7 +195,13 @@ namespace bHapticsLib.Internal.Connection
             SubmitQueue.Enqueue(request);
         }
 
-        internal void SubmitRegistered(string key, string altKey = null, ScaleOption scaleOption = null, RotationOption rotationOption = null, float durationRatio = 1f)
+        internal void SubmitRegistered(string key,
+            string altKey = null, 
+            ScaleOption scaleOption = null, 
+            RotationOption rotationOption = null,
+            //float durationRatio = 1f
+            int startTimeMillis = 0
+            )
         {
             SubmitRequest request = new SubmitRequest { key = key, type = "key" };
 
@@ -208,8 +214,11 @@ namespace bHapticsLib.Internal.Connection
             if (rotationOption != null)
                 request.Parameters["rotationOption"] = rotationOption;
 
-            if (durationRatio != 1f)
-                request.Parameters["ratio"] = durationRatio;
+            //if (durationRatio != 1f)
+            //    request.Parameters["ratio"] = durationRatio;
+
+            if (startTimeMillis > 0)
+                request.Parameters["startTimeMillis"] = startTimeMillis;
 
             SubmitQueue.Enqueue(request);
         }
