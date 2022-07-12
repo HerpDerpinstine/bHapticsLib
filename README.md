@@ -9,7 +9,6 @@ Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics G
 | New Methods, Functionality, and Customization Options |
 | New JSON based Direct Object Instancing and Manipulation |
 | New Thread-Safe Queue based Backend for handling Request Packets |
-| Improved Auto-Detection of bHaptics Player Installations  (STEAM & STANDALONE) |
 | Fixed Bug with Constant Submitting of Feedback at a faster rate than 100ms per tick |
 | Removed Needless Object Creations and Conversions between ``JSON <--> Object`` |
   
