@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using bHapticsLib.Internal.Connection.Models;
 using bHapticsLib.SimpleJSON;
@@ -143,6 +144,9 @@ namespace bHapticsLib.Internal.Connection
 
         internal void RegisterFeedbackFromText(string key, string tactFileStr)
         {
+            if (string.IsNullOrEmpty(key))
+                return; // To-Do: Exception Here
+
             RegisterRequest request = new RegisterRequest();
             request.key = key;
             request.project = JSON.Parse(tactFileStr)["project"].AsObject;
@@ -151,10 +155,17 @@ namespace bHapticsLib.Internal.Connection
 
         internal void RegisterFeedbackFromFile(string key, string tactFilePath)
         {
-            RegisterRequest request = new RegisterRequest();
-            request.key = key;
-            //request.project = JSON.Parse(tactFileStr)["project"].AsObject;
-            //RequestRegister(request);
+            if (string.IsNullOrEmpty(key))
+                return; // To-Do: Exception Here
+
+            if (!File.Exists(tactFilePath))
+                return; // To-Do: Exception Here
+
+            string json = File.ReadAllText(tactFilePath);
+            if (string.IsNullOrEmpty(json))
+                return; // To-Do: Exception Here
+
+            RegisterFeedbackFromText(key, json);
         }
 
         internal void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints)
