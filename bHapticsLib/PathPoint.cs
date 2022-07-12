@@ -1,4 +1,4 @@
-﻿using bHapticsLib.SimpleJSON;
+﻿using bHapticsLib.Internal.SimpleJSON;
 
 namespace bHapticsLib
 {
@@ -36,6 +36,14 @@ namespace bHapticsLib
         {
             get => node["motorCount"].AsInt;
             set => node["motorCount"] = value.Clamp(0, bHapticsManager.MaxMotorsPerPathPoint);
+        }
+
+        public override string ToString()
+        {
+            return "PathPoint { X: " + X +
+                   ", Y: " + Y +
+                   ", MotorCount: " + MotorCount +
+                   ", Intensity: " + Intensity + " }";
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading;
 using bHapticsLib.Internal.Connection.Models;
-using bHapticsLib.SimpleJSON;
+using bHapticsLib.Internal.SimpleJSON;
 
 namespace bHapticsLib.Internal.Connection
 {
@@ -170,6 +170,9 @@ namespace bHapticsLib.Internal.Connection
 
         internal void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints)
         {
+            if (!IsAlive())
+                return;
+
             if (position == PositionType.Vest)
             {
                 Submit($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);
@@ -208,6 +211,9 @@ namespace bHapticsLib.Internal.Connection
 
         internal void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints)
         {
+            if (!IsAlive())
+                return;
+
             if (position == PositionType.Vest)
             {
                 Submit($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);
@@ -246,6 +252,9 @@ namespace bHapticsLib.Internal.Connection
 
         internal void SubmitRegistered(string key, string altKey = null, ScaleOption scaleOption = null, RotationOption rotationOption = null)
         {
+            if (!IsAlive())
+                return;
+
             SubmitRequest request = new SubmitRequest { key = key, type = "key" };
 
             if (!string.IsNullOrEmpty(altKey))

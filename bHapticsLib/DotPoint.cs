@@ -1,4 +1,4 @@
-﻿using bHapticsLib.SimpleJSON;
+﻿using bHapticsLib.Internal.SimpleJSON;
 
 namespace bHapticsLib
 {
@@ -22,6 +22,12 @@ namespace bHapticsLib
         {
             get => node["intensity"].AsInt;
             set => node["intensity"] = value.Clamp(0, bHapticsManager.MaxIntensity);
+        }
+
+        public override string ToString()
+        {
+            return "DotPoint { Index: " + Index +
+                   ", Intensity: " + Intensity + " }";
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using bHapticsLib.SimpleJSON;
+﻿using bHapticsLib.Internal.SimpleJSON;
 
 namespace bHapticsLib
 {
@@ -22,6 +22,12 @@ namespace bHapticsLib
         {
             get => node["offsetY"].AsFloat;
             set => node["offsetY"] = value;
+        }
+
+        public override string ToString()
+        {
+            return "RotationOption { OffsetAngleX: " + OffsetAngleX +
+                   ", OffsetY: " + OffsetY + " }";
         }
     }
 }

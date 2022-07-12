@@ -1,5 +1,4 @@
-﻿using bHapticsLib.Internal.Connection.Models;
-using bHapticsLib.SimpleJSON;
+﻿using bHapticsLib.Internal.SimpleJSON;
 using System;
 using System.Collections.Generic;
 
@@ -13,49 +12,49 @@ namespace bHapticsLib
             {
                 // Head
                 case PositionType.Head:
-                    return "/head";
+                    return "/bhaptics/head";
 
                 // Vest
                 case PositionType.Vest:
-                    return "/vest";
+                    return "/bhaptics/vest";
                 case PositionType.VestFront:
-                    return "/vest/front";
+                    return "/bhaptics/vest/front";
                 case PositionType.VestBack:
-                    return "/vest/back";
+                    return "/bhaptics/vest/back";
 
                 // Arms
                 case PositionType.ForearmL:
-                    return "/arm/left";
+                    return "/bhaptics/arm/left";
                 case PositionType.ForearmR:
-                    return "/arm/right";
+                    return "/bhaptics/arm/right";
 
                 // Hands
                 case PositionType.HandL:
-                    return "/hand/left";
+                    return "/bhaptics/hand/left";
                 case PositionType.HandR:
-                    return "/hand/right";
+                    return "/bhaptics/hand/right";
 
                 // Gloves
                 case PositionType.GloveL:
-                    return "/glove/left";
+                    return "/bhaptics/glove/left";
                 case PositionType.GloveR:
-                    return "/glove/right";
+                    return "/bhaptics/glove/right";
 
                 // Feet
                 case PositionType.FootL:
-                    return "/foot/left";
+                    return "/bhaptics/foot/left";
                 case PositionType.FootR:
-                    return "/foot/right";
+                    return "/bhaptics/foot/right";
 
                 // Custom
                 case PositionType.Custom1:
-                    return "/custom1";
+                    return "/bhaptics/custom1";
                 case PositionType.Custom2:
-                    return "/custom2";
+                    return "/bhaptics/custom2";
                 case PositionType.Custom3:
-                    return "/custom3";
+                    return "/bhaptics/custom3";
                 case PositionType.Custom4:
-                    return "/custom4";
+                    return "/bhaptics/custom4";
 
                 // Unknown
                 default:

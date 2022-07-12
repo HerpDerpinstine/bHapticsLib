@@ -2,7 +2,7 @@
 using System.Timers;
 using System.Web;
 using WebSocketSharp;
-using bHapticsLib.SimpleJSON;
+using bHapticsLib.Internal.SimpleJSON;
 using bHapticsLib.Internal.Connection.Models;
 
 namespace bHapticsLib.Internal.Connection

@@ -134,9 +134,9 @@ using System.Linq;
 using System.Text;
 
 // renaming the namespace to avoid conflict
-namespace bHapticsLib.SimpleJSON
+namespace bHapticsLib.Internal.SimpleJSON
 {
-    public enum JSONNodeType
+    internal enum JSONNodeType
     {
         Array = 1,
         Object = 2,
@@ -147,35 +147,35 @@ namespace bHapticsLib.SimpleJSON
         None = 7,
         Custom = 0xFF,
     }
-    public enum JSONTextMode
+    internal enum JSONTextMode
     {
         Compact,
         Indent
     }
 
-    public abstract partial class JSONNode
+    internal abstract partial class JSONNode
     {
         #region Enumerators
-        public struct Enumerator
+        internal struct Enumerator
         {
             private enum Type { None, Array, Object }
             private Type type;
             private Dictionary<string, JSONNode>.Enumerator m_Object;
             private List<JSONNode>.Enumerator m_Array;
-            public bool IsValid { get { return type != Type.None; } }
-            public Enumerator(List<JSONNode>.Enumerator aArrayEnum)
+            internal bool IsValid { get { return type != Type.None; } }
+            internal Enumerator(List<JSONNode>.Enumerator aArrayEnum)
             {
                 type = Type.Array;
                 m_Object = default(Dictionary<string, JSONNode>.Enumerator);
                 m_Array = aArrayEnum;
             }
-            public Enumerator(Dictionary<string, JSONNode>.Enumerator aDictEnum)
+            internal Enumerator(Dictionary<string, JSONNode>.Enumerator aDictEnum)
             {
                 type = Type.Object;
                 m_Object = aDictEnum;
                 m_Array = default(List<JSONNode>.Enumerator);
             }
-            public KeyValuePair<string, JSONNode> Current
+            internal KeyValuePair<string, JSONNode> Current
             {
                 get
                 {
@@ -186,7 +186,7 @@ namespace bHapticsLib.SimpleJSON
                     return new KeyValuePair<string, JSONNode>(string.Empty, null);
                 }
             }
-            public bool MoveNext()
+            internal bool MoveNext()
             {
                 if (type == Type.Array)
                     return m_Array.MoveNext();
@@ -195,25 +195,25 @@ namespace bHapticsLib.SimpleJSON
                 return false;
             }
         }
-        public struct ValueEnumerator
+        internal struct ValueEnumerator
         {
             private Enumerator m_Enumerator;
-            public ValueEnumerator(List<JSONNode>.Enumerator aArrayEnum) : this(new Enumerator(aArrayEnum)) { }
-            public ValueEnumerator(Dictionary<string, JSONNode>.Enumerator aDictEnum) : this(new Enumerator(aDictEnum)) { }
-            public ValueEnumerator(Enumerator aEnumerator) { m_Enumerator = aEnumerator; }
-            public JSONNode Current { get { return m_Enumerator.Current.Value; } }
-            public bool MoveNext() { return m_Enumerator.MoveNext(); }
-            public ValueEnumerator GetEnumerator() { return this; }
+            internal ValueEnumerator(List<JSONNode>.Enumerator aArrayEnum) : this(new Enumerator(aArrayEnum)) { }
+            internal ValueEnumerator(Dictionary<string, JSONNode>.Enumerator aDictEnum) : this(new Enumerator(aDictEnum)) { }
+            internal ValueEnumerator(Enumerator aEnumerator) { m_Enumerator = aEnumerator; }
+            internal JSONNode Current { get { return m_Enumerator.Current.Value; } }
+            internal bool MoveNext() { return m_Enumerator.MoveNext(); }
+            internal ValueEnumerator GetEnumerator() { return this; }
         }
-        public struct KeyEnumerator
+        internal struct KeyEnumerator
         {
             private Enumerator m_Enumerator;
-            public KeyEnumerator(List<JSONNode>.Enumerator aArrayEnum) : this(new Enumerator(aArrayEnum)) { }
-            public KeyEnumerator(Dictionary<string, JSONNode>.Enumerator aDictEnum) : this(new Enumerator(aDictEnum)) { }
-            public KeyEnumerator(Enumerator aEnumerator) { m_Enumerator = aEnumerator; }
-            public string Current { get { return m_Enumerator.Current.Key; } }
-            public bool MoveNext() { return m_Enumerator.MoveNext(); }
-            public KeyEnumerator GetEnumerator() { return this; }
+            internal KeyEnumerator(List<JSONNode>.Enumerator aArrayEnum) : this(new Enumerator(aArrayEnum)) { }
+            internal KeyEnumerator(Dictionary<string, JSONNode>.Enumerator aDictEnum) : this(new Enumerator(aDictEnum)) { }
+            internal KeyEnumerator(Enumerator aEnumerator) { m_Enumerator = aEnumerator; }
+            internal string Current { get { return m_Enumerator.Current.Key; } }
+            internal bool MoveNext() { return m_Enumerator.MoveNext(); }
+            internal KeyEnumerator GetEnumerator() { return this; }
         }
 
         public class LinqEnumerator : IEnumerator<KeyValuePair<string, JSONNode>>, IEnumerable<KeyValuePair<string, JSONNode>>
@@ -257,53 +257,53 @@ namespace bHapticsLib.SimpleJSON
 
         #region common interface
 
-        public static bool forceASCII = false; // Use Unicode by default
-        public static bool longAsString = false; // lazy creator creates a JSONString instead of JSONNumber
-        public static bool allowLineComments = true; // allow "//"-style comments at the end of a line
+        internal static bool forceASCII = false; // Use Unicode by default
+        internal static bool longAsString = false; // lazy creator creates a JSONString instead of JSONNumber
+        internal static bool allowLineComments = true; // allow "//"-style comments at the end of a line
 
-        public abstract JSONNodeType Tag { get; }
+        internal abstract JSONNodeType Tag { get; }
 
-        public virtual JSONNode this[int aIndex] { get { return null; } set { } }
+        internal virtual JSONNode this[int aIndex] { get { return null; } set { } }
 
-        public virtual JSONNode this[string aKey] { get { return null; } set { } }
+        internal virtual JSONNode this[string aKey] { get { return null; } set { } }
 
-        public virtual string Value { get { return ""; } set { } }
+        internal virtual string Value { get { return ""; } set { } }
 
-        public virtual int Count { get { return 0; } }
+        internal virtual int Count { get { return 0; } }
 
-        public virtual bool IsNumber { get { return false; } }
-        public virtual bool IsString { get { return false; } }
-        public virtual bool IsBoolean { get { return false; } }
-        public virtual bool IsNull { get { return false; } }
-        public virtual bool IsArray { get { return false; } }
-        public virtual bool IsObject { get { return false; } }
+        internal virtual bool IsNumber { get { return false; } }
+        internal virtual bool IsString { get { return false; } }
+        internal virtual bool IsBoolean { get { return false; } }
+        internal virtual bool IsNull { get { return false; } }
+        internal virtual bool IsArray { get { return false; } }
+        internal virtual bool IsObject { get { return false; } }
 
-        public virtual bool Inline { get { return false; } set { } }
+        internal virtual bool Inline { get { return false; } set { } }
 
-        public virtual void Add(string aKey, JSONNode aItem)
+        internal virtual void Add(string aKey, JSONNode aItem)
         {
         }
-        public virtual void Add(JSONNode aItem)
+        internal virtual void Add(JSONNode aItem)
         {
             Add("", aItem);
         }
 
-        public virtual JSONNode Remove(string aKey)
+        internal virtual JSONNode Remove(string aKey)
         {
             return null;
         }
 
-        public virtual JSONNode Remove(int aIndex)
+        internal virtual JSONNode Remove(int aIndex)
         {
             return null;
         }
 
-        public virtual JSONNode Remove(JSONNode aNode)
+        internal virtual JSONNode Remove(JSONNode aNode)
         {
             return aNode;
         }
 
-        public virtual IEnumerable<JSONNode> Children
+        internal virtual IEnumerable<JSONNode> Children
         {
             get
             {
@@ -311,7 +311,7 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public IEnumerable<JSONNode> DeepChildren
+        internal IEnumerable<JSONNode> DeepChildren
         {
             get
             {
@@ -321,12 +321,12 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public virtual bool HasKey(string aKey)
+        internal virtual bool HasKey(string aKey)
         {
             return false;
         }
 
-        public virtual JSONNode GetValueOrDefault(string aKey, JSONNode aDefault)
+        internal virtual JSONNode GetValueOrDefault(string aKey, JSONNode aDefault)
         {
             return aDefault;
         }
@@ -338,7 +338,7 @@ namespace bHapticsLib.SimpleJSON
             return sb.ToString();
         }
 
-        public virtual string ToString(int aIndent)
+        internal virtual string ToString(int aIndent)
         {
             StringBuilder sb = new StringBuilder();
             WriteToStringBuilder(sb, 0, aIndent, JSONTextMode.Indent);
@@ -346,17 +346,17 @@ namespace bHapticsLib.SimpleJSON
         }
         internal abstract void WriteToStringBuilder(StringBuilder aSB, int aIndent, int aIndentInc, JSONTextMode aMode);
 
-        public abstract Enumerator GetEnumerator();
-        public IEnumerable<KeyValuePair<string, JSONNode>> Linq { get { return new LinqEnumerator(this); } }
-        public KeyEnumerator Keys { get { return new KeyEnumerator(GetEnumerator()); } }
-        public ValueEnumerator Values { get { return new ValueEnumerator(GetEnumerator()); } }
+        internal abstract Enumerator GetEnumerator();
+        internal IEnumerable<KeyValuePair<string, JSONNode>> Linq { get { return new LinqEnumerator(this); } }
+        internal KeyEnumerator Keys { get { return new KeyEnumerator(GetEnumerator()); } }
+        internal ValueEnumerator Values { get { return new ValueEnumerator(GetEnumerator()); } }
 
         #endregion common interface
 
         #region typecasting properties
 
 
-        public virtual double AsDouble
+        internal virtual double AsDouble
         {
             get
             {
@@ -371,19 +371,19 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public virtual int AsInt
+        internal virtual int AsInt
         {
             get { return (int)AsDouble; }
             set { AsDouble = value; }
         }
 
-        public virtual float AsFloat
+        internal virtual float AsFloat
         {
             get { return (float)AsDouble; }
             set { AsDouble = value; }
         }
 
-        public virtual bool AsBool
+        internal virtual bool AsBool
         {
             get
             {
@@ -398,7 +398,7 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public virtual long AsLong
+        internal virtual long AsLong
         {
             get
             {
@@ -413,7 +413,7 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public virtual JSONArray AsArray
+        internal virtual JSONArray AsArray
         {
             get
             {
@@ -421,7 +421,7 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public virtual JSONObject AsObject
+        internal virtual JSONObject AsObject
         {
             get
             {
@@ -597,7 +597,7 @@ namespace bHapticsLib.SimpleJSON
                 return token;
         }
 
-        public static JSONNode Parse(string aJSON)
+        internal static JSONNode Parse(string aJSON)
         {
             Stack<JSONNode> stack = new Stack<JSONNode>();
             JSONNode ctx = null;
@@ -770,21 +770,21 @@ namespace bHapticsLib.SimpleJSON
     }
     // End of JSONNode
 
-    public partial class JSONArray : JSONNode
+    internal partial class JSONArray : JSONNode
     {
         private List<JSONNode> m_List = new List<JSONNode>();
         private bool inline = false;
-        public override bool Inline
+        internal override bool Inline
         {
             get { return inline; }
             set { inline = value; }
         }
 
-        public override JSONNodeType Tag { get { return JSONNodeType.Array; } }
-        public override bool IsArray { get { return true; } }
-        public override Enumerator GetEnumerator() { return new Enumerator(m_List.GetEnumerator()); }
+        internal override JSONNodeType Tag { get { return JSONNodeType.Array; } }
+        internal override bool IsArray { get { return true; } }
+        internal override Enumerator GetEnumerator() { return new Enumerator(m_List.GetEnumerator()); }
 
-        public override JSONNode this[int aIndex]
+        internal override JSONNode this[int aIndex]
         {
             get
             {
@@ -803,7 +803,7 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public override JSONNode this[string aKey]
+        internal override JSONNode this[string aKey]
         {
             get { return new JSONLazyCreator(this); }
             set
@@ -814,19 +814,19 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public override int Count
+        internal override int Count
         {
             get { return m_List.Count; }
         }
 
-        public override void Add(string aKey, JSONNode aItem)
+        internal override void Add(string aKey, JSONNode aItem)
         {
             if (aItem == null)
                 aItem = JSONNull.CreateOrGet();
             m_List.Add(aItem);
         }
 
-        public override JSONNode Remove(int aIndex)
+        internal override JSONNode Remove(int aIndex)
         {
             if (aIndex < 0 || aIndex >= m_List.Count)
                 return null;
@@ -835,17 +835,17 @@ namespace bHapticsLib.SimpleJSON
             return tmp;
         }
 
-        public override JSONNode Remove(JSONNode aNode)
+        internal override JSONNode Remove(JSONNode aNode)
         {
             m_List.Remove(aNode);
             return aNode;
         }
 
 
-        public void Clear()
+        internal void Clear()
             => m_List.Clear();
 
-        public override IEnumerable<JSONNode> Children
+        internal override IEnumerable<JSONNode> Children
         {
             get
             {
@@ -879,24 +879,24 @@ namespace bHapticsLib.SimpleJSON
     }
     // End of JSONArray
 
-    public partial class JSONObject : JSONNode
+    internal partial class JSONObject : JSONNode
     {
         internal Dictionary<string, JSONNode> m_Dict = new Dictionary<string, JSONNode>();
 
         private bool inline = false;
-        public override bool Inline
+        internal override bool Inline
         {
             get { return inline; }
             set { inline = value; }
         }
 
-        public override JSONNodeType Tag { get { return JSONNodeType.Object; } }
-        public override bool IsObject { get { return true; } }
+        internal override JSONNodeType Tag { get { return JSONNodeType.Object; } }
+        internal override bool IsObject { get { return true; } }
 
-        public override Enumerator GetEnumerator() { return new Enumerator(m_Dict.GetEnumerator()); }
+        internal override Enumerator GetEnumerator() { return new Enumerator(m_Dict.GetEnumerator()); }
 
 
-        public override JSONNode this[string aKey]
+        internal override JSONNode this[string aKey]
         {
             get
             {
@@ -916,7 +916,7 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public override JSONNode this[int aIndex]
+        internal override JSONNode this[int aIndex]
         {
             get
             {
@@ -935,12 +935,12 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public override int Count
+        internal override int Count
         {
             get { return m_Dict.Count; }
         }
 
-        public override void Add(string aKey, JSONNode aItem)
+        internal override void Add(string aKey, JSONNode aItem)
         {
             if (aItem == null)
                 aItem = JSONNull.CreateOrGet();
@@ -956,7 +956,7 @@ namespace bHapticsLib.SimpleJSON
                 m_Dict.Add(Guid.NewGuid().ToString(), aItem);
         }
 
-        public override JSONNode Remove(string aKey)
+        internal override JSONNode Remove(string aKey)
         {
             if (!m_Dict.ContainsKey(aKey))
                 return null;
@@ -965,7 +965,7 @@ namespace bHapticsLib.SimpleJSON
             return tmp;
         }
 
-        public override JSONNode Remove(int aIndex)
+        internal override JSONNode Remove(int aIndex)
         {
             if (aIndex < 0 || aIndex >= m_Dict.Count)
                 return null;
@@ -974,7 +974,7 @@ namespace bHapticsLib.SimpleJSON
             return item.Value;
         }
 
-        public override JSONNode Remove(JSONNode aNode)
+        internal override JSONNode Remove(JSONNode aNode)
         {
             try
             {
@@ -988,12 +988,12 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public override bool HasKey(string aKey)
+        internal override bool HasKey(string aKey)
         {
             return m_Dict.ContainsKey(aKey);
         }
 
-        public override JSONNode GetValueOrDefault(string aKey, JSONNode aDefault)
+        internal override JSONNode GetValueOrDefault(string aKey, JSONNode aDefault)
         {
             JSONNode res;
             if (m_Dict.TryGetValue(aKey, out res))
@@ -1001,7 +1001,7 @@ namespace bHapticsLib.SimpleJSON
             return aDefault;
         }
 
-        public override IEnumerable<JSONNode> Children
+        internal override IEnumerable<JSONNode> Children
         {
             get
             {
@@ -1040,17 +1040,17 @@ namespace bHapticsLib.SimpleJSON
     }
     // End of JSONObject
 
-    public partial class JSONString : JSONNode
+    internal partial class JSONString : JSONNode
     {
         private string m_Data;
 
-        public override JSONNodeType Tag { get { return JSONNodeType.String; } }
-        public override bool IsString { get { return true; } }
+        internal override JSONNodeType Tag { get { return JSONNodeType.String; } }
+        internal override bool IsString { get { return true; } }
 
-        public override Enumerator GetEnumerator() { return new Enumerator(); }
+        internal override Enumerator GetEnumerator() { return new Enumerator(); }
 
 
-        public override string Value
+        internal override string Value
         {
             get { return m_Data; }
             set
@@ -1059,7 +1059,7 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public JSONString(string aData)
+        internal JSONString(string aData)
         {
             m_Data = aData;
         }
@@ -1087,15 +1087,15 @@ namespace bHapticsLib.SimpleJSON
     }
     // End of JSONString
 
-    public partial class JSONNumber : JSONNode
+    internal partial class JSONNumber : JSONNode
     {
         private double m_Data;
 
-        public override JSONNodeType Tag { get { return JSONNodeType.Number; } }
-        public override bool IsNumber { get { return true; } }
-        public override Enumerator GetEnumerator() { return new Enumerator(); }
+        internal override JSONNodeType Tag { get { return JSONNodeType.Number; } }
+        internal override bool IsNumber { get { return true; } }
+        internal override Enumerator GetEnumerator() { return new Enumerator(); }
 
-        public override string Value
+        internal override string Value
         {
             get { return m_Data.ToString(CultureInfo.InvariantCulture); }
             set
@@ -1106,23 +1106,23 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public override double AsDouble
+        internal override double AsDouble
         {
             get { return m_Data; }
             set { m_Data = value; }
         }
-        public override long AsLong
+        internal override long AsLong
         {
             get { return (long)m_Data; }
             set { m_Data = value; }
         }
 
-        public JSONNumber(double aData)
+        internal JSONNumber(double aData)
         {
             m_Data = aData;
         }
 
-        public JSONNumber(string aData)
+        internal JSONNumber(string aData)
         {
             Value = aData;
         }
@@ -1160,15 +1160,15 @@ namespace bHapticsLib.SimpleJSON
     }
     // End of JSONNumber
 
-    public partial class JSONBool : JSONNode
+    internal partial class JSONBool : JSONNode
     {
         private bool m_Data;
 
-        public override JSONNodeType Tag { get { return JSONNodeType.Boolean; } }
-        public override bool IsBoolean { get { return true; } }
-        public override Enumerator GetEnumerator() { return new Enumerator(); }
+        internal override JSONNodeType Tag { get { return JSONNodeType.Boolean; } }
+        internal override bool IsBoolean { get { return true; } }
+        internal override Enumerator GetEnumerator() { return new Enumerator(); }
 
-        public override string Value
+        internal override string Value
         {
             get { return m_Data.ToString(); }
             set
@@ -1178,18 +1178,18 @@ namespace bHapticsLib.SimpleJSON
                     m_Data = v;
             }
         }
-        public override bool AsBool
+        internal override bool AsBool
         {
             get { return m_Data; }
             set { m_Data = value; }
         }
 
-        public JSONBool(bool aData)
+        internal JSONBool(bool aData)
         {
             m_Data = aData;
         }
 
-        public JSONBool(string aData)
+        internal JSONBool(string aData)
         {
             Value = aData;
         }
@@ -1213,11 +1213,11 @@ namespace bHapticsLib.SimpleJSON
     }
     // End of JSONBool
 
-    public partial class JSONNull : JSONNode
+    internal partial class JSONNull : JSONNode
     {
         static JSONNull m_StaticInstance = new JSONNull();
-        public static bool reuseSameInstance = true;
-        public static JSONNull CreateOrGet()
+        internal static bool reuseSameInstance = true;
+        internal static JSONNull CreateOrGet()
         {
             if (reuseSameInstance)
                 return m_StaticInstance;
@@ -1225,16 +1225,16 @@ namespace bHapticsLib.SimpleJSON
         }
         private JSONNull() { }
 
-        public override JSONNodeType Tag { get { return JSONNodeType.NullValue; } }
-        public override bool IsNull { get { return true; } }
-        public override Enumerator GetEnumerator() { return new Enumerator(); }
+        internal override JSONNodeType Tag { get { return JSONNodeType.NullValue; } }
+        internal override bool IsNull { get { return true; } }
+        internal override Enumerator GetEnumerator() { return new Enumerator(); }
 
-        public override string Value
+        internal override string Value
         {
             get { return "null"; }
             set { }
         }
-        public override bool AsBool
+        internal override bool AsBool
         {
             get { return false; }
             set { }
@@ -1262,16 +1262,16 @@ namespace bHapticsLib.SimpleJSON
     {
         private JSONNode m_Node = null;
         private string m_Key = null;
-        public override JSONNodeType Tag { get { return JSONNodeType.None; } }
-        public override Enumerator GetEnumerator() { return new Enumerator(); }
+        internal override JSONNodeType Tag { get { return JSONNodeType.None; } }
+        internal override Enumerator GetEnumerator() { return new Enumerator(); }
 
-        public JSONLazyCreator(JSONNode aNode)
+        internal JSONLazyCreator(JSONNode aNode)
         {
             m_Node = aNode;
             m_Key = null;
         }
 
-        public JSONLazyCreator(JSONNode aNode, string aKey)
+        internal JSONLazyCreator(JSONNode aNode, string aKey)
         {
             m_Node = aNode;
             m_Key = aKey;
@@ -1287,24 +1287,24 @@ namespace bHapticsLib.SimpleJSON
             return aVal;
         }
 
-        public override JSONNode this[int aIndex]
+        internal override JSONNode this[int aIndex]
         {
             get { return new JSONLazyCreator(this); }
             set { Set(new JSONArray()).Add(value); }
         }
 
-        public override JSONNode this[string aKey]
+        internal override JSONNode this[string aKey]
         {
             get { return new JSONLazyCreator(this, aKey); }
             set { Set(new JSONObject()).Add(aKey, value); }
         }
 
-        public override void Add(JSONNode aItem)
+        internal override void Add(JSONNode aItem)
         {
             Set(new JSONArray()).Add(aItem);
         }
 
-        public override void Add(string aKey, JSONNode aItem)
+        internal override void Add(string aKey, JSONNode aItem)
         {
             Set(new JSONObject()).Add(aKey, aItem);
         }
@@ -1333,25 +1333,25 @@ namespace bHapticsLib.SimpleJSON
             return 0;
         }
 
-        public override int AsInt
+        internal override int AsInt
         {
             get { Set(new JSONNumber(0)); return 0; }
             set { Set(new JSONNumber(value)); }
         }
 
-        public override float AsFloat
+        internal override float AsFloat
         {
             get { Set(new JSONNumber(0.0f)); return 0.0f; }
             set { Set(new JSONNumber(value)); }
         }
 
-        public override double AsDouble
+        internal override double AsDouble
         {
             get { Set(new JSONNumber(0.0)); return 0.0; }
             set { Set(new JSONNumber(value)); }
         }
 
-        public override long AsLong
+        internal override long AsLong
         {
             get
             {
@@ -1370,18 +1370,18 @@ namespace bHapticsLib.SimpleJSON
             }
         }
 
-        public override bool AsBool
+        internal override bool AsBool
         {
             get { Set(new JSONBool(false)); return false; }
             set { Set(new JSONBool(value)); }
         }
 
-        public override JSONArray AsArray
+        internal override JSONArray AsArray
         {
             get { return Set(new JSONArray()); }
         }
 
-        public override JSONObject AsObject
+        internal override JSONObject AsObject
         {
             get { return Set(new JSONObject()); }
         }
@@ -1392,9 +1392,9 @@ namespace bHapticsLib.SimpleJSON
     }
     // End of JSONLazyCreator
 
-    public static class JSON
+    internal static class JSON
     {
-        public static JSONNode Parse(string aJSON)
+        internal static JSONNode Parse(string aJSON)
         {
             return JSONNode.Parse(aJSON);
         }

@@ -1,4 +1,4 @@
-﻿using bHapticsLib.SimpleJSON;
+﻿using bHapticsLib.Internal.SimpleJSON;
 
 namespace bHapticsLib
 {
@@ -22,6 +22,12 @@ namespace bHapticsLib
         {
             get => node["duration"].AsFloat;
             set => node["duration"] = value;
+        }
+
+        public override string ToString()
+        {
+            return "ScaleOption { Intensity: " + Intensity +
+                   ", Duration: " + Duration + " }";
         }
     }
 }
