@@ -25,9 +25,6 @@ namespace bHapticsLib
         }
 
         public override string ToString()
-        {
-            return "ScaleOption { Intensity: " + Intensity +
-                   ", Duration: " + Duration + " }";
-        }
+            => $"{nameof(ScaleOption)} ( {nameof(Intensity)}: {Intensity}, {nameof(Duration)}: {Duration} )";
     }
 }

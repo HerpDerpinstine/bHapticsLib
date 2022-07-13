@@ -7,7 +7,7 @@ namespace bHapticsLib.Internal
         private Thread thread;
 
         internal bool IsAlive()
-            => (thread == null) ? false : thread.IsAlive;
+            => thread?.IsAlive ?? false;
 
         internal abstract bool BeginInitInternal();
         internal bool BeginInit()

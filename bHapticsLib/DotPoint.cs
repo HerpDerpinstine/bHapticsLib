@@ -25,9 +25,6 @@ namespace bHapticsLib
         }
 
         public override string ToString()
-        {
-            return "DotPoint { Index: " + Index +
-                   ", Intensity: " + Intensity + " }";
-        }
+            => $"{nameof(DotPoint)} ( {nameof(Index)}: {Index}, {nameof(Intensity)}: {Intensity} )";
     }
 }

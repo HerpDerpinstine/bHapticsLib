@@ -25,9 +25,6 @@ namespace bHapticsLib
         }
 
         public override string ToString()
-        {
-            return "RotationOption { OffsetAngleX: " + OffsetAngleX +
-                   ", OffsetY: " + OffsetY + " }";
-        }
+            => $"{nameof(RotationOption)} ( {nameof(OffsetAngleX)}: {OffsetAngleX}, {nameof(OffsetY)}: {OffsetY} )";
     }
 }

@@ -39,11 +39,6 @@ namespace bHapticsLib
         }
 
         public override string ToString()
-        {
-            return "PathPoint { X: " + X +
-                   ", Y: " + Y +
-                   ", MotorCount: " + MotorCount +
-                   ", Intensity: " + Intensity + " }";
-        }
+            => $"{nameof(PathPoint)} ( {nameof(X)}: {X}, {nameof(Y)}: {Y}, {nameof(MotorCount)}: {MotorCount}, {nameof(Intensity)}: {Intensity} )";
     }
 }
