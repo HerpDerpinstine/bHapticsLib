@@ -16,7 +16,7 @@ Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics G
 
 ### LICENSING & CREDITS:
 
-bHapticsLib is licensed under the LGPL-3.0 License. See [LICENSE](https://github.com/HerpDerpinstine/bHapticsLib/blob/master/LICENSE.md) for the full License.
+bHapticsLib is licensed under the MIT License. See [LICENSE](https://github.com/HerpDerpinstine/bHapticsLib/blob/master/LICENSE.md) for the full License.
 
 Third-party Libraries used as Source Code and/or bundled in Binary Form:
 - [SimpleJSON](https://github.com/Bunny83/SimpleJSON) is licensed under the MIT License. See [LICENSE](https://github.com/Bunny83/SimpleJSON/blob/master/LICENSE) for the full License.
