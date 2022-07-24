@@ -36,4 +36,5 @@ Third-party Libraries used as Source Code and/or bundled in Binary Form:
 - [SimpleJSON](https://github.com/Bunny83/SimpleJSON) is licensed under the MIT License. See [LICENSE](https://github.com/Bunny83/SimpleJSON/blob/master/LICENSE) for the full License.
 - [websocket-sharp](https://github.com/sta/websocket-sharp) is licensed under the MIT License. See [LICENSE](https://github.com/sta/websocket-sharp/blob/master/LICENSE.txt) for the full License.
 - [bHaptics Haptic Library](https://github.com/bhaptics/haptic-library) is licensed under All rights reserved Copyright (c) 2016-2022 bHaptics Inc.  
-See [Terms and Conditions](https://www.bhaptics.com/legals/terms-and-conditions) and [SDK License Agreement](https://bhaptics.gitbook.io/license-sdk/) for the full License. We have Express Permission from bHaptics.
+See [Terms and Conditions](https://www.bhaptics.com/legals/terms-and-conditions) and [SDK License Agreement](https://bhaptics.gitbook.io/license-sdk/) for the full License.  
+**We have Express Permission from bHaptics.**
