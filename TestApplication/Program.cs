@@ -6,12 +6,14 @@ using bHapticsLib;
 
 namespace TestApplication
 {
-    class Program
+    public class Program
     {
-        static void Main()
+        private static HapticPattern testFeedback;
+
+        private static void Main()
         {
             string testFeedbackPath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "testfeedback.tact");
-            bHapticsManager.RegisterFeedbackFromFile("testfeedback", testFeedbackPath);
+            testFeedback = HapticPattern.LoadFromFile("testfeedback", testFeedbackPath);
 
             Console.WriteLine("Initializing...");
             bHapticsManager.Initialize("bHapticsLib", "TestApplication");
@@ -39,17 +41,16 @@ namespace TestApplication
             Console.WriteLine($"Press NUMPAD-1 for {nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-2 for {nameof(bHapticsManager.SubmitRegistered)}(\"testfeedback\")");
+            Console.WriteLine($"Press NUMPAD-2 for {nameof(testFeedback)}.{nameof(testFeedback.Play)}");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-4 for {nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback\")");
+
+            Console.WriteLine($"Press NUMPAD-4 for {nameof(testFeedback)}.{nameof(testFeedback.IsRegistered)}");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-5 for {nameof(bHapticsManager.IsPlaying)}(\"testSubmitFront\")");
-            Console.WriteLine($"Press NUMPAD-6 for {nameof(bHapticsManager.IsPlaying)}(\"testSubmitBack\")");
+            Console.WriteLine($"Press NUMPAD-7 for {nameof(testFeedback)}.{nameof(testFeedback.IsPlaying)}");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-7 for {nameof(bHapticsManager.Submit)}(\"testSubmit\", 1000, {nameof(PositionType)}.{nameof(PositionType.Vest)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
             Console.WriteLine($"Press NUMPAD-8 for {nameof(bHapticsManager.Submit)}(\"testSubmitFront\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestFront)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
             Console.WriteLine($"Press NUMPAD-9 for {nameof(bHapticsManager.Submit)}(\"testSubmitBack\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestBack)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
             Console.WriteLine();
@@ -128,25 +129,21 @@ namespace TestApplication
 
 
                 case ConsoleKey.NumPad2:
-                    bHapticsManager.SubmitRegistered("testfeedback");
+                    testFeedback.Play();
                     goto default;
 
 
                 case ConsoleKey.NumPad4:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsFeedbackRegistered)}(\"testfeedback\"): {bHapticsManager.IsFeedbackRegistered("testfeedback")}");
-                    goto default;
-                case ConsoleKey.NumPad5:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsPlaying)}(\"testSubmitFront\"): {bHapticsManager.IsPlaying("testSubmitFront")}");
-                    goto default;
-                case ConsoleKey.NumPad6:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsPlaying)}(\"testSubmitBack\"): {bHapticsManager.IsPlaying("testSubmitBack")}");
+                    Console.WriteLine($"{nameof(testFeedback)}.{nameof(testFeedback.IsRegistered)}(): {testFeedback.IsRegistered()}");
                     goto default;
 
 
                 case ConsoleKey.NumPad7:
-                    bHapticsManager.Submit("testSubmit", 1000, PositionType.Vest, new List<DotPoint> { new DotPoint { Index = 0, Intensity = 100 } });
+                    Console.WriteLine($"{nameof(testFeedback)}.{nameof(testFeedback.IsPlaying)}(): {testFeedback.IsPlaying()}");
                     goto default;
-                case ConsoleKey.NumPad8:
+
+
+                case ConsoleKey.NumPad6:
                     bHapticsManager.Submit("testSubmitFront", 1000, PositionType.VestFront, new List<DotPoint> { new DotPoint { Index = 0, Intensity = 100 } });
                     goto default;
                 case ConsoleKey.NumPad9:
