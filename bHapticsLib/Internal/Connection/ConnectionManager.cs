@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using bHapticsLib.Internal.Connection.Models;
@@ -206,15 +205,15 @@ namespace bHapticsLib.Internal.Connection
             SubmitQueue.Enqueue(request);
         }
 
-        internal void SubmitValue(string key, int durationMillis, PositionType position, int[] dotPoints, PathPoint[] pathPoints) 
+        internal void Submit(string key, int durationMillis, PositionType position, int[] dotPoints, PathPoint[] pathPoints) 
         {
             if (!IsAlive())
                 return;
 
             if (position == PositionType.Vest)
             {
-                SubmitValue($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);
-                SubmitValue($"{key}Back", durationMillis, PositionType.VestBack, dotPoints, pathPoints);
+                Submit($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);
+                Submit($"{key}Back", durationMillis, PositionType.VestBack, dotPoints, pathPoints);
                 return;
             }
 
@@ -247,15 +246,15 @@ namespace bHapticsLib.Internal.Connection
             }
         }
 
-        internal void SubmitValue(string key, int durationMillis, PositionType position, byte[] dotPoints, PathPoint[] pathPoints)
+        internal void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints, PathPoint[] pathPoints)
         {
             if (!IsAlive())
                 return;
 
             if (position == PositionType.Vest)
             {
-                SubmitValue($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);
-                SubmitValue($"{key}Back", durationMillis, PositionType.VestBack, dotPoints, pathPoints);
+                Submit($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);
+                Submit($"{key}Back", durationMillis, PositionType.VestBack, dotPoints, pathPoints);
                 return;
             }
 

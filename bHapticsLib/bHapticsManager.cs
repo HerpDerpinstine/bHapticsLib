@@ -76,14 +76,14 @@ namespace bHapticsLib
         public static void RegisterFeedbackFromFile(string key, string tactFilePath) => Connection.RegisterFeedbackFromFile(key, tactFilePath);
         //public static void RegisterFeedbackFromFileMirrored(string key, string tactFilePath) => Connection.RegisterFeedbackFromFileMirrored(key, tactFilePath);
 
-        public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints) => Connection.SubmitValue(key, durationMillis, position, dotPoints, null);
-        public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints, PathPoint[] pathPoints) => Connection.SubmitValue(key, durationMillis, position, dotPoints, pathPoints);
+        public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
+        public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
 
-        public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints) => Connection.SubmitValue(key, durationMillis, position, dotPoints, null);
-        public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints, PathPoint[] pathPoints) => Connection.SubmitValue(key, durationMillis, position, dotPoints, pathPoints);
+        public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
+        public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
 
         public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
-        public static void Submit(string key, int durationMillis, PositionType position, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, null, pathPoints);
+        public static void Submit(string key, int durationMillis, PositionType position, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, (DotPoint[])null, pathPoints);
         public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
 
         public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);

@@ -16,11 +16,10 @@ namespace TestApplication
             testFeedback = HapticPattern.LoadFromFile("testfeedback", testFeedbackPath);
 
             Console.WriteLine("Initializing...");
-            bHapticsManager.Initialize("bHapticsLib", "TestApplication");
+            bHapticsManager.Connect("bHapticsLib", "TestApplication");
             Console.WriteLine();
 
-            Console.WriteLine($"Press 0 for {nameof(bHapticsManager.IsInitialized)}()");
-            Console.WriteLine($"Press 1 for {nameof(bHapticsManager.IsPlayerConnected)}()");
+            Console.WriteLine($"Press 0 for {nameof(bHapticsManager.ConnectionStatus)}()");
             Console.WriteLine();
 
             Console.WriteLine($"Press 2 for {nameof(bHapticsManager.GetConnectedDeviceCount)}()");
@@ -66,7 +65,7 @@ namespace TestApplication
                     Thread.Sleep(1);
             }
 
-            if (!bHapticsManager.Quit())
+            if (!bHapticsManager.Disconnect())
                 Console.WriteLine("Failed to Disconnect!");
         }
 
@@ -83,10 +82,7 @@ namespace TestApplication
 
 
                 case ConsoleKey.D0:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsInitialized)}(): {bHapticsManager.IsInitialized()}");
-                    goto default;
-                case ConsoleKey.D1:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsPlayerConnected)}(): {bHapticsManager.IsPlayerConnected()}");
+                    Console.WriteLine($"{nameof(bHapticsManager)}.{nameof(bHapticsManager.ConnectionStatus)}: {bHapticsManager.ConnectionStatus}");
                     goto default;
 
 
