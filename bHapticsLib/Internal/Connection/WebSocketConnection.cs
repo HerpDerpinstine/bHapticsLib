@@ -15,7 +15,8 @@ namespace bHapticsLib.Internal.Connection
         private int MaxRetries;
 
         private int RetryCount;
-        private Timer UpTime;
+        private int RetryDelay = 3; // In Seconds
+        private Timer RetryTimer;
         internal WebSocket Socket;
 
         internal bool IsSocketConnected;
@@ -38,9 +39,9 @@ namespace bHapticsLib.Internal.Connection
 
             if (TryToReconnect)
             {
-                UpTime = new Timer(3 * 1000); // 3 sec
-                UpTime.Elapsed += (sender, args) => Connect();
-                UpTime.Start();
+                RetryTimer = new Timer(RetryDelay * 1000); // S -> MS
+                RetryTimer.Elapsed += (sender, args) => RetryCheck();
+                RetryTimer.Start();
             }
 
             Socket = new WebSocket(URL + "?app_id=" + ID + "&app_name=" + Name);
@@ -94,12 +95,15 @@ namespace bHapticsLib.Internal.Connection
             {
                 Socket.Close();
                 if (TryToReconnect)
-                    UpTime.Stop();
+                {
+                    RetryTimer.Stop();
+                    RetryTimer.Dispose();
+                }
             }
             catch (Exception e) { Console.WriteLine(e); }
         }
 
-        private void Connect()
+        private void RetryCheck()
         {
             if (IsConnected())
                 return;
