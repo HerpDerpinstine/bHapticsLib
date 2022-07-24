@@ -19,6 +19,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ILRepack.targets" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\bHapticsLib\bHapticsLib.csproj" />
   </ItemGroup>
 
