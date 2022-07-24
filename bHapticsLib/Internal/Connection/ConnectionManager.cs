@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using bHapticsLib.Internal.Connection.Models;
@@ -203,6 +204,88 @@ namespace bHapticsLib.Internal.Connection
             }
 
             SubmitQueue.Enqueue(request);
+        }
+
+        internal void SubmitValue(string key, int durationMillis, PositionType position, int[] dotPoints, PathPoint[] pathPoints) 
+        {
+            if (!IsAlive())
+                return;
+
+            if (position == PositionType.Vest)
+            {
+                SubmitValue($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);
+                SubmitValue($"{key}Back", durationMillis, PositionType.VestBack, dotPoints, pathPoints);
+                return;
+            }
+
+            SubmitRequest request = new SubmitRequest { key = key, type = "frame" };
+            request.Frame.durationMillis = durationMillis;
+            request.Frame.position = position;
+
+            if ((dotPoints != null) && (dotPoints.Length > 0))
+            {
+                for (int i = 0; (i < dotPoints.Length) && (i < bHapticsManager.MaxMotorsPerDotPoint); i++)
+                {
+                    int point = dotPoints[i];
+
+                    JSONObject node = new JSONObject();
+                    node["index"] = i.Clamp(0, bHapticsManager.MaxMotorsPerDotPoint);
+                    node["intensity"] = point.Clamp(0, bHapticsManager.MaxIntensity);
+                    request.Frame.dotPoints.Add(node);
+                }
+            }
+
+            if ((pathPoints != null) && (pathPoints.Length > 0))
+            {
+                for (int i = 0; i < pathPoints.Length; i++)
+                {
+                    PathPoint point = pathPoints[i];
+                    if (point == null)
+                        continue;
+                    request.Frame.pathPoints.Add(point.node);
+                }
+            }
+        }
+
+        internal void SubmitValue(string key, int durationMillis, PositionType position, byte[] dotPoints, PathPoint[] pathPoints)
+        {
+            if (!IsAlive())
+                return;
+
+            if (position == PositionType.Vest)
+            {
+                SubmitValue($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints);
+                SubmitValue($"{key}Back", durationMillis, PositionType.VestBack, dotPoints, pathPoints);
+                return;
+            }
+
+            SubmitRequest request = new SubmitRequest { key = key, type = "frame" };
+            request.Frame.durationMillis = durationMillis;
+            request.Frame.position = position;
+
+            if ((dotPoints != null) && (dotPoints.Length > 0))
+            {
+                for (int i = 0; (i < dotPoints.Length) && (i < bHapticsManager.MaxMotorsPerDotPoint); i++)
+                {
+                    int point = dotPoints[i];
+
+                    JSONObject node = new JSONObject();
+                    node["index"] = i.Clamp(0, bHapticsManager.MaxMotorsPerDotPoint);
+                    node["intensity"] = point.Clamp(0, bHapticsManager.MaxIntensity);
+                    request.Frame.dotPoints.Add(node);
+                }
+            }
+
+            if ((pathPoints != null) && (pathPoints.Length > 0))
+            {
+                for (int i = 0; i < pathPoints.Length; i++)
+                {
+                    PathPoint point = pathPoints[i];
+                    if (point == null)
+                        continue;
+                    request.Frame.pathPoints.Add(point.node);
+                }
+            }
         }
 
         internal void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints)

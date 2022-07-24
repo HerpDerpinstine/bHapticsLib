@@ -54,13 +54,16 @@ namespace bHapticsLib
         public static bool IsFeedbackRegistered(string key) => Connection.IsFeedbackRegistered(key);
 
         public static void RegisterFeedbackFromJson(string key, string tactFileStr) => Connection.RegisterFeedbackFromJson(key, tactFileStr);
-        //public static void RegisterFeedbackFromJsonReflected(string key, string tactFileStr) => Connection.RegisterFeedbackFromJsonReflected(key, tactFileStr);
+        //public static void RegisterFeedbackFromJsonMirrored(string key, string tactFileStr) => Connection.RegisterFeedbackFromJsonReflected(key, tactFileStr);
 
         public static void RegisterFeedbackFromFile(string key, string tactFilePath) => Connection.RegisterFeedbackFromFile(key, tactFilePath);
-        //public static void RegisterFeedbackFromFileReflected(string key, string tactFilePath) => Connection.RegisterFeedbackFromFileReflected(key, tactFilePath);
+        //public static void RegisterFeedbackFromFileMirrored(string key, string tactFilePath) => Connection.RegisterFeedbackFromFileMirrored(key, tactFilePath);
 
-        //public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints)
-        //public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints)
+        public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints) => Connection.SubmitValue(key, durationMillis, position, dotPoints, null);
+        public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints, PathPoint[] pathPoints) => Connection.SubmitValue(key, durationMillis, position, dotPoints, pathPoints);
+
+        public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints) => Connection.SubmitValue(key, durationMillis, position, dotPoints, null);
+        public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints, PathPoint[] pathPoints) => Connection.SubmitValue(key, durationMillis, position, dotPoints, pathPoints);
 
         public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
         public static void Submit(string key, int durationMillis, PositionType position, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, null, pathPoints);
