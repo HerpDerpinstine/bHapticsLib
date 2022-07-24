@@ -6,11 +6,12 @@ Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics G
 
 ---
 
-### DISCLAIMER
+### DISCLAIMER:
 
-**- [bHaptics](https://www.bhaptics.com) is not liable for any issues or problems that may arise from using this library.**
-**- This is a community-driven project created and improved by passionate users and content creators of [bHaptics](https://www.bhaptics.com) Devices.**
-**- If you have questions or issues you would like to report please feel free to do so by making a [GitHub Issues](https://github.com/HerpDerpinstine/bHapticsLib/issues) post or by leaving a message on our [Discord Server](https://discord.gg/JDw423Wskf).**
+**- [bHaptics](https://www.bhaptics.com) is not liable for any issues or problems that may arise from using this library.**  
+**- This is a community-driven project created and improved by passionate users and content creators of [bHaptics](https://www.bhaptics.com) Devices.**  
+  
+**- If you have questions or issues you would like to report make a [GitHub Issues](https://github.com/HerpDerpinstine/bHapticsLib/issues) post or leave a message on our [Discord Server](https://discord.gg/JDw423Wskf).**  
 
 ---
   
