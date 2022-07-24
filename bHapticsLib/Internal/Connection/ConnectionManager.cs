@@ -147,6 +147,9 @@ namespace bHapticsLib.Internal.Connection
             if (string.IsNullOrEmpty(key))
                 return; // To-Do: Exception Here
 
+            if (string.IsNullOrEmpty(tactFileStr))
+                return; // To-Do: Exception Here
+
             RegisterRequest request = new RegisterRequest();
             request.key = key;
             request.project = JSON.Parse(tactFileStr)["project"].AsObject;
@@ -155,17 +158,10 @@ namespace bHapticsLib.Internal.Connection
 
         internal void RegisterFeedbackFromFile(string key, string tactFilePath)
         {
-            if (string.IsNullOrEmpty(key))
-                return; // To-Do: Exception Here
-
             if (!File.Exists(tactFilePath))
                 return; // To-Do: Exception Here
 
-            string json = File.ReadAllText(tactFilePath);
-            if (string.IsNullOrEmpty(json))
-                return; // To-Do: Exception Here
-
-            RegisterFeedbackFromJson(key, json);
+            RegisterFeedbackFromJson(key, File.ReadAllText(tactFilePath));
         }
 
         internal void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints)

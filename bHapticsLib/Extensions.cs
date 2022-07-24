@@ -1,6 +1,7 @@
 ﻿using bHapticsLib.Internal.SimpleJSON;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace bHapticsLib
 {
@@ -177,5 +178,19 @@ namespace bHapticsLib
                     return true;
             return false;
         }
+
+        private static readonly Random RandomNumGen = new Random();
+        internal static double RandomDouble()
+        {
+            lock (RandomNumGen)
+                return RandomNumGen.NextDouble();
+        }
+
+        internal static string RandomString(int length)
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < length; i++)
+                builder.Append(Convert.ToChar(Convert.ToInt32(Math.Floor(25 * RandomDouble())) + 65));
+            return builder.ToString();
+        }
     }
-}
