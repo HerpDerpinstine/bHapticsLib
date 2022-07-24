@@ -73,9 +73,9 @@ namespace bHapticsLib
             => Connection.IsPlaying(key);
         public static bool IsPlayingAny()
             => Connection.IsPlayingAny();
-#endregion
+        #endregion
 
-        #region Stop
+        #region StopPlaying
         public static void StopPlaying(string key) 
             => Connection.StopPlaying(key);
         public static void StopPlayingAll() 
