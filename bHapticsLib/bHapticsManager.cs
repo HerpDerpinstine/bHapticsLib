@@ -16,8 +16,23 @@ namespace bHapticsLib
 
         private static ConnectionManager Connection = new ConnectionManager();
 
-        public static bool Initialize(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
+        public static bHapticsStatus ConnectionStatus
         {
+            get
+            {
+                if (!Connection.IsAlive())
+                    return bHapticsStatus.Disconnected;
+                if (!Connection.IsPlayerConnected())
+                    return bHapticsStatus.Connecting;
+                return bHapticsStatus.Connected;
+            }
+        }
+
+        public static bool Connect(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
+        {
+            if (ConnectionStatus != bHapticsStatus.Disconnected)
+                return false; // To-Do: Throw Exception
+
             if (string.IsNullOrEmpty(id))
                 return false; // To-Do: Throw Exception
 
@@ -32,11 +47,13 @@ namespace bHapticsLib
             return Connection.BeginInit();
         }
 
-        public static bool Quit() => Connection.EndInit();
+        public static bool Disconnect()
+        {
+            if (ConnectionStatus == bHapticsStatus.Disconnected)
+                return false; // To-Do: Throw Exception
 
-        public static bool IsInitialized() => Connection.IsAlive();
-
-        public static bool IsPlayerConnected() => Connection.IsPlayerConnected();
+            return Connection.EndInit();
+        }
 
         public static int GetConnectedDeviceCount() => Connection.GetConnectedDeviceCount();
         public static bool IsAnyDevicesConnected() => GetConnectedDeviceCount() > 0;

@@ -22,9 +22,9 @@ namespace bHapticsLib.Internal.Connection
 
         internal PlayerResponse LastResponse;
 
-        internal event Action ConnectionChanged;
-        internal event Action ResponseReceived;
-        internal event Action<object, ErrorEventArgs> OnError;
+        //internal event Action ConnectionChanged;
+        //internal event Action ResponseReceived;
+        //internal event Action<object, ErrorEventArgs> OnError;
 
         private ConnectionManager Parent;
 
@@ -47,7 +47,7 @@ namespace bHapticsLib.Internal.Connection
             Socket.Log.Output = (LogData data, string msg) => { };
             Socket.EmitOnPing = true;
 
-            Socket.OnError += (sender, args) => OnError?.Invoke(sender, args);
+            //Socket.OnError += (sender, args) => OnError?.Invoke(sender, args);
 
             Socket.OnMessage += (sender, args) =>
             {
@@ -64,7 +64,7 @@ namespace bHapticsLib.Internal.Connection
                 }
                 catch (Exception e) { Console.WriteLine(e); }
 
-                ResponseReceived?.Invoke();
+                //ResponseReceived?.Invoke();
             };
 
             Socket.OnOpen += (sender, args) =>
@@ -74,7 +74,7 @@ namespace bHapticsLib.Internal.Connection
 
                 Parent.QueueRegisterCache();
 
-                ConnectionChanged?.Invoke();
+                //ConnectionChanged?.Invoke();
             };
 
             Socket.OnClose += (sender, args) =>
@@ -82,7 +82,7 @@ namespace bHapticsLib.Internal.Connection
                 IsSocketConnected = false;
                 LastResponse = null;
 
-                ConnectionChanged?.Invoke();
+                //ConnectionChanged?.Invoke();
             };
 
             Socket.Connect();
