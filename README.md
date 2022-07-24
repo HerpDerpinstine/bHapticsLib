@@ -1,6 +1,6 @@
 # bHapticsLib
 An Open-Source C# Implementation of [bHaptics](https://www.bhaptics.com) Support.  
-Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics Gear as well as supporting me wherever needed! :D  
+Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics Gear as well as supporting the community wherever needed! :D  
 
 - Discord: https://discord.gg/JDw423Wskf
 
