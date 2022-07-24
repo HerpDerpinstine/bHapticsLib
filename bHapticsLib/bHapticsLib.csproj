@@ -15,12 +15,12 @@
 	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugType>full</DebugType>
-		<DefineConstants>TRACE;NET48;DEBUG</DefineConstants>
+		<DefineConstants>TRACE;NET35;DEBUG</DefineConstants>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 		<DebugType>None</DebugType>
-		<DefineConstants>NET48</DefineConstants>
+		<DefineConstants>NET35</DefineConstants>
 		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
 	</PropertyGroup>
 	
