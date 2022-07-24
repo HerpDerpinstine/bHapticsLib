@@ -8,32 +8,32 @@
 
         public static HapticPattern LoadFromFile(string key, string filepath)
         {
-            bHapticsManager.RegisterFeedbackFromFile(key, filepath);
+            bHapticsManager.RegisterPatternFromFile(key, filepath);
             return new HapticPattern { Key = key, };
         }
 
         public static HapticPattern LoadFromJson(string key, string filestr)
         {
-            bHapticsManager.RegisterFeedbackFromJson(key, filestr);
+            bHapticsManager.RegisterPatternFromJson(key, filestr);
             return new HapticPattern { Key = key, };
         }
 
         /*
         public static HapticPattern LoadMirroredFromFile(string key, string filepath)
         {
-            bHapticsManager.RegisterFeedbackMirroredFromFile(key, filepath);
+            bHapticsManager.RegisterPatternMirroredFromFile(key, filepath);
             return new HapticPattern { Key = key, };
         }
 
         public static HapticPattern LoadMirroredFromJson(string key, string filestr)
         {
-            bHapticsManager.RegisterFeedbackMirroredFromJson(key, filestr);
+            bHapticsManager.RegisterPatternMirroredFromJson(key, filestr);
             return new HapticPattern { Key = key, };
         }
         */
 
         public bool IsRegistered()
-            => bHapticsManager.IsFeedbackRegistered(Key);
+            => bHapticsManager.IsPatternRegistered(Key);
         public bool IsPlaying()
             => bHapticsManager.IsPlaying(Key);
         public void Stop()

@@ -140,9 +140,9 @@ namespace bHapticsLib.Internal.Connection
         internal void StopPlaying(string key) => SubmitQueue.Enqueue(new SubmitRequest { key = key, type = "turnOff" });
         internal void StopPlayingAll() => SubmitQueue.Enqueue(new SubmitRequest { type = "turnOffAll" });
 
-        internal bool IsFeedbackRegistered(string key) => Socket?.LastResponse?.RegisteredKeys?.ContainsValue(key) ?? false;
+        internal bool IsPatternRegistered(string key) => Socket?.LastResponse?.RegisteredKeys?.ContainsValue(key) ?? false;
 
-        internal void RegisterFeedbackFromJson(string key, string tactFileStr)
+        internal void RegisterPatternFromJson(string key, string tactFileStr)
         {
             if (string.IsNullOrEmpty(key))
                 return; // To-Do: Exception Here
@@ -156,12 +156,12 @@ namespace bHapticsLib.Internal.Connection
             RequestRegister(request);
         }
 
-        internal void RegisterFeedbackFromFile(string key, string tactFilePath)
+        internal void RegisterPatternFromFile(string key, string tactFilePath)
         {
             if (!File.Exists(tactFilePath))
                 return; // To-Do: Exception Here
 
-            RegisterFeedbackFromJson(key, File.ReadAllText(tactFilePath));
+            RegisterPatternFromJson(key, File.ReadAllText(tactFilePath));
         }
 
         internal void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints)
