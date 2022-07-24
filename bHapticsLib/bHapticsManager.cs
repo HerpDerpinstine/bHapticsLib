@@ -18,14 +18,9 @@ namespace bHapticsLib
 
         public static bHapticsStatus ConnectionStatus
         {
-            get
-            {
-                if (!Connection.IsAlive())
-                    return bHapticsStatus.Disconnected;
-                if (!Connection.IsPlayerConnected())
-                    return bHapticsStatus.Connecting;
-                return bHapticsStatus.Connected;
-            }
+            get => !Connection.IsAlive() ? bHapticsStatus.Disconnected 
+                : !Connection.IsConnected() ? bHapticsStatus.Connecting
+                : bHapticsStatus.Connected;
         }
 
         public static bool Connect(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
@@ -55,49 +50,81 @@ namespace bHapticsLib
             return Connection.EndInit();
         }
 
-        public static int GetConnectedDeviceCount() => Connection.GetConnectedDeviceCount();
-        public static bool IsAnyDevicesConnected() => GetConnectedDeviceCount() > 0;
-        public static bool IsDeviceConnected(PositionType type) => Connection.IsDeviceConnected(type);
+        public static int GetConnectedDeviceCount() 
+            => Connection.GetConnectedDeviceCount();
+        public static bool IsAnyDevicesConnected() 
+            => GetConnectedDeviceCount() > 0;
+        public static bool IsDeviceConnected(PositionType type) 
+            => Connection.IsDeviceConnected(type);
 
-        public static int[] GetDeviceStatus(PositionType type) => Connection.GetDeviceStatus(type);
-        public static bool IsAnyMotorActive(PositionType type) => GetDeviceStatus(type)?.ContainsValueMoreThan(0) ?? false;
+        public static int[] GetDeviceStatus(PositionType type)
+            => Connection.GetDeviceStatus(type);
+        public static bool IsAnyMotorActive(PositionType type)
+            => GetDeviceStatus(type)?.ContainsValueMoreThan(0) ?? false;
 
-        public static bool IsPlaying(string key) => Connection.IsPlaying(key);
-        public static bool IsPlayingAny() => Connection.IsPlayingAny();
+        public static bool IsPlaying(string key) 
+            => Connection.IsPlaying(key);
+        public static bool IsPlayingAny()
+            => Connection.IsPlayingAny();
 
-        public static void StopPlaying(string key) => Connection.StopPlaying(key);
-        public static void StopPlayingAll() => Connection.StopPlayingAll();
+        public static void StopPlaying(string key) 
+            => Connection.StopPlaying(key);
+        public static void StopPlayingAll() 
+            => Connection.StopPlayingAll();
 
-        public static bool IsFeedbackRegistered(string key) => Connection.IsFeedbackRegistered(key);
+        public static bool IsFeedbackRegistered(string key) 
+            => Connection.IsFeedbackRegistered(key);
 
-        public static void RegisterFeedbackFromJson(string key, string tactFileStr) => Connection.RegisterFeedbackFromJson(key, tactFileStr);
-        //public static void RegisterFeedbackFromJsonMirrored(string key, string tactFileStr) => Connection.RegisterFeedbackFromJsonReflected(key, tactFileStr);
+        public static void RegisterFeedbackFromJson(string key, string tactFileStr)
+            => Connection.RegisterFeedbackFromJson(key, tactFileStr);
+        //public static void RegisterFeedbackMirroredFromJson(string key, string tactFileStr)
+        //  => Connection.RegisterFeedbackMirroredFromJson(key, tactFileStr);
 
-        public static void RegisterFeedbackFromFile(string key, string tactFilePath) => Connection.RegisterFeedbackFromFile(key, tactFilePath);
-        //public static void RegisterFeedbackFromFileMirrored(string key, string tactFilePath) => Connection.RegisterFeedbackFromFileMirrored(key, tactFilePath);
+        public static void RegisterFeedbackFromFile(string key, string tactFilePath)
+            => Connection.RegisterFeedbackFromFile(key, tactFilePath);
+        //public static void RegisterFeedbackMirroredFromFile(string key, string tactFilePath)
+        //  => Connection.RegisterFeedbackMirroredFromFile(key, tactFilePath);
 
-        public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
-        public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+        public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints) 
+            => Connection.Submit(key, durationMillis, position, dotPoints, null);
+        public static void Submit(string key, int durationMillis, PositionType position, int[] dotPoints, PathPoint[] pathPoints) 
+            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
 
-        public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
-        public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+        public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints) 
+            => Connection.Submit(key, durationMillis, position, dotPoints, null);
+        public static void Submit(string key, int durationMillis, PositionType position, byte[] dotPoints, PathPoint[] pathPoints)
+            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
 
-        public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
-        public static void Submit(string key, int durationMillis, PositionType position, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, (DotPoint[])null, pathPoints);
-        public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+        public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints) 
+            => Connection.Submit(key, durationMillis, position, dotPoints, null);
+        public static void Submit(string key, int durationMillis, PositionType position, PathPoint[] pathPoints)
+            => Connection.Submit(key, durationMillis, position, (DotPoint[])null, pathPoints);
+        public static void Submit(string key, int durationMillis, PositionType position, DotPoint[] dotPoints, PathPoint[] pathPoints) 
+            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
 
-        public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints) => Connection.Submit(key, durationMillis, position, dotPoints, null);
-        public static void Submit(string key, int durationMillis, PositionType position, List<PathPoint> pathPoints) => Connection.Submit(key, durationMillis, position, null, pathPoints);
-        public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints) => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+        public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints) 
+            => Connection.Submit(key, durationMillis, position, dotPoints, null);
+        public static void Submit(string key, int durationMillis, PositionType position, List<PathPoint> pathPoints) 
+            => Connection.Submit(key, durationMillis, position, null, pathPoints);
+        public static void Submit(string key, int durationMillis, PositionType position, List<DotPoint> dotPoints, List<PathPoint> pathPoints) 
+            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
 
-        public static void SubmitRegistered(string key) => Connection.SubmitRegistered(key);
-        public static void SubmitRegistered(string key, ScaleOption option) => Connection.SubmitRegistered(key, scaleOption: option);
-        public static void SubmitRegistered(string key, RotationOption option) => Connection.SubmitRegistered(key, rotationOption: option);
-        public static void SubmitRegistered(string key, ScaleOption scaleOption, RotationOption rotationOption) => Connection.SubmitRegistered(key, null, scaleOption, rotationOption);
+        public static void SubmitRegistered(string key) 
+            => Connection.SubmitRegistered(key);
+        public static void SubmitRegistered(string key, ScaleOption option)
+            => Connection.SubmitRegistered(key, scaleOption: option);
+        public static void SubmitRegistered(string key, RotationOption option) 
+            => Connection.SubmitRegistered(key, rotationOption: option);
+        public static void SubmitRegistered(string key, ScaleOption scaleOption, RotationOption rotationOption) 
+            => Connection.SubmitRegistered(key, null, scaleOption, rotationOption);
 
-        public static void SubmitRegistered(string key, string altKey) => Connection.SubmitRegistered(key, altKey);
-        public static void SubmitRegistered(string key, string altKey, ScaleOption option) => Connection.SubmitRegistered(key, altKey, scaleOption: option);
-        public static void SubmitRegistered(string key, string altKey, RotationOption option) => Connection.SubmitRegistered(key, altKey, rotationOption: option);
-        public static void SubmitRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption) => Connection.SubmitRegistered(key, altKey, scaleOption, rotationOption);
+        public static void SubmitRegistered(string key, string altKey) 
+            => Connection.SubmitRegistered(key, altKey);
+        public static void SubmitRegistered(string key, string altKey, ScaleOption option) 
+            => Connection.SubmitRegistered(key, altKey, scaleOption: option);
+        public static void SubmitRegistered(string key, string altKey, RotationOption option) 
+            => Connection.SubmitRegistered(key, altKey, rotationOption: option);
+        public static void SubmitRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption) 
+            => Connection.SubmitRegistered(key, altKey, scaleOption, rotationOption);
     }
 }

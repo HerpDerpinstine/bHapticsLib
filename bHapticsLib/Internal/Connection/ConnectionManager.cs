@@ -49,7 +49,7 @@ namespace bHapticsLib.Internal.Connection
         {
             while (ShouldRun)
             {
-                if (IsPlayerConnected())
+                if (IsConnected())
                 {
                     RegisterRequest registerRequest;
                     while ((registerRequest = RegisterQueue.Dequeue()) != null)
@@ -89,7 +89,7 @@ namespace bHapticsLib.Internal.Connection
             }
         }
 
-        internal bool IsPlayerConnected() => Socket?.IsConnected() ?? false;
+        internal bool IsConnected() => Socket?.IsConnected() ?? false;
 
         internal int GetConnectedDeviceCount() => Socket?.LastResponse?.ConnectedDeviceCount ?? 0;
         internal bool IsDeviceConnected(PositionType type)

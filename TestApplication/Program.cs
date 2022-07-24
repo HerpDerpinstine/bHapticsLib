@@ -19,7 +19,7 @@ namespace TestApplication
             bHapticsManager.Connect("bHapticsLib", "TestApplication");
             Console.WriteLine();
 
-            Console.WriteLine($"Press 0 for {nameof(bHapticsManager.ConnectionStatus)}()");
+            Console.WriteLine($"Press 0 for {nameof(bHapticsManager.ConnectionStatus)}");
             Console.WriteLine();
 
             Console.WriteLine($"Press 2 for {nameof(bHapticsManager.GetConnectedDeviceCount)}()");
@@ -40,14 +40,14 @@ namespace TestApplication
             Console.WriteLine($"Press NUMPAD-1 for {nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionType)}.{nameof(PositionType.Vest)})");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-2 for {nameof(testFeedback)}.{nameof(testFeedback.Play)}");
+            Console.WriteLine($"Press NUMPAD-2 for {nameof(testFeedback)}.{nameof(testFeedback.Play)}()");
             Console.WriteLine();
 
 
-            Console.WriteLine($"Press NUMPAD-4 for {nameof(testFeedback)}.{nameof(testFeedback.IsRegistered)}");
+            Console.WriteLine($"Press NUMPAD-4 for {nameof(testFeedback)}.{nameof(testFeedback.IsRegistered)}()");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-7 for {nameof(testFeedback)}.{nameof(testFeedback.IsPlaying)}");
+            Console.WriteLine($"Press NUMPAD-7 for {nameof(testFeedback)}.{nameof(testFeedback.IsPlaying)}()");
             Console.WriteLine();
 
             Console.WriteLine($"Press NUMPAD-8 for {nameof(bHapticsManager.Submit)}(\"testSubmitFront\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestFront)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
@@ -82,7 +82,7 @@ namespace TestApplication
 
 
                 case ConsoleKey.D0:
-                    Console.WriteLine($"{nameof(bHapticsManager)}.{nameof(bHapticsManager.ConnectionStatus)}: {bHapticsManager.ConnectionStatus}");
+                    Console.WriteLine($"{nameof(bHapticsManager.ConnectionStatus)}: {bHapticsManager.ConnectionStatus}");
                     goto default;
 
 
