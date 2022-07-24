@@ -194,17 +194,14 @@ namespace bHapticsLib
 
                 if (pointType == dotPointType)
                 {
-                    DotPoint dPoint = d as DotPoint;
-                    int dIndex = dPoint.Index;
+                    if (d != null)
+                        (d as DotPoint).Index = num;
 
-                    DotPoint tPoint = t as DotPoint;
-                    int tIndex = tPoint.Index;
-
-                    dPoint.Index = tIndex;
-                    tPoint.Index = dIndex;
+                    if (t != null)
+                        (t as DotPoint).Index = i;
                 }
 
-                dotPoints[num] = dotPoints[i];
+                dotPoints[num] = d;
                 dotPoints[i] = t;
 
                 num++;

@@ -279,13 +279,8 @@ namespace bHapticsLib.Internal.Connection
             {
                 case PositionType.VestFront:
                 case PositionType.VestBack:
-                    int index = 0;
-                    while ((index + 3) < dotPoints.Count)
-                    {
-                        dotPoints.Reverse(index, 4);
-                        index += 4;
-                    }
-
+                    for (int i = 0; (i + 3) < dotPoints.Count; i += 4)
+                        dotPoints.Reverse(i, 4);
                     break;
 
                 case PositionType.ForearmL:
