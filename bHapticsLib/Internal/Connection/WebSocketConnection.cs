@@ -23,10 +23,6 @@ namespace bHapticsLib.Internal.Connection
 
         internal PlayerResponse LastResponse;
 
-        //internal event Action ConnectionChanged;
-        //internal event Action ResponseReceived;
-        //internal event Action<object, ErrorEventArgs> OnError;
-
         private ConnectionManager Parent;
 
         internal WebSocketConnection(ConnectionManager parent, string id, string name, bool tryToReconnect, int maxRetries)
@@ -48,8 +44,6 @@ namespace bHapticsLib.Internal.Connection
             Socket.Log.Output = (LogData data, string msg) => { };
             Socket.EmitOnPing = true;
 
-            //Socket.OnError += (sender, args) => OnError?.Invoke(sender, args);
-
             Socket.OnMessage += (sender, args) =>
             {
                 try
@@ -64,26 +58,19 @@ namespace bHapticsLib.Internal.Connection
                     LastResponse.m_Dict = node.AsObject.m_Dict;
                 }
                 catch (Exception e) { Console.WriteLine(e); }
-
-                //ResponseReceived?.Invoke();
             };
 
             Socket.OnOpen += (sender, args) =>
             {
                 RetryCount = 0;
                 IsSocketConnected = true;
-
                 Parent.QueueRegisterCache();
-
-                //ConnectionChanged?.Invoke();
             };
 
             Socket.OnClose += (sender, args) =>
             {
                 IsSocketConnected = false;
                 LastResponse = null;
-
-                //ConnectionChanged?.Invoke();
             };
 
             Socket.Connect();
@@ -105,9 +92,7 @@ namespace bHapticsLib.Internal.Connection
 
         private void RetryCheck()
         {
-            if (IsConnected())
-                return;
-            if (!TryToReconnect)
+            if (IsConnected() || !TryToReconnect)
                 return;
 
             if (MaxRetries > 0)
@@ -117,7 +102,6 @@ namespace bHapticsLib.Internal.Connection
                     Parent.EndInit();
                     return;
                 }
-
                 RetryCount++;
             }
 

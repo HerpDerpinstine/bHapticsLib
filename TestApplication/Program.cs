@@ -50,8 +50,8 @@ namespace TestApplication
             Console.WriteLine($"Press NUMPAD-7 for {nameof(testFeedback)}.{nameof(testFeedback.IsPlaying)}()");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-8 for {nameof(bHapticsManager.Submit)}(\"testSubmitFront\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestFront)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
-            Console.WriteLine($"Press NUMPAD-9 for {nameof(bHapticsManager.Submit)}(\"testSubmitBack\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestBack)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
+            Console.WriteLine($"Press NUMPAD-8 for {nameof(bHapticsManager.Play)}(\"testPlayFront\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestFront)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
+            Console.WriteLine($"Press NUMPAD-9 for {nameof(bHapticsManager.Play)}(\"testPlayBack\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestBack)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
             Console.WriteLine();
 
             Console.WriteLine("Press Enter to Disconnect.");
@@ -139,11 +139,11 @@ namespace TestApplication
                     goto default;
 
 
-                case ConsoleKey.NumPad6:
-                    bHapticsManager.Submit("testSubmitFront", 1000, PositionType.VestFront, new List<DotPoint> { new DotPoint { Index = 0, Intensity = 100 } });
+                case ConsoleKey.NumPad8:
+                    bHapticsManager.Play("testPlayFront", 1000, PositionType.VestFront, new List<DotPoint> { new DotPoint { Index = 0, Intensity = 100 } });
                     goto default;
                 case ConsoleKey.NumPad9:
-                    bHapticsManager.Submit("testSubmitBack", 1000, PositionType.VestBack, new List<DotPoint> { new DotPoint { Index = 0, Intensity = 100 } });
+                    bHapticsManager.Play("testPlayBack", 1000, PositionType.VestBack, new List<DotPoint> { new DotPoint { Index = 0, Intensity = 100 } });
                     goto default;
 
                 default:

@@ -2,20 +2,26 @@
 {
     public class HapticPattern
     {
-        public string Key { get; private set; }
-
         private HapticPattern() { }
+        public string Key { get; private set; }
 
         public static HapticPattern LoadFromFile(string key, string filepath)
         {
             bHapticsManager.RegisterPatternFromFile(key, filepath);
-            return new HapticPattern { Key = key, };
+            return new HapticPattern { Key = key };
         }
 
         public static HapticPattern LoadFromJson(string key, string filestr)
         {
             bHapticsManager.RegisterPatternFromJson(key, filestr);
-            return new HapticPattern { Key = key, };
+            return new HapticPattern { Key = key };
+        }
+
+        public static HapticPattern CloneFromRegisteredPattern(string key)
+        {
+            if (!bHapticsManager.IsPatternRegistered(key))
+                return null; // To-Do: Exception Here
+            return new HapticPattern { Key = key };
         }
 
         /*
@@ -30,6 +36,11 @@
             bHapticsManager.RegisterPatternMirroredFromJson(key, filestr);
             return new HapticPattern { Key = key, };
         }
+
+        public static HapticPattern CloneMirroredFromRegisteredPattern(string key)
+        {
+
+        }
         */
 
         public bool IsRegistered()
@@ -40,12 +51,12 @@
             => bHapticsManager.StopPlaying(Key);
 
         public void Play()
-            => bHapticsManager.SubmitRegistered(Key);
+            => bHapticsManager.PlayRegistered(Key);
         public void Play(ScaleOption option) 
-            => bHapticsManager.SubmitRegistered(Key, option);
+            => bHapticsManager.PlayRegistered(Key, option);
         public void Play(RotationOption option) 
-            => bHapticsManager.SubmitRegistered(Key, option);
+            => bHapticsManager.PlayRegistered(Key, option);
         public void Play(ScaleOption scaleOption, RotationOption rotationOption) 
-            => bHapticsManager.SubmitRegistered(Key, scaleOption, rotationOption);
+            => bHapticsManager.PlayRegistered(Key, scaleOption, rotationOption);
     }
 }
