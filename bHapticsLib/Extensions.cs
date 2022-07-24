@@ -1,5 +1,6 @@
 ﻿using bHapticsLib.Internal.SimpleJSON;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace bHapticsLib
@@ -176,6 +177,38 @@ namespace bHapticsLib
                 if (arr[i].CompareTo(value) > 0)
                     return true;
             return false;
+        }
+
+        private static readonly Type dotPointType = typeof(DotPoint);
+        internal static void Reverse<A>(this A dotPoints, int index, int length) where A : IList, ICollection
+        {
+            Type pointType = null;
+            int num = index;
+            for (int i = index + length - 1; num < i; i--)
+            {
+                object d = dotPoints[i];
+                object t = dotPoints[num];
+
+                if (pointType == null)
+                    pointType = d.GetType();
+
+                if (pointType == dotPointType)
+                {
+                    DotPoint dPoint = d as DotPoint;
+                    int dIndex = dPoint.Index;
+
+                    DotPoint tPoint = t as DotPoint;
+                    int tIndex = tPoint.Index;
+
+                    dPoint.Index = tIndex;
+                    tPoint.Index = dIndex;
+                }
+
+                dotPoints[num] = dotPoints[i];
+                dotPoints[i] = t;
+
+                num++;
+            }
         }
     }
 }
