@@ -2,7 +2,6 @@
 using System.Timers;
 using WebSocketDotNet;
 using WebSocketDotNet.Messages;
-using WebSocketDotNet.Protocol;
 using bHapticsLib.Internal.SimpleJSON;
 using bHapticsLib.Internal.Connection.Models;
 
@@ -121,11 +120,6 @@ namespace bHapticsLib.Internal.Connection
         {
             if (IsConnected() || !TryToReconnect)
                 return;
-
-            //if ((Socket == null) 
-            //    || (Socket.State == WebSocketState.Connecting) 
-            //    || (Socket.State == WebSocketState.Closing))
-            //    return;
 
             if (MaxRetries > 0)
             {
