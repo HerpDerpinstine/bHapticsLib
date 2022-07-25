@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Timers;
 using System.Web;
-using WebSocketSharp;
+using SocketWrenchSharp;
+using SocketWrenchSharp.Messages;
+using SocketWrenchSharp.Protocol;
 using bHapticsLib.Internal.SimpleJSON;
 using bHapticsLib.Internal.Connection.Models;
 
@@ -41,17 +43,20 @@ namespace bHapticsLib.Internal.Connection
             }
 
             Socket = new WebSocket(URL + "?app_id=" + ID + "&app_name=" + Name);
-            Socket.Log.Output = (LogData data, string msg) => { };
-            Socket.EmitOnPing = true;
 
-            Socket.OnMessage += (sender, args) =>
+            Socket.MessageReceived += (msg) =>
             {
                 try
                 {
+                    if (msg.ToFrame().Opcode != WebSocketOpcode.Text)
+                        return;
+
                     if (LastResponse == null)
                         LastResponse = new PlayerResponse();
+
+                    WebSocketTextMessage textMessage = msg as WebSocketTextMessage;
                     
-                    JSONNode node = JSON.Parse(args.Data);
+                    JSONNode node = JSON.Parse(textMessage.Text);
                     if ((node == null) || node.IsNull || !node.IsObject)
                         return;
 
@@ -60,14 +65,14 @@ namespace bHapticsLib.Internal.Connection
                 catch (Exception e) { Console.WriteLine(e); }
             };
 
-            Socket.OnOpen += (sender, args) =>
+            Socket.Opened += () =>
             {
                 RetryCount = 0;
                 IsSocketConnected = true;
                 Parent.QueueRegisterCache();
             };
 
-            Socket.OnClose += (sender, args) =>
+            Socket.Closed += (closeCode, msg) =>
             {
                 IsSocketConnected = false;
                 LastResponse = null;
@@ -80,7 +85,7 @@ namespace bHapticsLib.Internal.Connection
         {
             try
             {
-                Socket.Close();
+                Socket.SendClose();
                 if (TryToReconnect)
                 {
                     RetryTimer.Stop();
@@ -108,7 +113,7 @@ namespace bHapticsLib.Internal.Connection
             Socket.Connect();
         }
 
-        internal bool IsConnected() => IsSocketConnected && (Socket != null) && (Socket.ReadyState != WebSocketState.Closing);
+        internal bool IsConnected() => IsSocketConnected && (Socket != null) && (Socket.State != WebSocketState.Closing);
 
         internal void Send(JSONObject jsonNode)
             => Send(jsonNode.ToString());
@@ -118,7 +123,7 @@ namespace bHapticsLib.Internal.Connection
                 return;
             try
             {
-                Socket.Send(msg);
+                Socket.Send(new WebSocketTextMessage(msg));
                 //Console.WriteLine($"Sent: {msg}");
             }
             catch (Exception e) { Console.Write($"{e.Message} {e}\n"); }

@@ -34,7 +34,7 @@ Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics G
 | | |
 
 | bHaptics | Compatibility |
-| - | - |
+| - | - |	
 | | |
 
 ---
@@ -45,6 +45,8 @@ bHapticsLib is licensed under the MIT License. See [LICENSE](https://github.com/
   
 Third-party Libraries used as Source Code and/or bundled in Binary Form:  
 - [SimpleJSON](https://github.com/Bunny83/SimpleJSON) is licensed under the MIT License. See [LICENSE](https://github.com/Bunny83/SimpleJSON/blob/master/LICENSE) for the full License.  
-- [websocket-sharp](https://github.com/sta/websocket-sharp) is licensed under the MIT License. See [LICENSE](https://github.com/sta/websocket-sharp/blob/master/LICENSE.txt) for the full License.  
+- [IndexRange](https://github.com/bgrainger/IndexRange) is licensed under the MIT License. See [LICENSE](https://github.com/bgrainger/IndexRange/blob/master/LICENSE) for the full License.  
+- [ValueTupleBridge](https://github.com/OrangeCube/MinimumAsyncBridge) is licensed under the MIT License. See [LICENSE](https://github.com/OrangeCube/MinimumAsyncBridge/blob/master/LICENSE) for the full License.  
+- [WebSocketDotNet](https://github.com/SamboyCoding/WebSocketDotNet) is licensed under the MIT License. See [LICENSE](https://github.com/SamboyCoding/WebSocketDotNet/blob/master/LICENSE) for the full License.  
   
 Credit to [bHaptics](https://www.bhaptics.com) for making the Gear, bHaptics Player, and the original C# and C++ Libraries. 

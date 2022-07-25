@@ -7,7 +7,9 @@
 		</ItemGroup>
 		<ItemGroup>
 			<InputAssemblies Include="@(AssemblyFile)" />
-			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'websocket-sharp'" />
+			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'IndexRange'" />
+			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'ValueTupleBridge'" />
+			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'WebSocketDotNet'" />
 		</ItemGroup>
 		<ILRepack
 			Parallel="true"
@@ -20,7 +22,9 @@
 	
 	<Target Name="Cleanup" AfterTargets="ILRepacker">
 		<ItemGroup>
-			<FilesToDelete Include="$(OutputPath)websocket-sharp.dll" />
+			<FilesToDelete Include="$(OutputPath)IndexRange.dll" />
+			<FilesToDelete Include="$(OutputPath)ValueTupleBridge.dll" />
+			<FilesToDelete Include="$(OutputPath)WebSocketDotNet.dll" />
 		</ItemGroup>
 		<Delete Files="@(FilesToDelete)" />
 	</Target>
