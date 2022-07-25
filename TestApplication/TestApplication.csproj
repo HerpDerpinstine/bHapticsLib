@@ -1,28 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	<TargetFrameworks>netstandard20;netstandard21;net35;net45;net50</TargetFrameworks>
-	<LangVersion>8.0</LangVersion>
-	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
-	<OutputPath>$(SolutionDir)Output\$(Configuration)\</OutputPath>
-    <OutputType>Exe</OutputType>
-	<StartupObject>TestApplication.Program</StartupObject>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard20;netstandard21;net35;net45;net50</TargetFrameworks>
+		<LangVersion>8.0</LangVersion>
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+		<OutputPath>$(SolutionDir)Output\$(Configuration)\</OutputPath>
+		<OutputType>Exe</OutputType>
+		<StartupObject>TestApplication.Program</StartupObject>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugType>full</DebugType>
+		<DefineConstants>TRACE;DEBUG</DefineConstants>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="ILRepack.targets" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\bHapticsLib\bHapticsLib.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\bHapticsLib\bHapticsLib.csproj" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <Compile Include="..\Properties\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
@@ -35,7 +36,7 @@
 
 	<ItemGroup>
 	  <None Update="testfeedback.tact">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
 

@@ -7,7 +7,6 @@
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 		<OutputPath>$(SolutionDir)Output\$(Configuration)\</OutputPath>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<OutputType>Library</OutputType>
 		<RootNamespace>bHapticsLib</RootNamespace>
 	</PropertyGroup>
@@ -21,16 +20,6 @@
 		<DebugType>None</DebugType>
 		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
 	</PropertyGroup>
-	
-	<ItemGroup>
-	  <Compile Remove="..\Output\**" />
-	  <EmbeddedResource Remove="..\Output\**" />
-	  <None Remove="..\Output\**" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Remove="ILRepack.targets" />
-	</ItemGroup>
 	
 	<ItemGroup>
 	  <Compile Include="..\Properties\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
