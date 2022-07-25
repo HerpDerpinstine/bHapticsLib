@@ -41,7 +41,7 @@ namespace bHapticsLib.Internal
             if (!IsAlive())
                 return;
 
-            thread.Interrupt();
+            thread.Abort();
             thread = null;
         }
     }
