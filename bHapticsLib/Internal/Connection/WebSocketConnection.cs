@@ -145,8 +145,8 @@ namespace bHapticsLib.Internal.Connection
             {
                 Socket.Send(new WebSocketTextMessage(msg));
             }
-            catch (IOException e) { ForceClose(); }
-            catch (Exception e)
+            catch (IOException ex) { ForceClose(); }
+            catch (Exception ex)
             {
                 // To-Do
             }
