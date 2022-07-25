@@ -20,6 +20,10 @@
 		<DebugType>none</DebugType>
 		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
 	</PropertyGroup>
+	
+	<ItemGroup>
+	  <None Remove="ILRepack.targets" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\bHapticsLib\bHapticsLib.csproj" />
