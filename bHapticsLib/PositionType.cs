@@ -2,7 +2,7 @@
 {
     public enum PositionType : int
     {
-        All = 0,
+        //All = 0,
 
         Vest = 3,
         Head = 4,

@@ -221,6 +221,15 @@ namespace bHapticsLib.Internal.Connection
                         MirrorHorizontal(ref dotPoints, position);
                         goto default;
 
+                    case MirrorDirection.Vertical:
+                        MirrorVertical(ref dotPoints, position);
+                        goto default;
+
+                    case MirrorDirection.Both:
+                        MirrorHorizontal(ref dotPoints, position);
+                        MirrorVertical(ref dotPoints, position);
+                        goto default;
+
                     default:
                         break;
                 }
@@ -277,6 +286,10 @@ namespace bHapticsLib.Internal.Connection
         {
             switch (position)
             {
+                case PositionType.Head:
+                    dotPoints.Reverse(0, 6);
+                    break;
+
                 case PositionType.VestFront:
                 case PositionType.VestBack:
                     for (int i = 0; (i + 3) < dotPoints.Count; i += 4)
@@ -285,10 +298,48 @@ namespace bHapticsLib.Internal.Connection
 
                 case PositionType.ForearmL:
                 case PositionType.ForearmR:
+                    // TO-DO
+                    break;
+
+                case PositionType.GloveL:
+                case PositionType.GloveR:
+                    // TO-DO
+                    break;
+
+                case PositionType.FootL:
+                case PositionType.FootR:
+                    // TO-DO
                     break;
 
                 default:
-                    dotPoints.Reverse(0, dotPoints.Count);
+                    break;
+            }
+        }
+        private static void MirrorVertical<A>(ref A dotPoints, PositionType position) where A : IList, ICollection
+        {
+            switch (position)
+            {
+                case PositionType.VestFront:
+                case PositionType.VestBack:
+                    // TO-DO
+                    break;
+
+                case PositionType.ForearmL:
+                case PositionType.ForearmR:
+                    // TO-DO
+                    break;
+
+                case PositionType.GloveL:
+                case PositionType.GloveR:
+                    // TO-DO
+                    break;
+
+                case PositionType.HandL:
+                case PositionType.HandR:
+                    dotPoints.Reverse(0, 3);
+                    break;
+
+                default:
                     break;
             }
         }
