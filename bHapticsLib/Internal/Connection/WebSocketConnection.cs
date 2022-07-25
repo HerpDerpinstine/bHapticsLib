@@ -85,7 +85,6 @@ namespace bHapticsLib.Internal.Connection
             try
             {
                 Socket.SendClose();
-                Socket = null;
                 isConnected = false;
                 if (TryToReconnect)
                 {   
@@ -95,23 +94,18 @@ namespace bHapticsLib.Internal.Connection
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
                 // To-Do
             }
         }
 
         internal void TryConnect()
         {
-            //if (Socket == null)
-            //    return;
-
             try
             {
                 Socket.Connect();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
                 // To-Do
             }
         }
@@ -121,8 +115,7 @@ namespace bHapticsLib.Internal.Connection
             if (IsConnected() || !TryToReconnect)
                 return;
 
-            if ((Socket == null) 
-                || (Socket.State == WebSocketState.Connecting) 
+            if ((Socket.State == WebSocketState.Connecting) 
                 || (Socket.State == WebSocketState.Closing))
                 return;
 
@@ -139,7 +132,7 @@ namespace bHapticsLib.Internal.Connection
             TryConnect();
         }
 
-        internal bool IsConnected() => isConnected && (Socket != null) && (Socket.State == WebSocketState.Open);
+        internal bool IsConnected() => isConnected && (Socket.State == WebSocketState.Open);
 
         internal void Send(JSONObject jsonNode)
             => Send(jsonNode.ToString());
@@ -154,7 +147,6 @@ namespace bHapticsLib.Internal.Connection
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
                 // To-Do
             }
         }
