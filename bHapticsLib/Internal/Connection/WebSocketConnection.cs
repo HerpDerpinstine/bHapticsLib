@@ -121,6 +121,11 @@ namespace bHapticsLib.Internal.Connection
             if (IsConnected() || !TryToReconnect)
                 return;
 
+            if ((Socket == null) 
+                || (Socket.State == WebSocketState.Connecting) 
+                || (Socket.State == WebSocketState.Closing))
+                return;
+
             if (MaxRetries > 0)
             {
                 if (RetryCount >= MaxRetries)
