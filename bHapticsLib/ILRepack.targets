@@ -11,6 +11,7 @@
 			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'System.Buffers'" />
 			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'System.Memory'" />
 			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'System.Numerics.Vectors'" />
+			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'System.ValueTuple'" />
 			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'System.Runtime.CompilerServices.Unsafe'" />
 			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'ValueTupleBridge'" />
 			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'WebSocketDotNet'" />
@@ -36,6 +37,7 @@
 			<FilesToDelete Include="$(OutputPath)System.Memory.dll" />
 			<FilesToDelete Include="$(OutputPath)System.Numerics.Vectors.dll" />
 			<FilesToDelete Include="$(OutputPath)System.Runtime.CompilerServices.Unsafe.dll" />
+			<FilesToDelete Include="$(OutputPath)System.ValueTuple.dll" />
 			<FilesToDelete Include="$(OutputPath)ValueTupleBridge.dll" />
 			<FilesToDelete Include="$(OutputPath)WebSocketDotNet.dll" />
 			<FilesToDelete Include="$(OutputPath)TestApplication.exe.config" />
