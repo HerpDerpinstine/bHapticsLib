@@ -59,6 +59,12 @@ namespace bHapticsLib.Internal.Connection
         {
             while (ShouldRun)
             {
+                if (Socket.FirstTry)
+                {
+                    Socket.FirstTry = false;
+                    Socket.TryConnect();
+                }
+
                 if (IsConnected())
                 {
                     RegisterRequest registerRequest;

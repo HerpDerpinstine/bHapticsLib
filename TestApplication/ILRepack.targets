@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="Cleanup" AfterTargets="Build">
+		<ItemGroup>
+			<FilesToDelete Include="$(OutputPath)IndexRange.dll" />
+			<FilesToDelete Include="$(OutputPath)System.Buffers.dll" />
+			<FilesToDelete Include="$(OutputPath)System.Memory.dll" />
+			<FilesToDelete Include="$(OutputPath)System.Numerics.Vectors.dll" />
+			<FilesToDelete Include="$(OutputPath)System.Runtime.CompilerServices.Unsafe.dll" />
+			<FilesToDelete Include="$(OutputPath)ValueTupleBridge.dll" />
+			<FilesToDelete Include="$(OutputPath)WebSocketDotNet.dll" />
+		</ItemGroup>
+		<Delete Files="@(FilesToDelete)" />
+	</Target>
+</Project>

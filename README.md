@@ -19,6 +19,7 @@ Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics G
 ### WHATS NEW:
   
 - All-in-One Management Class
+- Fully Compatible with [bHaptics Designer](https://designer.bhaptics.com/) ``.tact`` Files
 - New Methods, Functionality, and Customization Options
 - New JSON based Direct Object Instancing and Manipulation
 - New Thread-Safe Queue based Backend for handling Request and Submit Packets
@@ -34,6 +35,10 @@ Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics G
 | | |
 
 | bHaptics | Compatibility |
+| - | - |	
+| | |
+
+| Pattern Mirroring | Compatibility |
 | - | - |	
 | | |
 

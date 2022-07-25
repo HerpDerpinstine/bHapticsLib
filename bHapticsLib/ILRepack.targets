@@ -8,11 +8,20 @@
 		<ItemGroup>
 			<InputAssemblies Include="@(AssemblyFile)" />
 			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'IndexRange'" />
+			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'System.Buffers'" />
+			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'System.Memory'" />
+			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'System.Numerics.Vectors'" />
+			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'System.Runtime.CompilerServices.Unsafe'" />
 			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'ValueTupleBridge'" />
 			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'WebSocketDotNet'" />
 		</ItemGroup>
+		<ItemGroup>
+			<DoNotInternalizeAssemblies Include="bHapticsLib" />
+		</ItemGroup>
 		<ILRepack
 			Parallel="true"
+			Internalize="true"
+			InternalizeExclude="@(DoNotInternalizeAssemblies)"
 			DebugInfo="@(UseDebugInfo)"
 			InputAssemblies="@(InputAssemblies)"
 			TargetKind="SameAsPrimaryAssembly"
@@ -23,6 +32,10 @@
 	<Target Name="Cleanup" AfterTargets="ILRepacker">
 		<ItemGroup>
 			<FilesToDelete Include="$(OutputPath)IndexRange.dll" />
+			<FilesToDelete Include="$(OutputPath)System.Buffers.dll" />
+			<FilesToDelete Include="$(OutputPath)System.Memory.dll" />
+			<FilesToDelete Include="$(OutputPath)System.Numerics.Vectors.dll" />
+			<FilesToDelete Include="$(OutputPath)System.Runtime.CompilerServices.Unsafe.dll" />
 			<FilesToDelete Include="$(OutputPath)ValueTupleBridge.dll" />
 			<FilesToDelete Include="$(OutputPath)WebSocketDotNet.dll" />
 		</ItemGroup>

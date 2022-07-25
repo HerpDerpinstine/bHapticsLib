@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Timers;
 using System.Web;
 using SocketWrenchSharp;
@@ -16,12 +17,12 @@ namespace bHapticsLib.Internal.Connection
         private bool TryToReconnect;
         private int MaxRetries;
 
+        internal bool FirstTry = true;
+        private bool _isConnected = false;
         private int RetryCount;
         private int RetryDelay = 3; // In Seconds
         private Timer RetryTimer;
         internal WebSocket Socket;
-
-        internal bool IsSocketConnected;
 
         internal PlayerResponse LastResponse;
 
@@ -38,11 +39,34 @@ namespace bHapticsLib.Internal.Connection
             if (TryToReconnect)
             {
                 RetryTimer = new Timer(RetryDelay * 1000); // S -> MS
+                RetryTimer.AutoReset = true;
                 RetryTimer.Elapsed += (sender, args) => RetryCheck();
                 RetryTimer.Start();
             }
+        }
 
-            Socket = new WebSocket(URL + "?app_id=" + ID + "&app_name=" + Name);
+        public void Dispose()
+        {
+            try
+            {
+                Socket.SendClose();
+                Socket = null;
+                _isConnected = false;
+                if (TryToReconnect)
+                {   
+                    RetryTimer.Stop();
+                    RetryTimer.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                // To-Do
+            }
+        }
+
+        private void CreateSocket()
+        {
+            Socket = new WebSocket(URL + "?app_id=" + ID + "&app_name=" + Name, false);
 
             Socket.MessageReceived += (msg) =>
             {
@@ -55,7 +79,7 @@ namespace bHapticsLib.Internal.Connection
                         LastResponse = new PlayerResponse();
 
                     WebSocketTextMessage textMessage = msg as WebSocketTextMessage;
-                    
+
                     JSONNode node = JSON.Parse(textMessage.Text);
                     if ((node == null) || node.IsNull || !node.IsObject)
                         return;
@@ -67,32 +91,29 @@ namespace bHapticsLib.Internal.Connection
 
             Socket.Opened += () =>
             {
+                _isConnected = true;
                 RetryCount = 0;
-                IsSocketConnected = true;
                 Parent.QueueRegisterCache();
             };
 
             Socket.Closed += (closeCode, msg) =>
             {
-                IsSocketConnected = false;
+                _isConnected = false;
                 LastResponse = null;
             };
-
-            Socket.Connect();
         }
 
-        public void Dispose()
+        internal void TryConnect()
         {
             try
             {
-                Socket.SendClose();
-                if (TryToReconnect)
-                {
-                    RetryTimer.Stop();
-                    RetryTimer.Dispose();
-                }
+                CreateSocket();
+                Socket.Connect();
             }
-            catch (Exception e) { Console.WriteLine(e); }
+            catch (Exception ex)
+            {
+                // To-Do
+            }
         }
 
         private void RetryCheck()
@@ -110,10 +131,10 @@ namespace bHapticsLib.Internal.Connection
                 RetryCount++;
             }
 
-            Socket.Connect();
+            TryConnect();
         }
 
-        internal bool IsConnected() => IsSocketConnected && (Socket != null) && (Socket.State != WebSocketState.Closing);
+        internal bool IsConnected() => _isConnected && (Socket != null) && (Socket.State == WebSocketState.Open);
 
         internal void Send(JSONObject jsonNode)
             => Send(jsonNode.ToString());
@@ -121,12 +142,16 @@ namespace bHapticsLib.Internal.Connection
         {
             if (!IsConnected())
                 return;
+
             try
             {
                 Socket.Send(new WebSocketTextMessage(msg));
-                //Console.WriteLine($"Sent: {msg}");
             }
-            catch (Exception e) { Console.Write($"{e.Message} {e}\n"); }
+            catch (IOException e) { _isConnected = false; }
+            catch (Exception e)
+            {
+                // To-Do
+            }
         }
     }
 }
