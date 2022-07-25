@@ -1,9 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Timers;
-using SocketWrenchSharp;
-using SocketWrenchSharp.Messages;
-using SocketWrenchSharp.Protocol;
+using WebSocketDotNet;
+using WebSocketDotNet.Messages;
+using WebSocketDotNet.Protocol;
 using bHapticsLib.Internal.SimpleJSON;
 using bHapticsLib.Internal.Connection.Models;
 
@@ -37,7 +36,39 @@ namespace bHapticsLib.Internal.Connection
             TryToReconnect = tryToReconnect;
             MaxRetries = maxRetries;
 
-            CreateSocket();
+            Socket = new WebSocket($"{URL}?app_id={ID}&app_name={Name}", false);
+
+            Socket.TextReceived += (txt) =>
+            {
+                try
+                {
+                    if (LastResponse == null)
+                        LastResponse = new PlayerResponse();
+
+                    JSONNode node = JSON.Parse(txt);
+                    if ((node == null) || node.IsNull || !node.IsObject)
+                        return;
+
+                    LastResponse.m_Dict = node.AsObject.m_Dict;
+                }
+                catch
+                {
+                    // To-Do
+                }
+            };
+
+            Socket.Opened += () =>
+            {
+                isConnected = true;
+                RetryCount = 0;
+                Parent.QueueRegisterCache();
+            };
+
+            Socket.Closed += (closeCode, msg) =>
+            {
+                isConnected = false;
+                LastResponse = null;
+            };
 
             if (TryToReconnect)
             {
@@ -63,66 +94,25 @@ namespace bHapticsLib.Internal.Connection
                     RetryTimer.Dispose();
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 // To-Do
             }
         }
 
-        internal void CreateSocket()
-        {
-            Socket = new WebSocket($"{URL}?app_id={ID}&app_name={Name}", false);
-
-            Socket.MessageReceived += (msg) =>
-            {
-                try
-                {
-                    if (msg.ToFrame().Opcode != WebSocketOpcode.Text)
-                        return;
-
-                    if (LastResponse == null)
-                        LastResponse = new PlayerResponse();
-
-                    WebSocketTextMessage textMessage = msg as WebSocketTextMessage;
-
-                    JSONNode node = JSON.Parse(textMessage.Text);
-                    if ((node == null) || node.IsNull || !node.IsObject)
-                        return;
-
-                    LastResponse.m_Dict = node.AsObject.m_Dict;
-                }
-                catch
-                {
-                    // To-Do
-                }
-            };
-
-            Socket.Opened += () =>
-            {
-                isConnected = true;
-                RetryCount = 0;
-                Parent.QueueRegisterCache();
-            };
-
-            Socket.Closed += (closeCode, msg) =>
-            {
-                isConnected = false;
-                LastResponse = null;
-            };
-        }
-
         internal void TryConnect()
         {
-            if (Socket == null)
-                return;
+            //if (Socket == null)
+            //    return;
 
             try
             {
                 Socket.Connect();
             }
-            catch
+            catch (Exception ex)
             {
-                CreateSocket();
+                Console.WriteLine(ex);
                 // To-Do
             }
         }
@@ -131,6 +121,11 @@ namespace bHapticsLib.Internal.Connection
         {
             if (IsConnected() || !TryToReconnect)
                 return;
+
+            //if ((Socket == null) 
+            //    || (Socket.State == WebSocketState.Connecting) 
+            //    || (Socket.State == WebSocketState.Closing))
+            //    return;
 
             if (MaxRetries > 0)
             {
@@ -158,12 +153,9 @@ namespace bHapticsLib.Internal.Connection
             {
                 Socket.Send(new WebSocketTextMessage(msg));
             }
-            catch (IOException ex)
+            catch (Exception ex)
             {
-                isConnected = false;
-            }
-            catch
-            {
+                Console.WriteLine(ex);
                 // To-Do
             }
         }
