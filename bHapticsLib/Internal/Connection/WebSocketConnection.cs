@@ -17,8 +17,8 @@ namespace bHapticsLib.Internal.Connection
         private bool TryToReconnect;
         private int MaxRetries;
 
-        internal bool FirstTry = true;
-        private bool _isConnected = false;
+        internal bool FirstTry;
+        private bool isConnected;
         private int RetryCount;
         private int RetryDelay = 3; // In Seconds
         private Timer RetryTimer;
@@ -36,36 +36,6 @@ namespace bHapticsLib.Internal.Connection
             TryToReconnect = tryToReconnect;
             MaxRetries = maxRetries;
 
-            if (TryToReconnect)
-            {
-                RetryTimer = new Timer(RetryDelay * 1000); // S -> MS
-                RetryTimer.AutoReset = true;
-                RetryTimer.Elapsed += (sender, args) => RetryCheck();
-                RetryTimer.Start();
-            }
-        }
-
-        public void Dispose()
-        {
-            try
-            {
-                Socket.SendClose();
-                Socket = null;
-                _isConnected = false;
-                if (TryToReconnect)
-                {   
-                    RetryTimer.Stop();
-                    RetryTimer.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                // To-Do
-            }
-        }
-
-        private void CreateSocket()
-        {
             Socket = new WebSocket(URL + "?app_id=" + ID + "&app_name=" + Name, false);
 
             Socket.MessageReceived += (msg) =>
@@ -91,23 +61,51 @@ namespace bHapticsLib.Internal.Connection
 
             Socket.Opened += () =>
             {
-                _isConnected = true;
+                isConnected = true;
                 RetryCount = 0;
                 Parent.QueueRegisterCache();
             };
 
             Socket.Closed += (closeCode, msg) =>
             {
-                _isConnected = false;
+                isConnected = false;
                 LastResponse = null;
             };
+
+            if (TryToReconnect)
+            {
+                RetryTimer = new Timer(RetryDelay * 1000); // S -> MS
+                RetryTimer.AutoReset = true;
+                RetryTimer.Elapsed += (sender, args) => RetryCheck();
+                RetryTimer.Start();
+            }
+
+            FirstTry = true;
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                Socket.SendClose();
+                Socket = null;
+                isConnected = false;
+                if (TryToReconnect)
+                {   
+                    RetryTimer.Stop();
+                    RetryTimer.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                // To-Do
+            }
         }
 
         internal void TryConnect()
         {
             try
             {
-                CreateSocket();
                 Socket.Connect();
             }
             catch (Exception ex)
@@ -134,7 +132,7 @@ namespace bHapticsLib.Internal.Connection
             TryConnect();
         }
 
-        internal bool IsConnected() => _isConnected && (Socket != null) && (Socket.State == WebSocketState.Open);
+        internal bool IsConnected() => isConnected && (Socket != null) && (Socket.State == WebSocketState.Open);
 
         internal void Send(JSONObject jsonNode)
             => Send(jsonNode.ToString());
@@ -147,11 +145,18 @@ namespace bHapticsLib.Internal.Connection
             {
                 Socket.Send(new WebSocketTextMessage(msg));
             }
-            catch (IOException e) { _isConnected = false; }
+            catch (IOException e) { ForceClose(); }
             catch (Exception e)
             {
                 // To-Do
             }
+        }
+
+        private void ForceClose()
+        {
+
+
+            isConnected = false;
         }
     }
 }

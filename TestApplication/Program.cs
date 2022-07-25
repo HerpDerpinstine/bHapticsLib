@@ -16,7 +16,7 @@ namespace TestApplication
             testFeedback = HapticPattern.LoadFromFile("testfeedback", testFeedbackPath);
 
             Console.WriteLine("Initializing...");
-            bHapticsManager.Connect("bHapticsLib", "TestApplication");
+            bHapticsManager.Connect("bHapticsLib", "TestApplication", maxRetries: 0);
             Console.WriteLine();
 
             Console.WriteLine($"Press 0 for {nameof(bHapticsManager.ConnectionStatus)}");

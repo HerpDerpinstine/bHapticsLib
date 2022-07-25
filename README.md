@@ -1,5 +1,7 @@
 # bHapticsLib
 An Open-Source .NET Library for [bHaptics](https://www.bhaptics.com) Support.  
+Supports .NET Framework 3.5 through .NET 6 and beyond.  
+  
 Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics Gear as well as supporting the community wherever needed! :D  
 
 - Discord: https://discord.gg/JDw423Wskf
@@ -24,7 +26,7 @@ Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics G
 - New JSON based Direct Object Instancing and Manipulation
 - New Thread-Safe Queue based Backend for handling Request and Submit Packets
 - New HapticPattern Utility Class
-- Improved Pattern Mirroring Functionality
+- New Pattern Mirroring Functionality
 
 ---
 

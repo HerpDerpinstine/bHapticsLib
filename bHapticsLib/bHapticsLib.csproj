@@ -1,26 +1,24 @@
-﻿	<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
 	<PropertyGroup>
-		<TargetFramework>net35</TargetFramework>
+		<TargetFrameworks>netstandard20;netstandard21;net35;net45;net50</TargetFrameworks>
 		<LangVersion>8.0</LangVersion>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 		<OutputPath>$(SolutionDir)Output\$(Configuration)\</OutputPath>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	    <ApplicationIcon></ApplicationIcon>
 		<OutputType>Library</OutputType>
-		<StartupObject />
 		<RootNamespace>bHapticsLib</RootNamespace>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugType>full</DebugType>
-		<DefineConstants>TRACE;NET35;DEBUG</DefineConstants>
+		<DefineConstants>TRACE;DEBUG</DefineConstants>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 		<DebugType>None</DebugType>
-		<DefineConstants>NET35</DefineConstants>
 		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
 	</PropertyGroup>
 	
@@ -51,4 +49,5 @@
 	<ItemGroup>
 	  <Folder Include="Properties\" />
 	</ItemGroup>
+	
 </Project>
