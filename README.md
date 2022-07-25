@@ -32,10 +32,6 @@ Special Thanks to [bHaptics](https://www.bhaptics.com) for making the bHaptics G
 
 ### COMPATIBILITY CHARTS:
 
-| .NET Framework | Compatibility |
-| - | - |
-| | |
-
 | bHaptics | Compatibility |
 | - | - |	
 | | |

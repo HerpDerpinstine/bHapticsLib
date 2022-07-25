@@ -43,7 +43,6 @@ namespace TestApplication
             Console.WriteLine($"Press NUMPAD-2 for {nameof(testFeedback)}.{nameof(testFeedback.Play)}()");
             Console.WriteLine();
 
-
             Console.WriteLine($"Press NUMPAD-4 for {nameof(testFeedback)}.{nameof(testFeedback.IsRegistered)}()");
             Console.WriteLine();
 
