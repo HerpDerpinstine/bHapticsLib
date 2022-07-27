@@ -7,54 +7,54 @@ namespace bHapticsLib
 {
     public static class Extensions
     {
-        public static string ToOscAddress(this PositionType value)
+        public static string ToOscAddress(this PositionID value)
         {
             switch (value)
             {
                 // Head
-                case PositionType.Head:
+                case PositionID.Head:
                     return "/bhaptics/head";
 
                 // Vest
-                case PositionType.Vest:
+                case PositionID.Vest:
                     return "/bhaptics/vest";
-                case PositionType.VestFront:
+                case PositionID.VestFront:
                     return "/bhaptics/vest/front";
-                case PositionType.VestBack:
+                case PositionID.VestBack:
                     return "/bhaptics/vest/back";
 
                 // Arms
-                case PositionType.ForearmL:
+                case PositionID.ArmLeft:
                     return "/bhaptics/arm/left";
-                case PositionType.ForearmR:
+                case PositionID.ArmRight:
                     return "/bhaptics/arm/right";
 
                 // Hands
-                case PositionType.HandL:
+                case PositionID.HandLeft:
                     return "/bhaptics/hand/left";
-                case PositionType.HandR:
+                case PositionID.HandRight:
                     return "/bhaptics/hand/right";
 
                 // Gloves
-                case PositionType.GloveL:
+                case PositionID.GloveLeft:
                     return "/bhaptics/glove/left";
-                case PositionType.GloveR:
+                case PositionID.GloveRight:
                     return "/bhaptics/glove/right";
 
                 // Feet
-                case PositionType.FootL:
+                case PositionID.FootLeft:
                     return "/bhaptics/foot/left";
-                case PositionType.FootR:
+                case PositionID.FootRight:
                     return "/bhaptics/foot/right";
 
                 // Custom
-                case PositionType.Custom1:
+                case PositionID.Custom1:
                     return "/bhaptics/custom1";
-                case PositionType.Custom2:
+                case PositionID.Custom2:
                     return "/bhaptics/custom2";
-                case PositionType.Custom3:
+                case PositionID.Custom3:
                     return "/bhaptics/custom3";
-                case PositionType.Custom4:
+                case PositionID.Custom4:
                     return "/bhaptics/custom4";
 
                 // Unknown
@@ -165,7 +165,7 @@ namespace bHapticsLib
             return false;
         }
 
-        internal static bool ContainsValue<T>(this T arr, PositionType value) where T : JSONNode
+        internal static bool ContainsValue<T>(this T arr, PositionID value) where T : JSONNode
             => ContainsValue(arr, value.ToString());
 
         internal static bool ContainsValueMoreThan<T>(this T[] arr, T value) where T : IComparable<T>
@@ -179,33 +179,31 @@ namespace bHapticsLib
             return false;
         }
 
-        private static readonly Type dotPointType = typeof(DotPoint);
         internal static void Reverse<A>(this A dotPoints, int index, int length) where A : IList, ICollection
         {
-            Type pointType = null;
             int num = index;
             for (int i = index + length - 1; num < i; i--)
             {
-                object d = dotPoints[i];
-                object t = dotPoints[num];
-
-                if (pointType == null)
-                    pointType = d.GetType();
-
-                if (pointType == dotPointType)
-                {
-                    if (d != null)
-                        (d as DotPoint).Index = num;
-
-                    if (t != null)
-                        (t as DotPoint).Index = i;
-                }
-
-                dotPoints[num] = d;
-                dotPoints[i] = t;
-
+                dotPoints.Swap(i, num);
                 num++;
             }
+        }
+        internal static void Swap<A>(this A dotPoints, int indexA, int indexB) where A : IList, ICollection
+        {
+            object d = dotPoints[indexA];
+            object t = dotPoints[indexB];
+
+            if (d.GetType() == typeof(DotPoint))
+            {
+                if (d != null)
+                    (d as DotPoint).Index = indexB;
+
+                if (t != null)
+                    (t as DotPoint).Index = indexA;
+            }
+
+            dotPoints[indexB] = d;
+            dotPoints[indexA] = t;
         }
     }
 }

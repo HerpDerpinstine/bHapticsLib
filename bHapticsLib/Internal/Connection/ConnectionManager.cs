@@ -103,24 +103,24 @@ namespace bHapticsLib.Internal.Connection
 
         #region Device
         internal int GetConnectedDeviceCount() => Socket?.LastResponse?.ConnectedDeviceCount ?? 0;
-        internal bool IsDeviceConnected(PositionType type)
+        internal bool IsDeviceConnected(PositionID type)
         {
-            if ((type == PositionType.VestFront)
-                || (type == PositionType.VestBack))
-                type = PositionType.Vest;
+            if ((type == PositionID.VestFront)
+                || (type == PositionID.VestBack))
+                type = PositionID.Vest;
             return Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type) ?? false;
         }
-        internal int[] GetDeviceStatus(PositionType type)
+        internal int[] GetDeviceStatus(PositionID type)
         {
             if ((Socket == null)
                 || (Socket.LastResponse == null))
                 return default;
 
             JSONNode statusArray = Socket.LastResponse.Status;
-            if (type == PositionType.Vest)
+            if (type == PositionID.Vest)
             {
-                JSONNode frontStatus = statusArray[PositionType.VestFront.ToString()];
-                JSONNode backStatus = statusArray[PositionType.VestBack.ToString()];
+                JSONNode frontStatus = statusArray[PositionID.VestFront.ToString()];
+                JSONNode backStatus = statusArray[PositionID.VestBack.ToString()];
 
                 int totalCount = frontStatus.Count + backStatus.Count;
                 int[] returnval = new int[totalCount];
@@ -198,7 +198,7 @@ namespace bHapticsLib.Internal.Connection
         internal void Submit<A, B>(
             string key,
             int durationMillis,
-            PositionType position,
+            PositionID position,
             A dotPoints,
             B pathPoints,
             MirrorDirection dotMirrorDirection = MirrorDirection.None)
@@ -208,10 +208,10 @@ namespace bHapticsLib.Internal.Connection
             if (!IsAlive() || !IsConnected() || !IsDeviceConnected(position))
                 return;
 
-            if (position == PositionType.Vest)
+            if (position == PositionID.Vest)
             {
-                Submit($"{key}Front", durationMillis, PositionType.VestFront, dotPoints, pathPoints, dotMirrorDirection);
-                Submit($"{key}Back", durationMillis, PositionType.VestBack, dotPoints, pathPoints, dotMirrorDirection);
+                Submit($"{key}Front", durationMillis, PositionID.VestFront, dotPoints, pathPoints, dotMirrorDirection);
+                Submit($"{key}Back", durationMillis, PositionID.VestBack, dotPoints, pathPoints, dotMirrorDirection);
                 return;
             }
 
@@ -301,7 +301,7 @@ namespace bHapticsLib.Internal.Connection
         #endregion
 
         #region Mirror
-        private static void MirrorHorizontal<A>(ref A dotPoints, PositionType position) where A : IList, ICollection
+        private static void MirrorHorizontal<A>(ref A dotPoints, PositionID position) where A : IList, ICollection
         {
             int fullCount = dotPoints.Count;
             int halfCount = fullCount / 2;
@@ -314,12 +314,12 @@ namespace bHapticsLib.Internal.Connection
 
             switch (position)
             {
-                case PositionType.Head:
+                case PositionID.Head:
                     dotPoints.Reverse(0, fullCount);
                     break;
 
-                case PositionType.VestFront:
-                case PositionType.VestBack:
+                case PositionID.VestFront:
+                case PositionID.VestBack:
                     dotPoints.Reverse(0, 4);
                     dotPoints.Reverse(4, 4);
                     dotPoints.Reverse(8, 4);
@@ -327,10 +327,10 @@ namespace bHapticsLib.Internal.Connection
                     dotPoints.Reverse(16, 4);
                     break;
 
-                case PositionType.ForearmL:
-                case PositionType.ForearmR:
-                case PositionType.FootL:
-                case PositionType.FootR:
+                case PositionID.ArmLeft:
+                case PositionID.ArmRight:
+                case PositionID.FootLeft:
+                case PositionID.FootRight:
                     dotPoints.Reverse(0, halfCount);
                     dotPoints.Reverse(halfCount, fullCount);
                     break;
@@ -339,10 +339,9 @@ namespace bHapticsLib.Internal.Connection
                     break;
             }
         }
-        private static void MirrorVertical<A>(ref A dotPoints, PositionType position) where A : IList, ICollection
+        private static void MirrorVertical<A>(ref A dotPoints, PositionID position) where A : IList, ICollection
         {
             int fullCount = dotPoints.Count;
-            int halfCount = fullCount / 2;
 
             if (fullCount != bHapticsManager.MaxMotorsPerDotPoint)
             {
@@ -352,18 +351,27 @@ namespace bHapticsLib.Internal.Connection
 
             switch (position)
             {
-                case PositionType.VestFront:
-                case PositionType.VestBack:
-                    // TO-DO
+                case PositionID.VestFront:
+                case PositionID.VestBack:
+                    dotPoints.Swap(0, 16);
+                    dotPoints.Swap(1, 17);
+                    dotPoints.Swap(2, 18);
+                    dotPoints.Swap(3, 19);
+                    dotPoints.Swap(4, 12);
+                    dotPoints.Swap(5, 13);
+                    dotPoints.Swap(6, 14);
+                    dotPoints.Swap(7, 15);
                     break;
 
-                case PositionType.ForearmL:
-                case PositionType.ForearmR:
-                    // TO-DO
+                case PositionID.ArmLeft:
+                case PositionID.ArmRight:
+                    dotPoints.Swap(0, 3);
+                    dotPoints.Swap(1, 4);
+                    dotPoints.Swap(2, 5);
                     break;
 
-                case PositionType.HandL:
-                case PositionType.HandR:
+                case PositionID.HandLeft:
+                case PositionID.HandRight:
                     dotPoints.Reverse(0, fullCount);
                     break;
 
