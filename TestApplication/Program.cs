@@ -8,6 +8,7 @@ namespace TestApplication
 {
     public class Program
     {
+        private static byte[] TestPacket = new byte[bHapticsManager.MaxMotorsPerDotPoint] { 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         private static HapticPattern testFeedback;
 
         private static void Main()
@@ -43,14 +44,18 @@ namespace TestApplication
             Console.WriteLine($"Press NUMPAD-2 for {nameof(testFeedback)}.{nameof(testFeedback.Play)}()");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-4 for {nameof(testFeedback)}.{nameof(testFeedback.IsRegistered)}()");
+            Console.WriteLine($"Press NUMPAD-3 for {nameof(testFeedback)}.{nameof(testFeedback.IsRegistered)}()");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-7 for {nameof(testFeedback)}.{nameof(testFeedback.IsPlaying)}()");
+            Console.WriteLine($"Press NUMPAD-4 for {nameof(testFeedback)}.{nameof(testFeedback.IsPlaying)}()");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-8 for {nameof(bHapticsManager.Play)}(\"testPlayFront\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestFront)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
-            Console.WriteLine($"Press NUMPAD-9 for {nameof(bHapticsManager.Play)}(\"testPlayBack\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestBack)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
+            Console.WriteLine($"Press NUMPAD-5 for {nameof(bHapticsManager.Play)}(\"testPlayFront\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestFront)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
+            Console.WriteLine($"Press NUMPAD-6 for {nameof(bHapticsManager.Play)}(\"testPlayBack\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestBack)}, [ new {nameof(DotPoint)} ( index = 0, intensity = 100 ) ] )");
+            Console.WriteLine();
+
+            Console.WriteLine($"Press NUMPAD-7 for {nameof(bHapticsManager.PlayMirrored)}(\"testPlayFront\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestFront)}, {nameof(TestPacket)}, {nameof(MirrorDirection)}.{nameof(MirrorDirection.Horizontal)} )");
+            Console.WriteLine($"Press NUMPAD-8 for {nameof(bHapticsManager.PlayMirrored)}(\"testPlayBack\", 1000, {nameof(PositionType)}.{nameof(PositionType.VestBack)}, {nameof(TestPacket)}, {nameof(MirrorDirection)}.{nameof(MirrorDirection.Horizontal)}  )");
             Console.WriteLine();
 
             Console.WriteLine("Press Enter to Disconnect.");
@@ -128,22 +133,31 @@ namespace TestApplication
                     goto default;
 
 
-                case ConsoleKey.NumPad4:
+                case ConsoleKey.NumPad3:
                     Console.WriteLine($"{nameof(testFeedback)}.{nameof(testFeedback.IsRegistered)}(): {testFeedback.IsRegistered()}");
                     goto default;
 
 
-                case ConsoleKey.NumPad7:
+                case ConsoleKey.NumPad4:
                     Console.WriteLine($"{nameof(testFeedback)}.{nameof(testFeedback.IsPlaying)}(): {testFeedback.IsPlaying()}");
                     goto default;
 
 
+                case ConsoleKey.NumPad5:
+                    bHapticsManager.Play("testPlayFront", 1000, PositionType.VestFront, TestPacket);
+                    goto default;
+                case ConsoleKey.NumPad6:
+                    bHapticsManager.Play("testPlayBack", 1000, PositionType.VestBack, TestPacket);
+                    goto default;
+
+
+                case ConsoleKey.NumPad7:
+                    bHapticsManager.PlayMirrored("testPlayFrontMirrored", 1000, PositionType.VestFront, TestPacket, MirrorDirection.Horizontal);
+                    goto default;
                 case ConsoleKey.NumPad8:
-                    bHapticsManager.Play("testPlayFront", 1000, PositionType.VestFront, new List<DotPoint> { new DotPoint { Index = 0, Intensity = 100 } });
+                    bHapticsManager.PlayMirrored("testPlayBackMirrored", 1000, PositionType.VestBack, TestPacket, MirrorDirection.Horizontal);
                     goto default;
-                case ConsoleKey.NumPad9:
-                    bHapticsManager.Play("testPlayBack", 1000, PositionType.VestBack, new List<DotPoint> { new DotPoint { Index = 0, Intensity = 100 } });
-                    goto default;
+
 
                 default:
                     return false;

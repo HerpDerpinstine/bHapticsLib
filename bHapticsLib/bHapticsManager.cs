@@ -7,9 +7,10 @@ namespace bHapticsLib
     public static class bHapticsManager
     {
         #region Max Values
-        public static readonly int MaxIntensity = 500;
-        public static readonly int MaxMotorsPerDotPoint = 20;
-        public static readonly int MaxMotorsPerPathPoint = 3;
+        public const int MaxIntensityInInt = 500;
+        public const byte MaxIntensityInByte = 200;
+        public const int MaxMotorsPerDotPoint = 20;
+        public const int MaxMotorsPerPathPoint = 3;
         #endregion
 
         #region Connection

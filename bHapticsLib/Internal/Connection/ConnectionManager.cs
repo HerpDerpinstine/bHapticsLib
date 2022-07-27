@@ -221,29 +221,37 @@ namespace bHapticsLib.Internal.Connection
 
             if ((dotPoints != null) && (dotPoints.Count > 0))
             {
-                switch (dotMirrorDirection)
+                object[] newDotPoints = null;
+                if (dotMirrorDirection != MirrorDirection.None)
                 {
-                    case MirrorDirection.Horizontal:
-                        MirrorHorizontal(ref dotPoints, position);
-                        goto default;
+                    newDotPoints = new object[dotPoints.Count];
+                    for (int i = 0; i < dotPoints.Count; i++)
+                        newDotPoints[i] = dotPoints[i];
 
-                    case MirrorDirection.Vertical:
-                        MirrorVertical(ref dotPoints, position);
-                        goto default;
+                    switch (dotMirrorDirection)
+                    {
+                        case MirrorDirection.Horizontal:
+                            MirrorHorizontal(ref newDotPoints, position);
+                            goto default;
 
-                    case MirrorDirection.Both:
-                        MirrorHorizontal(ref dotPoints, position);
-                        MirrorVertical(ref dotPoints, position);
-                        goto default;
+                        case MirrorDirection.Vertical:
+                            MirrorVertical(ref newDotPoints, position);
+                            goto default;
 
-                    default:
-                        break;
+                        case MirrorDirection.Both:
+                            MirrorHorizontal(ref newDotPoints, position);
+                            MirrorVertical(ref newDotPoints, position);
+                            goto default;
+
+                        default:
+                            break;
+                    }
                 }
 
                 Type pointType = null;
-                for (int i = 0; (i < dotPoints.Count); i++)
+                for (int i = 0; (i < ((newDotPoints == null) ? dotPoints.Count : newDotPoints.Length)); i++)
                 {
-                    object point = dotPoints[i];
+                    object point = (newDotPoints == null) ? dotPoints[i] : newDotPoints[i];
                     if (point == null)
                         continue;
 
@@ -254,7 +262,12 @@ namespace bHapticsLib.Internal.Connection
                     {
                         JSONObject node = new JSONObject();
                         node["index"] = i.Clamp(0, bHapticsManager.MaxMotorsPerDotPoint);
-                        node["intensity"] = ((int)point).Clamp(0, bHapticsManager.MaxIntensity);
+
+                        if (pointType == intType)
+                            node["intensity"] = Extensions.Clamp<int>((int)point, 0, bHapticsManager.MaxIntensityInInt);
+                        else if (pointType == byteType)
+                            node["intensity"] = Extensions.Clamp<byte>((byte)point, 0, bHapticsManager.MaxIntensityInByte);
+
                         request.Frame.dotPoints.Add(node);
                     }
                     else if (pointType == dotPointType)
@@ -292,18 +305,26 @@ namespace bHapticsLib.Internal.Connection
         {
             int fullCount = dotPoints.Count;
             int halfCount = fullCount / 2;
+
+            if (fullCount != bHapticsManager.MaxMotorsPerDotPoint)
+            {
+                dotPoints.Reverse(0, fullCount);
+                return;
+            }
+
             switch (position)
             {
                 case PositionType.Head:
-                case PositionType.GloveL:
-                case PositionType.GloveR:
-                    dotPoints.Reverse(0, dotPoints.Count);
+                    dotPoints.Reverse(0, fullCount);
                     break;
 
                 case PositionType.VestFront:
                 case PositionType.VestBack:
-                    for (int i = 0; (i + 3) < dotPoints.Count; i += 4)
-                        dotPoints.Reverse(i, 4);
+                    dotPoints.Reverse(0, 4);
+                    dotPoints.Reverse(4, 4);
+                    dotPoints.Reverse(8, 4);
+                    dotPoints.Reverse(12, 4);
+                    dotPoints.Reverse(16, 4);
                     break;
 
                 case PositionType.ForearmL:
@@ -322,6 +343,13 @@ namespace bHapticsLib.Internal.Connection
         {
             int fullCount = dotPoints.Count;
             int halfCount = fullCount / 2;
+
+            if (fullCount != bHapticsManager.MaxMotorsPerDotPoint)
+            {
+                dotPoints.Reverse(0, fullCount);
+                return;
+            }
+
             switch (position)
             {
                 case PositionType.VestFront:

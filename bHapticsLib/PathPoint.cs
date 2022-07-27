@@ -29,7 +29,7 @@ namespace bHapticsLib
         public int Intensity
         {
             get => node["intensity"].AsInt;
-            set => node["intensity"] = value.Clamp(0, bHapticsManager.MaxIntensity);
+            set => node["intensity"] = value.Clamp(0, bHapticsManager.MaxIntensityInInt);
         }
 
         public int MotorCount
