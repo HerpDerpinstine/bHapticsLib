@@ -332,7 +332,7 @@ namespace bHapticsLib.Internal.Connection
                 case PositionID.FootLeft:
                 case PositionID.FootRight:
                     dotPoints.Reverse(0, halfCount);
-                    dotPoints.Reverse(halfCount, fullCount);
+                    dotPoints.Reverse(halfCount + 1, fullCount);
                     break;
 
                 default:
