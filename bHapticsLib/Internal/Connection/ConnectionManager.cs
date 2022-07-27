@@ -287,13 +287,17 @@ namespace bHapticsLib.Internal.Connection
         }
         #endregion
 
-        #region MirrorHorizontal
+        #region Mirror
         private static void MirrorHorizontal<A>(ref A dotPoints, PositionType position) where A : IList, ICollection
         {
+            int fullCount = dotPoints.Count;
+            int halfCount = fullCount / 2;
             switch (position)
             {
                 case PositionType.Head:
-                    dotPoints.Reverse(0, 6);
+                case PositionType.GloveL:
+                case PositionType.GloveR:
+                    dotPoints.Reverse(0, dotPoints.Count);
                     break;
 
                 case PositionType.VestFront:
@@ -304,17 +308,10 @@ namespace bHapticsLib.Internal.Connection
 
                 case PositionType.ForearmL:
                 case PositionType.ForearmR:
-                    // TO-DO
-                    break;
-
-                case PositionType.GloveL:
-                case PositionType.GloveR:
-                    // TO-DO
-                    break;
-
                 case PositionType.FootL:
                 case PositionType.FootR:
-                    // TO-DO
+                    dotPoints.Reverse(0, halfCount);
+                    dotPoints.Reverse(halfCount, fullCount);
                     break;
 
                 default:
@@ -323,6 +320,8 @@ namespace bHapticsLib.Internal.Connection
         }
         private static void MirrorVertical<A>(ref A dotPoints, PositionType position) where A : IList, ICollection
         {
+            int fullCount = dotPoints.Count;
+            int halfCount = fullCount / 2;
             switch (position)
             {
                 case PositionType.VestFront:
@@ -335,14 +334,9 @@ namespace bHapticsLib.Internal.Connection
                     // TO-DO
                     break;
 
-                case PositionType.GloveL:
-                case PositionType.GloveR:
-                    // TO-DO
-                    break;
-
                 case PositionType.HandL:
                 case PositionType.HandR:
-                    dotPoints.Reverse(0, 3);
+                    dotPoints.Reverse(0, fullCount);
                     break;
 
                 default:
