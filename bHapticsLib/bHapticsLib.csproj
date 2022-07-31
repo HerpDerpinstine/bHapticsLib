@@ -65,4 +65,10 @@
 	  <Folder Include="Properties\" />
 	</ItemGroup>
 	
+	<ItemGroup>
+	  <None Update="bHapticsLib.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
 </Project>
