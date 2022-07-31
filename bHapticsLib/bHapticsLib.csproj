@@ -21,6 +21,14 @@
 		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
 	</PropertyGroup>
 	
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard20|AnyCPU'">
+	  <DocumentationFile>D:\Lava Gang\bHaptics\bHapticsLib\bHapticsLib\bHapticsLib.xml</DocumentationFile>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard20|AnyCPU'">
+	  <DocumentationFile>D:\Lava Gang\bHaptics\bHapticsLib\bHapticsLib\bHapticsLib.xml</DocumentationFile>
+	</PropertyGroup>
+	
 	<ItemGroup>
 	  <Compile Remove="Internal\Models\Project\ProjectData.cs" />
 	  <Compile Remove="Internal\Models\Project\ProjectEffect.cs" />

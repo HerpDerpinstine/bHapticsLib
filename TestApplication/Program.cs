@@ -192,6 +192,8 @@ namespace TestApplication
     {
         internal static string ToArrayString<T>(this T[] arr) where T : IComparable<T>
         {
+            if (arr == null)
+                return "{ }";
             int count = arr.Length;
             if (count <= 0)
                 return "{ }";
