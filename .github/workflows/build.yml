@@ -51,7 +51,6 @@ jobs:
         with:
           name: bHapticsLib.CI.Debug
           path: ./Output/Debug/*
- 
   finalize_release_zip:
     runs-on: windows-latest
     needs: [ build_release ]
