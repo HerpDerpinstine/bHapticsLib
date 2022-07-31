@@ -23,7 +23,7 @@ jobs:
       - name: Upload Debug Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: bHaptics.CI.Debug
+          name: bHapticsLib.CI.Debug
           path: Output/Debug/
       - name: Build Release
         shell: cmd
@@ -31,5 +31,5 @@ jobs:
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: bHaptics.CI.Release
+          name: bHapticsLib.CI.Release
           path: Output/Release/
