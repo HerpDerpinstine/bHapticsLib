@@ -1,77 +1,35 @@
 name: Build bHapticsLib
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  workflow_dispatch:
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  build_debug:
-    runs-on: windows-2019
+  build:
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: setup-msbuild
-        uses: microsoft/setup-msbuild@v1
+      - uses: actions/checkout@v2
+      - name: Setup .NET 5
+        uses: microsoft/setup-dotnet@v1
+        with:
+            dotnet-version: 5.0.x
+      - name: Setup .NET 6
+        uses: microsoft/setup-dotnet@v1
+        with:
+            dotnet-version: 6.0.x
+      - name: Restore Dependencies
+        run: dotnet restore
       - name: Build Debug
         shell: cmd
-        run: msbuild /restore
-      - name: Upload core artifact
-        uses: actions/upload-artifact@v3
+        run: dotnet build -c Debug
+      - name: Upload Debug Artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: Debug
-          path: Output/Debug/
-  build_release:
-    runs-on: windows-2019
-    steps:
-      - uses: actions/checkout@v3
-      - name: setup-msbuild
-        uses: microsoft/setup-msbuild@v1
+          name: bHaptics.CI.Release
+          path: Output/Release/
       - name: Build Release
         shell: cmd
-        run: msbuild /restore /p:Configuration=Release
-      - name: Upload core artifact
-        uses: actions/upload-artifact@v3
+        run: dotnet build -c Release
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: Release
+          name: bHaptics.CI.Release
           path: Output/Release/
-  finalize_debug_zip:
-    runs-on: windows-latest
-    needs: [ build_debug ]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Download core artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: Debug
-          path: Output/Debug/
-      - uses: actions/upload-artifact@v3
-        name: Upload Zip
-        with:
-          name: bHapticsLib.CI.Debug
-          path: ./Output/Debug/*
-  finalize_release_zip:
-    runs-on: windows-latest
-    needs: [ build_release ]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Download core artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: Release
-          path: Output/Release/
-      - uses: actions/upload-artifact@v3
-        name: Upload Zip
-        with:
-          name: bHapticsLib.CI.Release
-          path: ./Output/Release/*
-  cleanup_artifacts:
-    runs-on: windows-latest
-    needs: [ finalize_debug_zip, finalize_release_zip ]
-    steps:
-      - uses: GeekyEggo/delete-artifact@v1.0.0
-        with:
-          name: |
-            Debug
-            Release
