@@ -63,6 +63,13 @@ namespace bHapticsLib.Internal
                 Parent.QueueRegisterCache();
             };
 
+            /*
+            Socket.Closing += (closeCode, msg) =>
+            {
+
+            };
+            */
+
             Socket.Closed += (closeCode, msg) =>
             {
                 isConnected = false;
@@ -79,6 +86,8 @@ namespace bHapticsLib.Internal
 
             FirstTry = true;
         }
+
+
 
         public void Dispose()
         {

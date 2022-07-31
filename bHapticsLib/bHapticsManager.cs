@@ -51,6 +51,7 @@ namespace bHapticsLib
             if (ConnectionStatus == bHapticsStatus.Disconnected)
                 return false; // To-Do: Throw Exception
 
+            StopPlayingAll();
             return Connection.EndInit();
         }
         #endregion
@@ -90,10 +91,10 @@ namespace bHapticsLib
             => Connection.RegisterPatternFromJson(key, tactFileStr);
         public static void RegisterPatternFromFile(string key, string tactFilePath)
             => Connection.RegisterPatternFromFile(key, tactFilePath);
-        public static void RegisterPatternMirroredFromJson(string key, string tactFileStr)
-            => Connection.RegisterPatternMirroredFromJson(key, tactFileStr);
-        public static void RegisterPatternMirroredFromFile(string key, string tactFilePath)
-            => Connection.RegisterPatternMirroredFromFile(key, tactFilePath);
+        public static void RegisterPatternSwappedFromJson(string key, string tactFileStr)
+            => Connection.RegisterPatternSwappedFromJson(key, tactFileStr);
+        public static void RegisterPatternSwappedFromFile(string key, string tactFilePath)
+            => Connection.RegisterPatternSwappedFromFile(key, tactFilePath);
         #endregion
 
         #region PlayDot

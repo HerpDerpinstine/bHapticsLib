@@ -194,15 +194,15 @@ namespace bHapticsLib.Internal
             RegisterQueue.Enqueue(request);
         }
 
-        internal void RegisterPatternMirroredFromFile(string key, string tactFilePath)
+        internal void RegisterPatternSwappedFromFile(string key, string tactFilePath)
         {
             if (!File.Exists(tactFilePath))
                 return; // To-Do: Exception Here
 
-            RegisterPatternMirroredFromJson(key, File.ReadAllText(tactFilePath));
+            RegisterPatternSwappedFromJson(key, File.ReadAllText(tactFilePath));
         }
 
-        internal void RegisterPatternMirroredFromJson(string key, string tactFileStr)
+        internal void RegisterPatternSwappedFromJson(string key, string tactFileStr)
         {
             if (string.IsNullOrEmpty(key))
                 return; // To-Do: Exception Here
@@ -215,11 +215,14 @@ namespace bHapticsLib.Internal
 
             JSONObject project = JSON.Parse(tactFileStr)[nameof(project)].AsObject;
             JSONArray tracks = project[nameof(tracks)].AsArray;
-            LoopTracks(tracks, (effect) => 
+            LoopTracks(tracks, (effect) =>
             {
-                JSONObject modes = effect[nameof(modes)].AsObject;
-                modes.ReverseAll();
-                effect["modes"] = modes;
+                JSONNode modes = effect[nameof(modes)];
+                JSONNode modeLeft = modes[0];
+                JSONNode modeRight = modes[1];
+                modes[0] = modeRight;
+                modes[1] = modeLeft;
+                effect[nameof(modes)] = modes;
             });
             project[nameof(tracks)] = tracks;
 
@@ -239,7 +242,10 @@ namespace bHapticsLib.Internal
                 {
                     JSONObject projectEffect = effects[i2].AsObject;
                     act(projectEffect);
+                    effects[i2] = projectEffect;
                 }
+                projectTrack[nameof(effects)] = effects;
+                tracks[i] = projectTrack;
             }
         }
         #endregion

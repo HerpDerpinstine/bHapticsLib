@@ -16,15 +16,15 @@
             return new HapticPattern { Key = key };
         }
 
-        public static HapticPattern LoadMirroredFromFile(string key, string tactFilePath)
+        public static HapticPattern LoadSwappedFromFile(string key, string tactFilePath)
         {
-            bHapticsManager.RegisterPatternMirroredFromFile(key, tactFilePath);
+            bHapticsManager.RegisterPatternSwappedFromFile(key, tactFilePath);
             return new HapticPattern { Key = key };
         }
 
-        public static HapticPattern LoadMirroredFromJson(string key, string tactFileStr)
+        public static HapticPattern LoadSwappedFromJson(string key, string tactFileStr)
         {
-            bHapticsManager.RegisterPatternMirroredFromJson(key, tactFileStr);
+            bHapticsManager.RegisterPatternSwappedFromJson(key, tactFileStr);
             return new HapticPattern { Key = key };
         }
 

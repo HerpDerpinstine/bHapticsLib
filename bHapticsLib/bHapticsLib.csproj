@@ -58,10 +58,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Reference Include="System.Web" />
-	</ItemGroup>
-	
-	<ItemGroup>
 	  <Folder Include="Properties\" />
 	</ItemGroup>
 	
