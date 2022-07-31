@@ -67,7 +67,6 @@ jobs:
         with:
           name: bHapticsLib.CI.Release
           path: ./Output/Release/*
-		  
   cleanup_artifacts:
     runs-on: windows-latest
     needs: [ finalize_debug_zip, finalize_release_zip ]
