@@ -3,9 +3,9 @@ using System.Timers;
 using WebSocketDotNet;
 using WebSocketDotNet.Messages;
 using bHapticsLib.Internal.SimpleJSON;
-using bHapticsLib.Internal.Connection.Models;
+using bHapticsLib.Internal.Models.Connection;
 
-namespace bHapticsLib.Internal.Connection
+namespace bHapticsLib.Internal
 {
     internal class WebSocketConnection : IDisposable
     {
@@ -92,7 +92,7 @@ namespace bHapticsLib.Internal.Connection
                     RetryTimer.Dispose();
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 // To-Do
             }
@@ -104,7 +104,7 @@ namespace bHapticsLib.Internal.Connection
             {
                 Socket.Connect();
             }
-            catch (Exception ex)
+            catch
             {
                 // To-Do
             }
@@ -145,7 +145,7 @@ namespace bHapticsLib.Internal.Connection
             {
                 Socket.Send(new WebSocketTextMessage(msg));
             }
-            catch (Exception ex)
+            catch
             {
                 // To-Do
             }

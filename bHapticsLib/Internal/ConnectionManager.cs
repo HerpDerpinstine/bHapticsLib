@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
-using bHapticsLib.Internal.Connection.Models;
+using bHapticsLib.Internal.Models.Connection;
 using bHapticsLib.Internal.SimpleJSON;
 
-namespace bHapticsLib.Internal.Connection
+namespace bHapticsLib.Internal
 {
     internal class ConnectionManager : ThreadedTask
     {
@@ -187,10 +188,59 @@ namespace bHapticsLib.Internal.Connection
 
             RegisterRequest request = new RegisterRequest();
             request.key = key;
-            request.project = JSON.Parse(tactFileStr)["project"].AsObject;
+            request.project = JSON.Parse(tactFileStr)[nameof(request.project)].AsObject;
 
             RegisterCache.Add(request);
             RegisterQueue.Enqueue(request);
+        }
+
+        internal void RegisterPatternMirroredFromFile(string key, string tactFilePath)
+        {
+            if (!File.Exists(tactFilePath))
+                return; // To-Do: Exception Here
+
+            RegisterPatternMirroredFromJson(key, File.ReadAllText(tactFilePath));
+        }
+
+        internal void RegisterPatternMirroredFromJson(string key, string tactFileStr)
+        {
+            if (string.IsNullOrEmpty(key))
+                return; // To-Do: Exception Here
+
+            if (string.IsNullOrEmpty(tactFileStr))
+                return; // To-Do: Exception Here
+
+            RegisterRequest request = new RegisterRequest();
+            request.key = key;
+
+            JSONObject project = JSON.Parse(tactFileStr)[nameof(project)].AsObject;
+            JSONArray tracks = project[nameof(tracks)].AsArray;
+            LoopTracks(tracks, (effect) => 
+            {
+                JSONObject modes = effect[nameof(modes)].AsObject;
+                modes.ReverseAll();
+                effect["modes"] = modes;
+            });
+            project[nameof(tracks)] = tracks;
+
+            request.project = project;
+
+            RegisterCache.Add(request);
+            RegisterQueue.Enqueue(request);
+        }
+
+        private static void LoopTracks(JSONArray tracks, Action<JSONObject> act)
+        {
+            for (int i = 0; i < tracks.Count; i++)
+            {
+                JSONObject projectTrack = tracks[i].AsObject;
+                JSONArray effects = projectTrack[nameof(effects)].AsArray;
+                for (int i2 = 0; i2 < effects.Count; i2++)
+                {
+                    JSONObject projectEffect = effects[i2].AsObject;
+                    act(projectEffect);
+                }
+            }
         }
         #endregion
 

@@ -179,15 +179,32 @@ namespace bHapticsLib
             return false;
         }
 
-        internal static void Reverse<A>(this A dotPoints, int index, int length) where A : IList, ICollection
+        internal static void ReverseAll<A>(this A arr) where A : IList, ICollection
+            => arr.Reverse(0, arr.Count);
+        internal static void Reverse<A>(this A arr, int index, int length) where A : IList, ICollection
         {
             int num = index;
             for (int i = index + length - 1; num < i; i--)
             {
-                dotPoints.Swap(i, num);
+                arr.Swap(i, num);
                 num++;
             }
         }
+        internal static void ReverseAll(this JSONNode node)
+            => node.Reverse(0, node.Count);
+        internal static void Reverse(this JSONNode node, int index, int length)
+        {
+            int num = index;
+            for (int i = index + length - 1; num < i; i--)
+            {
+                JSONNode nodeA = node[i];
+                JSONNode nodeB = node[num];
+                node[i] = nodeB;
+                node[num] = nodeA;
+                num++;
+            }
+        }
+
         internal static void Swap<A>(this A dotPoints, int indexA, int indexB) where A : IList, ICollection
         {
             object d = dotPoints[indexA];

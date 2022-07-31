@@ -1,6 +1,5 @@
 ﻿using bHapticsLib;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
@@ -10,11 +9,13 @@ namespace TestApplication
     {
         private static byte[] TestPacket = new byte[bHapticsManager.MaxMotorsPerDotPoint] { 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         private static HapticPattern testFeedback;
+        private static HapticPattern testFeedbackMirrored;
 
         private static void Main()
         {
             string testFeedbackPath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "testfeedback.tact");
             testFeedback = HapticPattern.LoadFromFile("testfeedback", testFeedbackPath);
+            testFeedbackMirrored = HapticPattern.LoadMirroredFromFile("testFeedbackMirrored", testFeedbackPath);
 
             Console.WriteLine("Initializing...");
             bHapticsManager.Connect("bHapticsLib", "TestApplication", maxRetries: 0);
@@ -36,6 +37,15 @@ namespace TestApplication
             Console.WriteLine($"Press I for {nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionID)}.{nameof(PositionID.Vest)})");
             Console.WriteLine($"Press O for {nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionID)}.{nameof(PositionID.VestFront)})");
             Console.WriteLine($"Press P for {nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionID)}.{nameof(PositionID.VestBack)})");
+            Console.WriteLine();
+
+            Console.WriteLine($"Press N for {nameof(testFeedbackMirrored)}.{nameof(testFeedbackMirrored.Play)}()");
+            Console.WriteLine();
+
+            Console.WriteLine($"Press M for {nameof(testFeedbackMirrored)}.{nameof(testFeedbackMirrored.IsRegistered)}()");
+            Console.WriteLine();
+
+            Console.WriteLine($"Press J for {nameof(testFeedbackMirrored)}.{nameof(testFeedbackMirrored.IsPlaying)}()");
             Console.WriteLine();
 
             Console.WriteLine($"Press NUMPAD-1 for {nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionID)}.{nameof(PositionID.Vest)})");
@@ -120,6 +130,19 @@ namespace TestApplication
                     goto default;
                 case ConsoleKey.P:
                     Console.WriteLine($"{nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionID)}.{nameof(PositionID.VestBack)}): {bHapticsManager.GetDeviceStatus(PositionID.VestBack).ToArrayString()}");
+                    goto default;
+
+
+                case ConsoleKey.N:
+                    testFeedbackMirrored.Play();
+                    goto default;
+
+                case ConsoleKey.M:
+                    Console.WriteLine($"{nameof(testFeedbackMirrored)}.{nameof(testFeedbackMirrored.IsRegistered)}(): {testFeedbackMirrored.IsRegistered()}");
+                    goto default;
+
+                case ConsoleKey.J:
+                    Console.WriteLine($"{nameof(testFeedbackMirrored)}.{nameof(testFeedbackMirrored.IsPlaying)}(): {testFeedbackMirrored.IsPlaying()}");
                     goto default;
 
 

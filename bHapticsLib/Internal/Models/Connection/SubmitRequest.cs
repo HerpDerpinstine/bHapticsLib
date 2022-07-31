@@ -1,6 +1,6 @@
 ﻿using bHapticsLib.Internal.SimpleJSON;
 
-namespace bHapticsLib.Internal.Connection.Models
+namespace bHapticsLib.Internal.Models.Connection
 {
     internal class SubmitRequest : JSONObject
     {

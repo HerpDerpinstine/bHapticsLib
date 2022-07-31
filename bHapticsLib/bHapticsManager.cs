@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
-using bHapticsLib.Internal.Connection;
+using bHapticsLib.Internal;
 
 namespace bHapticsLib
 {
@@ -14,7 +14,7 @@ namespace bHapticsLib
         #endregion
 
         #region Connection
-        public static IPAddress IPAddress = IPAddress.Loopback;
+        internal static IPAddress IPAddress = IPAddress.Loopback;
         internal static int Port = 15881;
         internal static string Endpoint = "v2/feedbacks";
 
@@ -86,18 +86,14 @@ namespace bHapticsLib
         #region RegisterPattern
         public static bool IsPatternRegistered(string key) 
             => Connection.IsPatternRegistered(key);
-
         public static void RegisterPatternFromJson(string key, string tactFileStr)
             => Connection.RegisterPatternFromJson(key, tactFileStr);
         public static void RegisterPatternFromFile(string key, string tactFilePath)
             => Connection.RegisterPatternFromFile(key, tactFilePath);
-        #endregion
-
-        #region RegisterPatternMirrored
-        //public static void RegisterPatternMirroredFromJson(string key, string tactFileStr, MirrorDirection mirrorDirection)
-        //  => Connection.RegisterPatternMirroredFromJson(key, tactFileStr, mirrorDirection);
-        //public static void RegisterPatternMirroredFromFile(string key, string tactFilePath, MirrorDirection mirrorDirection)
-        //  => Connection.RegisterPatternMirroredFromFile(key, tactFilePath, mirrorDirection);
+        public static void RegisterPatternMirroredFromJson(string key, string tactFileStr)
+            => Connection.RegisterPatternMirroredFromJson(key, tactFileStr);
+        public static void RegisterPatternMirroredFromFile(string key, string tactFilePath)
+            => Connection.RegisterPatternMirroredFromFile(key, tactFilePath);
         #endregion
 
         #region PlayDot

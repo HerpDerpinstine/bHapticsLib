@@ -2,46 +2,31 @@
 {
     public class HapticPattern
     {
-        private HapticPattern() { }
         public string Key { get; private set; }
 
-        public static HapticPattern LoadFromFile(string key, string filepath)
+        public static HapticPattern LoadFromFile(string key, string tactFilePath)
         {
-            bHapticsManager.RegisterPatternFromFile(key, filepath);
+            bHapticsManager.RegisterPatternFromFile(key, tactFilePath);
             return new HapticPattern { Key = key };
         }
 
-        public static HapticPattern LoadFromJson(string key, string filestr)
+        public static HapticPattern LoadFromJson(string key, string tactFileStr)
         {
-            bHapticsManager.RegisterPatternFromJson(key, filestr);
+            bHapticsManager.RegisterPatternFromJson(key, tactFileStr);
             return new HapticPattern { Key = key };
         }
 
-        public static HapticPattern CloneFromRegisteredPattern(string key)
+        public static HapticPattern LoadMirroredFromFile(string key, string tactFilePath)
         {
-            if (!bHapticsManager.IsPatternRegistered(key))
-                return null; // To-Do: Exception Here
+            bHapticsManager.RegisterPatternMirroredFromFile(key, tactFilePath);
             return new HapticPattern { Key = key };
         }
 
-        /*
-        public static HapticPattern LoadMirroredFromFile(string key, string filepath)
+        public static HapticPattern LoadMirroredFromJson(string key, string tactFileStr)
         {
-            bHapticsManager.RegisterPatternMirroredFromFile(key, filepath);
-            return new HapticPattern { Key = key, };
+            bHapticsManager.RegisterPatternMirroredFromJson(key, tactFileStr);
+            return new HapticPattern { Key = key };
         }
-
-        public static HapticPattern LoadMirroredFromJson(string key, string filestr)
-        {
-            bHapticsManager.RegisterPatternMirroredFromJson(key, filestr);
-            return new HapticPattern { Key = key, };
-        }
-
-        public static HapticPattern CloneMirroredFromRegisteredPattern(string key)
-        {
-
-        }
-        */
 
         public bool IsRegistered()
             => bHapticsManager.IsPatternRegistered(Key);
