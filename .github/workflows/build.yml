@@ -23,6 +23,7 @@ jobs:
       - name: Copying Documentation to Release
         shell: cmd
         run: |
+          cd ..
           dir
           copy LICENSE.md Output\Release\
           copy README.md Output\Release\
