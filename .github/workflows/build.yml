@@ -2,44 +2,50 @@ name: Build bHapticsLib
 
 on: [push, pull_request, workflow_dispatch]
 
+concurrency:
+  cancel-in-progress: true
+  
 jobs:
   build:
     runs-on: windows-latest
+    cancel-in-progress: true
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup .NET 5
         uses: actions/setup-dotnet@v2
         with:
             dotnet-version: 5.0.x
+
       - name: Setup .NET 6
         uses: actions/setup-dotnet@v2
         with:
             dotnet-version: 6.0.x
-      - name: Restore Dependencies
-        run: dotnet restore
+
       - name: Build Release
         shell: cmd
-        run: dotnet build bHapticsLib -c Release
-      - name: Copying Documentation to Release
-        shell: cmd
         run: |
-          cd ..
-          dir
+          dotnet build bHapticsLib -c Release
           copy LICENSE.md Output\Release\
           copy README.md Output\Release\
+
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v3
         with:
           name: bHapticsLib
           path: Output/Release/
+
       - name: Build Debug
         shell: cmd
-        run: dotnet build bHapticsLib -c Debug
+        run: 
+
       - name: Copying Documentation to Debug
         shell: cmd
         run: |
+          dotnet build bHapticsLib -c Debug
           copy LICENSE.md Output\Debug\
           copy README.md Output\Debug\
+
       - name: Upload Debug Artifact
         uses: actions/upload-artifact@v3
         with:
