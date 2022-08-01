@@ -21,7 +21,7 @@ jobs:
         shell: cmd
         run: dotnet build bHapticsLib -c Debug
       - name: Upload Debug Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: bHapticsLib.CI.Debug
           path: Output/Debug/
@@ -29,7 +29,7 @@ jobs:
         shell: cmd
         run: dotnet build bHapticsLib -c Release
       - name: Upload Release Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: bHapticsLib.CI.Release
           path: Output/Release/
