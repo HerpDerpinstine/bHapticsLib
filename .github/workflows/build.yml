@@ -15,10 +15,7 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
             dotnet-version: 6.0.x
-      - name: Restore Dependencies
-        run: dotnet restore
       - name: Build Release
-        shell: cmd
         run: dotnet build bHapticsLib -c Release
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v3
@@ -26,7 +23,6 @@ jobs:
           name: bHapticsLib
           path: Output/Release/
       - name: Build Debug
-        shell: cmd
         run: dotnet build bHapticsLib -c Debug
       - name: Upload Debug Artifact
         uses: actions/upload-artifact@v3
