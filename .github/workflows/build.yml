@@ -17,19 +17,29 @@ jobs:
             dotnet-version: 6.0.x
       - name: Restore Dependencies
         run: dotnet restore
-      - name: Build Debug
-        shell: cmd
-        run: dotnet build bHapticsLib -c Debug
-      - name: Upload Debug Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: bHapticsLib.CI.Debug
-          path: Output/Debug/
       - name: Build Release
         shell: cmd
         run: dotnet build bHapticsLib -c Release
+      - name: Copying Documentation to Release
+        shell: cmd
+        run: |
+          copy LICENSE.md Output\Release\
+          copy README.md Output\Release\
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: bHapticsLib.CI.Release
+          name: bHapticsLib
           path: Output/Release/
+      - name: Build Debug
+        shell: cmd
+        run: dotnet build bHapticsLib -c Debug
+      - name: Copying Documentation to Debug
+        shell: cmd
+        run: |
+          copy LICENSE.md Output\Debug\
+          copy README.md Output\Debug\
+      - name: Upload Debug Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bHapticsLib.Debug
+          path: Output/Debug/
