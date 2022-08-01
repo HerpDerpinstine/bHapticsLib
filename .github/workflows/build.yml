@@ -35,10 +35,6 @@ jobs:
           name: bHapticsLib
           path: Output/Release/
 
-      - name: Build Debug
-        shell: cmd
-        run: 
-
       - name: Copying Documentation to Debug
         shell: cmd
         run: |
