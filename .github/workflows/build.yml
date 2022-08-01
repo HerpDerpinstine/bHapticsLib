@@ -21,11 +21,11 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: bHapticsLib
-          path: Output/Release/
+          path: Output/Release/*
       - name: Build Debug
         run: dotnet build bHapticsLib -c Debug
       - name: Upload Debug Artifact
         uses: actions/upload-artifact@v3
         with:
           name: bHapticsLib.Debug
-          path: Output/Debug/
+          path: Output/Debug/*
