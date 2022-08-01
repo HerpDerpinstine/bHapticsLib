@@ -12,21 +12,16 @@
 	</PropertyGroup>
 	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugType>full</DebugType>
+		<DebugType>Full</DebugType>
+		<GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
 		<DefineConstants>TRACE;DEBUG</DefineConstants>
+		<DocumentationFile>bHapticsLib.xml</DocumentationFile>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 		<DebugType>None</DebugType>
 		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-	</PropertyGroup>
-	
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard20|AnyCPU'">
-	  <DocumentationFile>D:\Lava Gang\bHaptics\bHapticsLib\bHapticsLib\bHapticsLib.xml</DocumentationFile>
-	</PropertyGroup>
-	
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard20|AnyCPU'">
-	  <DocumentationFile>D:\Lava Gang\bHaptics\bHapticsLib\bHapticsLib\bHapticsLib.xml</DocumentationFile>
+		<DocumentationFile>bHapticsLib.xml</DocumentationFile>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -65,9 +60,5 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
-	
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="copy &quot;$(SolutionDir)README.md&quot; &quot;$(SolutionDir)Output\$(Configuration)\&quot;&#xD;&#xA;copy &quot;$(SolutionDir)LICENSE.md&quot; &quot;$(SolutionDir)Output\$(Configuration)\&quot;" />
-	</Target>
 	
 </Project>
