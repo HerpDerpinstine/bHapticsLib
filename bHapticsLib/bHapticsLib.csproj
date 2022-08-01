@@ -13,23 +13,15 @@
 	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugType>Full</DebugType>
-		<GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
 		<DefineConstants>TRACE;DEBUG</DefineConstants>
-		<DocumentationFile>bHapticsLib.xml</DocumentationFile>
+		<DocumentationFile>$(SolutionDir)bHapticsLib\bHapticsLib.xml</DocumentationFile>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 		<DebugType>None</DebugType>
 		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-		<DocumentationFile>bHapticsLib.xml</DocumentationFile>
+		<DocumentationFile>$(SolutionDir)bHapticsLib\bHapticsLib.xml</DocumentationFile>
 	</PropertyGroup>
-	
-	<ItemGroup>
-	  <Compile Remove="Internal\Models\Project\ProjectData.cs" />
-	  <Compile Remove="Internal\Models\Project\ProjectEffect.cs" />
-	  <Compile Remove="Internal\Models\Project\ProjectFile.cs" />
-	  <Compile Remove="Internal\Models\Project\ProjectTrack.cs" />
-	</ItemGroup>
 	
 	<ItemGroup>
 	  <None Remove="ILRepack.targets" />
@@ -38,13 +30,6 @@
 	<ItemGroup>
 	  <Compile Include="..\Properties\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
 	  <Compile Include="..\Properties\BuildInfo.cs" Link="Properties\BuildInfo.cs" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Include="Internal\Models\Project\ProjectData.cs" />
-	  <None Include="Internal\Models\Project\ProjectEffect.cs" />
-	  <None Include="Internal\Models\Project\ProjectFile.cs" />
-	  <None Include="Internal\Models\Project\ProjectTrack.cs" />
 	</ItemGroup>
 	
 	<ItemGroup>
