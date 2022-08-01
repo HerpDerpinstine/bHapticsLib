@@ -66,4 +66,8 @@
 	  </None>
 	</ItemGroup>
 	
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="copy &quot;$(SolutionDir)README.md&quot; &quot;$(SolutionDir)Output\$(Configuration)\&quot;&#xD;&#xA;copy &quot;$(SolutionDir)LICENSE.md&quot; &quot;$(SolutionDir)Output\$(Configuration)\&quot;" />
+	</Target>
+	
 </Project>

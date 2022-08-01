@@ -19,11 +19,7 @@ jobs:
             dotnet-version: 6.0.x
 
       - name: Build Release
-        shell: cmd
-        run: |
-          dotnet build bHapticsLib -c Release
-          copy LICENSE.md Output\Release\
-          copy README.md Output\Release\
+        run: dotnet build bHapticsLib -c Release
 
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v3
@@ -31,12 +27,8 @@ jobs:
           name: bHapticsLib
           path: Output/Release/
 
-      - name: Copying Documentation to Debug
-        shell: cmd
-        run: |
-          dotnet build bHapticsLib -c Debug
-          copy LICENSE.md Output\Debug\
-          copy README.md Output\Debug\
+      - name: Build Debug
+        run: dotnet build bHapticsLib -c Debug
 
       - name: Upload Debug Artifact
         uses: actions/upload-artifact@v3
