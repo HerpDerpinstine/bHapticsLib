@@ -20,6 +20,11 @@ jobs:
       - name: Build Release
         shell: cmd
         run: dotnet build bHapticsLib -c Release
+      - name: Download Release
+        uses: actions/download-artifact@v3
+        with:
+          name: bHapticsLib
+          path: Output/Release/
       - name: Copying Documentation to Release
         shell: cmd
         run: |
@@ -33,6 +38,11 @@ jobs:
       - name: Build Debug
         shell: cmd
         run: dotnet build bHapticsLib -c Debug
+      - name: Download Debug
+        uses: actions/download-artifact@v3
+        with:
+          name: bHapticsLib
+          path: Output/Debug/
       - name: Copying Documentation to Debug
         shell: cmd
         run: |
