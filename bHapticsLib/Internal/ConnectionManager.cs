@@ -336,12 +336,14 @@ namespace bHapticsLib.Internal
         #endregion
 
         #region SubmitRegistered
-        internal void SubmitRegistered(string key, string altKey = null, ScaleOption scaleOption = null, RotationOption rotationOption = null)
+        internal void SubmitRegistered(string key, string altKey = null, int startTimeMillis = 0, ScaleOption scaleOption = null, RotationOption rotationOption = null)
         {
             if (!IsAlive() || !IsConnected())
                 return;
 
             SubmitRequest request = new SubmitRequest { key = key, type = "key" };
+
+            request.Parameters["startTimeMillis"] = startTimeMillis;
 
             if (!string.IsNullOrEmpty(altKey))
                 request.Parameters["altKey"] = altKey;
