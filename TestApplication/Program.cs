@@ -60,11 +60,11 @@ namespace TestApplication
             Console.WriteLine($"Press NUMPAD-4 for {nameof(testFeedback)}.{nameof(testFeedback.IsPlaying)}()");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-5 for {nameof(bHapticsManager.Play)}(\"testPlayFront\", 1000, {nameof(PositionID)}.{nameof(PositionID.ArmLeft)}, {nameof(TestPacket)} )");
+            Console.WriteLine($"Press NUMPAD-5 for {nameof(bHapticsManager.Play)}(\"testPlayFront\", 1000, {nameof(PositionID)}.{nameof(PositionID.HandLeft)}, {nameof(TestPacket)} )");
             Console.WriteLine($"Press NUMPAD-6 for {nameof(bHapticsManager.Play)}(\"testPlayBack\", 1000, {nameof(PositionID)}.{nameof(PositionID.ArmRight)}, {nameof(TestPacket)} )");
             Console.WriteLine();
 
-            Console.WriteLine($"Press NUMPAD-7 for {nameof(bHapticsManager.PlayMirrored)}(\"testPlayFront\", 1000, {nameof(PositionID)}.{nameof(PositionID.ArmLeft)}, {nameof(TestPacket)}, {nameof(MirrorDirection)}.{nameof(MirrorDirection.Both)} )");
+            Console.WriteLine($"Press NUMPAD-7 for {nameof(bHapticsManager.PlayMirrored)}(\"testPlayFront\", 1000, {nameof(PositionID)}.{nameof(PositionID.HandLeft)}, {nameof(TestPacket)}, {nameof(MirrorDirection)}.{nameof(MirrorDirection.Both)} )");
             Console.WriteLine($"Press NUMPAD-8 for {nameof(bHapticsManager.PlayMirrored)}(\"testPlayBack\", 1000, {nameof(PositionID)}.{nameof(PositionID.ArmRight)}, {nameof(TestPacket)}, {nameof(MirrorDirection)}.{nameof(MirrorDirection.Both)}  )");
             Console.WriteLine();
 
@@ -123,7 +123,7 @@ namespace TestApplication
 
 
                 case ConsoleKey.I:
-                    Console.WriteLine($"{nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionID)}.{nameof(PositionID.Vest)}): {bHapticsManager.GetDeviceStatus(PositionID.Vest).ToArrayString()}");
+                    Console.WriteLine($"{nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionID)}.{nameof(PositionID.HandLeft)}): {bHapticsManager.GetDeviceStatus(PositionID.Vest).ToArrayString()}");
                     goto default;
                 case ConsoleKey.O:
                     Console.WriteLine($"{nameof(bHapticsManager.GetDeviceStatus)}({nameof(PositionID)}.{nameof(PositionID.VestFront)}): {bHapticsManager.GetDeviceStatus(PositionID.VestFront).ToArrayString()}");
@@ -147,7 +147,7 @@ namespace TestApplication
 
 
                 case ConsoleKey.NumPad1:
-                    Console.WriteLine($"{nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionID)}.{nameof(PositionID.Vest)}): {bHapticsManager.IsDeviceConnected(PositionID.Vest)}");
+                    Console.WriteLine($"{nameof(bHapticsManager.IsDeviceConnected)}({nameof(PositionID)}.{nameof(PositionID.HandLeft)}): {bHapticsManager.IsDeviceConnected(PositionID.HandLeft)}");
                     goto default;
 
 
@@ -167,18 +167,18 @@ namespace TestApplication
 
 
                 case ConsoleKey.NumPad5:
-                    bHapticsManager.Play("testPlayFront", 1000, PositionID.VestFront, TestPacket);
-                    goto default;
+                    bHapticsManager.Play("testPlayFront", 1000, PositionID.HandLeft, TestPacket);
+                   goto default;
                 case ConsoleKey.NumPad6:
-                    bHapticsManager.Play("testPlayBack", 1000, PositionID.VestBack, TestPacket);
+                    bHapticsManager.Play("testPlayBack", 1000, PositionID.ArmRight, TestPacket);
                     goto default;
 
 
                 case ConsoleKey.NumPad7:
-                    bHapticsManager.PlayMirrored("testPlayFrontMirrored", 1000, PositionID.VestFront, TestPacket, MirrorDirection.Both);
+                    bHapticsManager.PlayMirrored("testPlayFrontMirrored", 1000, PositionID.HandLeft, TestPacket, MirrorDirection.Both);
                     goto default;
                 case ConsoleKey.NumPad8:
-                    bHapticsManager.PlayMirrored("testPlayBackMirrored", 1000, PositionID.VestBack, TestPacket, MirrorDirection.Both);
+                    bHapticsManager.PlayMirrored("testPlayBackMirrored", 1000, PositionID.ArmRight, TestPacket, MirrorDirection.Both);
                     goto default;
 
 

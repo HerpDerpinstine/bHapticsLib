@@ -76,8 +76,11 @@ namespace bHapticsLib.Internal
                     while ((submitRequest = SubmitQueue.Dequeue()) != null)
                         Packet.Submit.Add(submitRequest);
 
-                    Socket.Send(Packet);
-                    Packet.Clear();
+                    if (!Packet.IsEmpty())
+                    {
+                        Socket.Send(Packet);
+                        Packet.Clear();
+                    }
                 }
 
                 if (ShouldRun)
@@ -109,7 +112,7 @@ namespace bHapticsLib.Internal
             if ((type == PositionID.VestFront)
                 || (type == PositionID.VestBack))
                 type = PositionID.Vest;
-            return Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type) ?? false;
+            return Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type.ToPacketString()) ?? false;
         }
         internal int[] GetDeviceStatus(PositionID type)
         {
@@ -261,7 +264,7 @@ namespace bHapticsLib.Internal
             where A : IList, ICollection
             where B : IList<PathPoint>, ICollection<PathPoint>
         {
-            if (!IsAlive() || !IsConnected() || !IsDeviceConnected(position))
+            if (!IsAlive())
                 return;
 
             if (position == PositionID.Vest)
@@ -273,7 +276,7 @@ namespace bHapticsLib.Internal
 
             SubmitRequest request = new SubmitRequest { key = key, type = "frame" };
             request.Frame.durationMillis = durationMillis;
-            request.Frame.position = position;
+            request.Frame.position = position.ToPacketString();
 
             if ((dotPoints != null) && (dotPoints.Count > 0))
             {
@@ -338,7 +341,7 @@ namespace bHapticsLib.Internal
         #region SubmitRegistered
         internal void SubmitRegistered(string key, string altKey = null, int startTimeMillis = 0, ScaleOption scaleOption = null, RotationOption rotationOption = null)
         {
-            if (!IsAlive() || !IsConnected())
+            if (!IsAlive())
                 return;
 
             SubmitRequest request = new SubmitRequest { key = key, type = "key" };

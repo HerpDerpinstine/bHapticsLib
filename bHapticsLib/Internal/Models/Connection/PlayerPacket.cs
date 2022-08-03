@@ -31,5 +31,8 @@ namespace bHapticsLib.Internal.Models.Connection
             Register.Clear();
             Submit.Clear();
         }
+
+        internal bool IsEmpty()
+            => ((Register.Count <= 0) && (Submit.Count <= 0));
     }
 }

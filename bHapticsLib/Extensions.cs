@@ -63,6 +63,34 @@ namespace bHapticsLib
             }
         }
 
+        internal static string ToPacketString(this PositionID value)
+        {
+            switch (value)
+            {
+                // Arms
+                case PositionID.ArmLeft:
+                    return "ForearmL";
+                case PositionID.ArmRight:
+                    return "ForearmR";
+
+                // Hands
+                case PositionID.HandLeft:
+                    return "HandL";
+                case PositionID.HandRight:
+                    return "HandR";
+
+                // Feet
+                case PositionID.FootLeft:
+                    return "FootL";
+                case PositionID.FootRight:
+                    return "FootR";
+
+                // Default
+                default:
+                    return value.ToString();
+            }
+        }
+
         internal static T Clamp<T>(T value, T min, T max) where T : IComparable<T> { if (value.CompareTo(min) < 0) return min; if (value.CompareTo(max) > 0) return max; return value; }
         internal static Int16 Clamp(this Int16 value, Int16 min, Int16 max)
             => Clamp<Int16>(value, min, max);
@@ -165,9 +193,6 @@ namespace bHapticsLib
             return false;
         }
 
-        internal static bool ContainsValue<T>(this T arr, PositionID value) where T : JSONNode
-            => ContainsValue(arr, value.ToString());
-
         internal static bool ContainsValueMoreThan<T>(this T[] arr, T value) where T : IComparable<T>
         {
             int count = arr.Length;
@@ -207,6 +232,15 @@ namespace bHapticsLib
 
         internal static void Swap<A>(this A dotPoints, int indexA, int indexB) where A : IList, ICollection
         {
+            int count = dotPoints.Count;
+            if (count <= 1)
+                return;
+
+            if ((indexA < 0) || (indexA > (count - 1)))
+                return;
+            if ((indexB < 0) || (indexB > (count - 1)))
+                return;
+
             object d = dotPoints[indexA];
             object t = dotPoints[indexB];
 

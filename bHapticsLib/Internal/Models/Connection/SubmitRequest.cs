@@ -16,14 +16,14 @@ namespace bHapticsLib.Internal.Models.Connection
             set => this[nameof(key)] = value;
         }
 
-        internal JSONArray Parameters
+        internal JSONObject Parameters
         {
             get
             {
                 string key = nameof(Parameters);
                 if (this[key] == null)
-                    this[key] = new JSONArray();
-                return this[key].AsArray;
+                    this[key] = new JSONObject();
+                return this[key].AsObject;
             }
         }
 

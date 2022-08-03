@@ -11,9 +11,9 @@ namespace bHapticsLib.Internal.Models.Connection
             set => this[nameof(durationMillis)] = value;
         }
 
-        internal PositionID position
+        internal string position
         {
-            get => (PositionID)Enum.Parse(typeof(PositionID), this[nameof(position)]);
+            get => this[nameof(position)];
             set => this[nameof(position)] = value.ToString();
         }
 
