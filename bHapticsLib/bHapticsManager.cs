@@ -89,8 +89,6 @@ namespace bHapticsLib
             => Connection.IsPatternRegistered(key);
         public static void RegisterPatternFromJson(string key, string tactFileStr)
             => Connection.RegisterPatternFromJson(key, tactFileStr);
-        public static void RegisterPatternFromProjectJson(string key, string projectStr)
-            => Connection.RegisterPatternFromProjectJson(key, projectStr);
         public static void RegisterPatternFromFile(string key, string tactFilePath)
             => Connection.RegisterPatternFromFile(key, tactFilePath);
         public static void RegisterPatternSwappedFromJson(string key, string tactFileStr)

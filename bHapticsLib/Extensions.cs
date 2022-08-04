@@ -7,89 +7,57 @@ namespace bHapticsLib
 {
     public static class Extensions
     {
+        private static string OscAddressHeader = "/bhaptics";
+
         public static string ToOscAddress(this PositionID value)
-        {
-            switch (value)
+            => (value) switch
             {
                 // Head
-                case PositionID.Head:
-                    return "/bhaptics/head";
+                PositionID.Head => $"{OscAddressHeader}/head",
 
                 // Vest
-                case PositionID.Vest:
-                    return "/bhaptics/vest";
-                case PositionID.VestFront:
-                    return "/bhaptics/vest/front";
-                case PositionID.VestBack:
-                    return "/bhaptics/vest/back";
+                PositionID.Vest => $"{OscAddressHeader}/vest",
+                PositionID.VestFront => $"{OscAddressHeader}/vest/front",
+                PositionID.VestBack => $"{OscAddressHeader}/vest/back",
 
                 // Arms
-                case PositionID.ArmLeft:
-                    return "/bhaptics/arm/left";
-                case PositionID.ArmRight:
-                    return "/bhaptics/arm/right";
+                PositionID.ArmLeft => $"{OscAddressHeader}/arm/left",
+                PositionID.ArmRight => $"{OscAddressHeader}/arm/right",
 
                 // Hands
-                case PositionID.HandLeft:
-                    return "/bhaptics/hand/left";
-                case PositionID.HandRight:
-                    return "/bhaptics/hand/right";
+                PositionID.HandLeft => $"{OscAddressHeader}/hand/left",
+                PositionID.HandRight => $"{OscAddressHeader}/hand/right",
 
                 // Gloves
-                case PositionID.GloveLeft:
-                    return "/bhaptics/glove/left";
-                case PositionID.GloveRight:
-                    return "/bhaptics/glove/right";
+                PositionID.GloveLeft => $"{OscAddressHeader}/glove/left",
+                PositionID.GloveRight => $"{OscAddressHeader}/glove/right",
 
                 // Feet
-                case PositionID.FootLeft:
-                    return "/bhaptics/foot/left";
-                case PositionID.FootRight:
-                    return "/bhaptics/foot/right";
-
-                // Custom
-                case PositionID.Custom1:
-                    return "/bhaptics/custom1";
-                case PositionID.Custom2:
-                    return "/bhaptics/custom2";
-                case PositionID.Custom3:
-                    return "/bhaptics/custom3";
-                case PositionID.Custom4:
-                    return "/bhaptics/custom4";
+                PositionID.FootLeft => $"{OscAddressHeader}/foot/left",
+                PositionID.FootRight => $"{OscAddressHeader}/foot/right",
 
                 // Unknown
-                default:
-                    return null;
-            }
-        }
+                _ => null
+            };
 
         internal static string ToPacketString(this PositionID value)
-        {
-            switch (value)
+            => (value) switch
             {
                 // Arms
-                case PositionID.ArmLeft:
-                    return "ForearmL";
-                case PositionID.ArmRight:
-                    return "ForearmR";
+                PositionID.ArmLeft => "ForearmL",
+                PositionID.ArmRight => "ForearmR",
 
                 // Hands
-                case PositionID.HandLeft:
-                    return "HandL";
-                case PositionID.HandRight:
-                    return "HandR";
+                PositionID.HandLeft => "HandL",
+                PositionID.HandRight => "HandR",
 
                 // Feet
-                case PositionID.FootLeft:
-                    return "FootL";
-                case PositionID.FootRight:
-                    return "FootR";
+                PositionID.FootLeft => "FootL",
+                PositionID.FootRight => "FootR",
 
                 // Default
-                default:
-                    return value.ToString();
-            }
-        }
+                _ => value.ToString()
+            };
 
         internal static T Clamp<T>(T value, T min, T max) where T : IComparable<T> { if (value.CompareTo(min) < 0) return min; if (value.CompareTo(max) > 0) return max; return value; }
         internal static Int16 Clamp(this Int16 value, Int16 min, Int16 max)

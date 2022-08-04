@@ -188,20 +188,9 @@ namespace bHapticsLib.Internal
             if (string.IsNullOrEmpty(tactFileStr))
                 return; // To-Do: Exception Here
 
-            RegisterPatternFromProjectJson(key, JSON.Parse(tactFileStr)[nameof(RegisterRequest.project)]);
-        }
-
-        internal void RegisterPatternFromProjectJson(string key, string projectStr)
-        {
-            if (string.IsNullOrEmpty(key))
-                return; // To-Do: Exception Here
-
-            if (string.IsNullOrEmpty(projectStr))
-                return; // To-Do: Exception Here
-
             RegisterRequest request = new RegisterRequest();
             request.key = key;
-            request.project = JSON.Parse(projectStr).AsObject;
+            request.project = JSON.Parse(tactFileStr)[nameof(request.project)].AsObject;
 
             RegisterCache.Add(request);
             RegisterQueue.Enqueue(request);

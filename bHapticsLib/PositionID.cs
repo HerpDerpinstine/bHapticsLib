@@ -2,15 +2,15 @@
 {
     public enum PositionID : int
     {
-        All = 0, // Unused
-        Left = 1, // Unused
-        Right = 2, // Unused
+        //All = 0, // Unused
+        //Left = 1, // Unused
+        //Right = 2, // Unused
 
         Vest = 3,
 
         Head = 4,
 
-        Racket = 5, // Unused
+        //Racket = 5, // Unused
 
         HandLeft = 6,
         HandRight = 7,
@@ -27,9 +27,9 @@
         GloveLeft = 203,
         GloveRight = 204,
 
-        Custom1 = 251, // Unused
-        Custom2 = 252, // Unused
-        Custom3 = 253, // Unused
-        Custom4 = 254 // Unused
+        //Custom1 = 251, // Unused
+        //Custom2 = 252, // Unused
+        //Custom3 = 253, // Unused
+        //Custom4 = 254 // Unused
     }
 }
