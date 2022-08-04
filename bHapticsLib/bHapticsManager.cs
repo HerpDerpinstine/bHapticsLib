@@ -89,6 +89,8 @@ namespace bHapticsLib
             => Connection.IsPatternRegistered(key);
         public static void RegisterPatternFromJson(string key, string tactFileStr)
             => Connection.RegisterPatternFromJson(key, tactFileStr);
+        public static void RegisterPatternFromProjectJson(string key, string projectStr)
+            => Connection.RegisterPatternFromProjectJson(key, projectStr);
         public static void RegisterPatternFromFile(string key, string tactFilePath)
             => Connection.RegisterPatternFromFile(key, tactFilePath);
         public static void RegisterPatternSwappedFromJson(string key, string tactFileStr)
@@ -179,38 +181,24 @@ namespace bHapticsLib
         public static void PlayRegistered(string key) 
             => Connection.SubmitRegistered(key);
         public static void PlayRegistered(string key, int startTimeMillis)
-            => Connection.SubmitRegistered(key, startTimeMillis: startTimeMillis);
+            => Connection.SubmitRegisteredMillis(key, startTimeMillis: startTimeMillis);
         public static void PlayRegistered(string key, ScaleOption option)
             => Connection.SubmitRegistered(key, scaleOption: option);
-        public static void PlayRegistered(string key, int startTimeMillis, ScaleOption option)
-            => Connection.SubmitRegistered(key, startTimeMillis: startTimeMillis, scaleOption: option);
         public static void PlayRegistered(string key, RotationOption option) 
             => Connection.SubmitRegistered(key, rotationOption: option);
-        public static void PlayRegistered(string key, int startTimeMillis, RotationOption option)
-            => Connection.SubmitRegistered(key, startTimeMillis: startTimeMillis, rotationOption: option);
         public static void PlayRegistered(string key, ScaleOption scaleOption, RotationOption rotationOption) 
             => Connection.SubmitRegistered(key, scaleOption: scaleOption, rotationOption: rotationOption);
-        public static void PlayRegistered(string key, int startTimeMillis, ScaleOption scaleOption, RotationOption rotationOption)
-            => Connection.SubmitRegistered(key, startTimeMillis: startTimeMillis, scaleOption: scaleOption, rotationOption: rotationOption);
         #endregion
 
         #region PlayRegisteredAlt
         public static void PlayRegistered(string key, string altKey) 
             => Connection.SubmitRegistered(key, altKey);
-        public static void PlayRegistered(string key, string altKey, int startTimeMillis)
-            => Connection.SubmitRegistered(key, altKey, startTimeMillis);
         public static void PlayRegistered(string key, string altKey, ScaleOption option) 
             => Connection.SubmitRegistered(key, altKey, scaleOption: option);
-        public static void PlayRegistered(string key, string altKey, int startTimeMillis, ScaleOption option)
-            => Connection.SubmitRegistered(key, altKey, startTimeMillis, option);
         public static void PlayRegistered(string key, string altKey, RotationOption option) 
             => Connection.SubmitRegistered(key, altKey, rotationOption: option);
-        public static void PlayRegistered(string key, string altKey, int startTimeMillis, RotationOption option)
-            => Connection.SubmitRegistered(key, altKey, startTimeMillis, rotationOption: option);
         public static void PlayRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption) 
             => Connection.SubmitRegistered(key, altKey, scaleOption: scaleOption, rotationOption: rotationOption);
-        public static void PlayRegistered(string key, string altKey, int startTimeMillis, ScaleOption scaleOption, RotationOption rotationOption)
-            => Connection.SubmitRegistered(key, altKey, startTimeMillis, scaleOption, rotationOption);
         #endregion
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using bHapticsLib.Internal.Models.Connection;
 using bHapticsLib.Internal.SimpleJSON;
@@ -189,9 +188,20 @@ namespace bHapticsLib.Internal
             if (string.IsNullOrEmpty(tactFileStr))
                 return; // To-Do: Exception Here
 
+            RegisterPatternFromProjectJson(key, JSON.Parse(tactFileStr)[nameof(RegisterRequest.project)]);
+        }
+
+        internal void RegisterPatternFromProjectJson(string key, string projectStr)
+        {
+            if (string.IsNullOrEmpty(key))
+                return; // To-Do: Exception Here
+
+            if (string.IsNullOrEmpty(projectStr))
+                return; // To-Do: Exception Here
+
             RegisterRequest request = new RegisterRequest();
             request.key = key;
-            request.project = JSON.Parse(tactFileStr)[nameof(request.project)].AsObject;
+            request.project = JSON.Parse(projectStr).AsObject;
 
             RegisterCache.Add(request);
             RegisterQueue.Enqueue(request);
@@ -339,14 +349,12 @@ namespace bHapticsLib.Internal
         #endregion
 
         #region SubmitRegistered
-        internal void SubmitRegistered(string key, string altKey = null, int startTimeMillis = 0, ScaleOption scaleOption = null, RotationOption rotationOption = null)
+        internal void SubmitRegistered(string key, string altKey = null, ScaleOption scaleOption = null, RotationOption rotationOption = null)
         {
             if (!IsAlive())
                 return;
 
             SubmitRequest request = new SubmitRequest { key = key, type = "key" };
-
-            request.Parameters["startTimeMillis"] = startTimeMillis;
 
             if (!string.IsNullOrEmpty(altKey))
                 request.Parameters["altKey"] = altKey;
@@ -356,6 +364,17 @@ namespace bHapticsLib.Internal
 
             if (rotationOption != null)
                 request.Parameters["rotationOption"] = rotationOption.node;
+
+            SubmitQueue.Enqueue(request);
+        }
+        internal void SubmitRegisteredMillis(string key, int startTimeMillis = 0)
+        {
+            if (!IsAlive())
+                return;
+
+            SubmitRequest request = new SubmitRequest { key = key, type = "key" };
+
+            request.Parameters["startTimeMillis"] = startTimeMillis;
 
             SubmitQueue.Enqueue(request);
         }
