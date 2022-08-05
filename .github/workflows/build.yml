@@ -33,8 +33,3 @@ jobs:
         with:
           name: bHapticsLib.CI.Release
           path: Output/Release/
-      - name: Upload Nuget Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: bHapticsLib.nuget
-          path: Output/Release/*.nuget
