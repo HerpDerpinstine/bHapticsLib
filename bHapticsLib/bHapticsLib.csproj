@@ -9,6 +9,11 @@
 		<OutputPath>$(SolutionDir)Output\$(Configuration)\</OutputPath>
 		<OutputType>Library</OutputType>
 		<RootNamespace>bHapticsLib</RootNamespace>
+		<PackageProjectUrl>https://github.com/HerpDerpinstine/bHapticsLib</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/HerpDerpinstine/bHapticsLib</RepositoryUrl>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>Herp Derpinstine</Authors>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -25,6 +30,10 @@
 	
 	<ItemGroup>
 	  <None Remove="ILRepack.targets" />
+	  <None Include="..\LICENSE.md">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
 	</ItemGroup>
 	
 	<ItemGroup>

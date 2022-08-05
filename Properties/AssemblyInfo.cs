@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using bHapticsLib.Properties;
 
 [assembly: AssemblyTitle(BuildInfo.Name)]
-[assembly: AssemblyCompany(BuildInfo.Company)]
+[assembly: AssemblyCompany("Lava Gang")]
 [assembly: AssemblyProduct(BuildInfo.Name)]
 [assembly: AssemblyCopyright("Created by " + BuildInfo.Author)]
 [assembly: AssemblyTrademark(BuildInfo.Company)]

@@ -375,3 +375,4 @@ MigrationBackup/
 Output
 *.unitypackage
 OLD
+update_nuget.bat
