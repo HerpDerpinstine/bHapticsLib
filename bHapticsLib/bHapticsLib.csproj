@@ -23,9 +23,14 @@
 	</PropertyGroup>
 	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>None</DebugType>
+		<DebugType>none</DebugType>
 		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-		<DocumentationFile>$(SolutionDir)bHapticsLib\bHapticsLib.xml</DocumentationFile>
+		<DocumentationFile></DocumentationFile>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard20|AnyCPU'">
+	  <DefineConstants />
+	  <DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
 	
 	<ItemGroup>
