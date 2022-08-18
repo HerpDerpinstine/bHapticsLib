@@ -377,3 +377,4 @@ Output
 OLD
 update_nuget.bat
 *.nuspec
+*- Backup*.csproj
