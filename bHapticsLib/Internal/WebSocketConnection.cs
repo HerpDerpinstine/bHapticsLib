@@ -4,13 +4,13 @@ using WebSocketDotNet;
 using WebSocketDotNet.Messages;
 using bHapticsLib.Internal.SimpleJSON;
 using bHapticsLib.Internal.Models.Connection;
+using System.Net;
 
 namespace bHapticsLib.Internal
 {
     internal class WebSocketConnection : IDisposable
     {
-        private string URL = $"ws://{bHapticsManager.IPAddress}:{bHapticsManager.Port}/{bHapticsManager.Endpoint}";
-        private string ID, Name;
+        private string URL, ID, Name;
         private bool TryToReconnect;
         private int MaxRetries;
 
@@ -23,10 +23,11 @@ namespace bHapticsLib.Internal
 
         internal PlayerResponse LastResponse;
 
-        private ConnectionManager Parent;
+        private bHapticsConnection Parent;
 
-        internal WebSocketConnection(ConnectionManager parent, string id, string name, bool tryToReconnect, int maxRetries)
+        internal WebSocketConnection(bHapticsConnection parent, string id, string name, bool tryToReconnect, int maxRetries, IPAddress ipaddress, int port, string endpoint)
         {
+            URL = $"ws://{ipaddress}:{port}/{endpoint}";
             Parent = parent;
 
             ID = id.Replace(" ", "_");

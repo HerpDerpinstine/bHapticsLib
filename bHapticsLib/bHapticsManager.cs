@@ -14,18 +14,9 @@ namespace bHapticsLib
         #endregion
 
         #region Connection
-        internal static IPAddress IPAddress = IPAddress.Loopback;
-        internal static int Port = 15881;
-        internal static string Endpoint = "v2/feedbacks";
+        private static bHapticsConnection Connection = new bHapticsConnection();
 
-        private static ConnectionManager Connection = new ConnectionManager();
-
-        public static bHapticsStatus ConnectionStatus
-        {
-            get => !Connection.IsAlive() ? bHapticsStatus.Disconnected 
-                : !Connection.IsConnected() ? bHapticsStatus.Connecting
-                : bHapticsStatus.Connected;
-        }
+        public static bHapticsStatus ConnectionStatus { get => Connection.Status; }
 
         public static bool Connect(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
         {

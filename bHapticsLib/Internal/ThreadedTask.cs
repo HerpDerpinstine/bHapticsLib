@@ -2,7 +2,7 @@
 
 namespace bHapticsLib.Internal
 {
-    internal abstract class ThreadedTask
+    public abstract class ThreadedTask
     {
         private Thread thread;
 
@@ -10,7 +10,7 @@ namespace bHapticsLib.Internal
             => thread?.IsAlive ?? false;
 
         internal abstract bool BeginInitInternal();
-        internal bool BeginInit()
+        public bool BeginInit()
         {
             if (!BeginInitInternal())
                 return false;
@@ -19,7 +19,7 @@ namespace bHapticsLib.Internal
         }
 
         internal abstract bool EndInitInternal();
-        internal bool EndInit()
+        public bool EndInit()
         {
             if (!EndInitInternal())
                 return false;

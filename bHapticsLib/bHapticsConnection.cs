@@ -2,13 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Threading;
+using bHapticsLib.Internal;
 using bHapticsLib.Internal.Models.Connection;
 using bHapticsLib.Internal.SimpleJSON;
 
-namespace bHapticsLib.Internal
+namespace bHapticsLib
 {
-    internal class ConnectionManager : ThreadedTask
+    public class bHapticsConnection : ThreadedTask
     {
         #region Type Cache
         private static readonly Type intType = typeof(int);
@@ -23,6 +25,10 @@ namespace bHapticsLib.Internal
         #endregion
 
         #region Threading
+        private IPAddress IPAddress = IPAddress.Loopback;
+        private static int Port = 15881;
+        private static string Endpoint = "v2/feedbacks";
+
         internal string ID, Name;
         internal bool TryToReconnect;
         internal int MaxRetries;
@@ -30,12 +36,24 @@ namespace bHapticsLib.Internal
         private PlayerPacket Packet = new PlayerPacket();
         private bool ShouldRun = true;
 
+        internal bHapticsConnection() { }
+        public bHapticsConnection(string id, string name, bool tryToReconnect, int maxRetries)
+            : this(id, name, tryToReconnect, maxRetries, IPAddress.Loopback) { }
+        public bHapticsConnection(string id, string name, bool tryToReconnect, int maxRetries, IPAddress ipaddress)
+        {
+            ID = id;
+            Name = name;
+            TryToReconnect = tryToReconnect;
+            MaxRetries = maxRetries.Clamp(0, int.MaxValue);
+            IPAddress = ipaddress;
+        }
+
         internal override bool BeginInitInternal()
         {
             if (Socket != null)
                 EndInit();
-
-            Socket = new WebSocketConnection(this, ID, Name, TryToReconnect, MaxRetries);
+            
+            Socket = new WebSocketConnection(this, ID, Name, TryToReconnect, MaxRetries, IPAddress, Port, Endpoint);
             ShouldRun = true;
             return true;
         }
@@ -101,19 +119,28 @@ namespace bHapticsLib.Internal
                 RegisterQueue.Enqueue(request);
             }
         }
+
         internal bool IsConnected() => Socket?.IsConnected() ?? false;
+
+        public bHapticsStatus Status
+        {
+            get => !IsAlive() ? bHapticsStatus.Disconnected
+                : !IsConnected() ? bHapticsStatus.Connecting
+                : bHapticsStatus.Connected;
+        }
+
         #endregion
 
         #region Device
-        internal int GetConnectedDeviceCount() => Socket?.LastResponse?.ConnectedDeviceCount ?? 0;
-        internal bool IsDeviceConnected(PositionID type)
+        public int GetConnectedDeviceCount() => Socket?.LastResponse?.ConnectedDeviceCount ?? 0;
+        public bool IsDeviceConnected(PositionID type)
         {
             if ((type == PositionID.VestFront)
                 || (type == PositionID.VestBack))
                 type = PositionID.Vest;
             return Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type.ToPacketString()) ?? false;
         }
-        internal int[] GetDeviceStatus(PositionID type)
+        public int[] GetDeviceStatus(PositionID type)
         {
             if ((Socket == null)
                 || (Socket.LastResponse == null))
@@ -150,18 +177,18 @@ namespace bHapticsLib.Internal
         #endregion
 
         #region IsPlaying
-        internal bool IsPlaying(string key) => Socket?.LastResponse?.ActiveKeys?.ContainsValue(key) ?? false;
-        internal bool IsPlayingAny() => (Socket?.LastResponse?.ActiveKeys?.Count > 0);
+        public bool IsPlaying(string key) => Socket?.LastResponse?.ActiveKeys?.ContainsValue(key) ?? false;
+        public bool IsPlayingAny() => (Socket?.LastResponse?.ActiveKeys?.Count > 0);
         #endregion
 
         #region StopPlaying
-        internal void StopPlaying(string key)
+        public void StopPlaying(string key)
         {
             if (!IsAlive() || !IsConnected())
                 return;
             SubmitQueue.Enqueue(new SubmitRequest { key = key, type = "turnOff" });
         }
-        internal void StopPlayingAll()
+        public void StopPlayingAll()
         {
             if (!IsAlive() || !IsConnected())
                 return;
@@ -170,9 +197,9 @@ namespace bHapticsLib.Internal
         #endregion
 
         #region PatternRegister
-        internal bool IsPatternRegistered(string key) => Socket?.LastResponse?.RegisteredKeys?.ContainsValue(key) ?? false;
+        public bool IsPatternRegistered(string key) => Socket?.LastResponse?.RegisteredKeys?.ContainsValue(key) ?? false;
 
-        internal void RegisterPatternFromFile(string key, string tactFilePath)
+        public void RegisterPatternFromFile(string key, string tactFilePath)
         {
             if (!File.Exists(tactFilePath))
                 return; // To-Do: Exception Here
@@ -180,7 +207,7 @@ namespace bHapticsLib.Internal
             RegisterPatternFromJson(key, File.ReadAllText(tactFilePath));
         }
 
-        internal void RegisterPatternFromJson(string key, string tactFileStr)
+        public void RegisterPatternFromJson(string key, string tactFileStr)
         {
             if (string.IsNullOrEmpty(key))
                 return; // To-Do: Exception Here
@@ -196,7 +223,7 @@ namespace bHapticsLib.Internal
             RegisterQueue.Enqueue(request);
         }
 
-        internal void RegisterPatternSwappedFromFile(string key, string tactFilePath)
+        public void RegisterPatternSwappedFromFile(string key, string tactFilePath)
         {
             if (!File.Exists(tactFilePath))
                 return; // To-Do: Exception Here
@@ -204,7 +231,7 @@ namespace bHapticsLib.Internal
             RegisterPatternSwappedFromJson(key, File.ReadAllText(tactFilePath));
         }
 
-        internal void RegisterPatternSwappedFromJson(string key, string tactFileStr)
+        public void RegisterPatternSwappedFromJson(string key, string tactFileStr)
         {
             if (string.IsNullOrEmpty(key))
                 return; // To-Do: Exception Here
@@ -253,7 +280,7 @@ namespace bHapticsLib.Internal
         #endregion
 
         #region Submit
-        internal void Submit<A, B>(
+        public void Submit<A, B>(
             string key,
             int durationMillis,
             PositionID position,
@@ -338,7 +365,7 @@ namespace bHapticsLib.Internal
         #endregion
 
         #region SubmitRegistered
-        internal void SubmitRegistered(string key, string altKey = null, ScaleOption scaleOption = null, RotationOption rotationOption = null)
+        public void SubmitRegistered(string key, string altKey = null, ScaleOption scaleOption = null, RotationOption rotationOption = null)
         {
             if (!IsAlive())
                 return;
@@ -356,7 +383,7 @@ namespace bHapticsLib.Internal
 
             SubmitQueue.Enqueue(request);
         }
-        internal void SubmitRegisteredMillis(string key, int startTimeMillis = 0)
+        public void SubmitRegisteredMillis(string key, int startTimeMillis = 0)
         {
             if (!IsAlive())
                 return;
