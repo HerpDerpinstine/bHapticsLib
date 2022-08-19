@@ -54,6 +54,8 @@
 	  </Compile>
 	  <Compile Include="..\Properties\BuildInfo.cs" Link="Properties\BuildInfo.cs">
 	  </Compile>	
+	  <Compile Include="..\Properties\GlobalSuppressions.cs" Link="Properties\GlobalSuppressions.cs">
+	  </Compile>	
 	</ItemGroup>
 	
 	<ItemGroup>
