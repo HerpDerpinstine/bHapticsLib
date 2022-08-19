@@ -90,104 +90,104 @@ namespace bHapticsLib
 
         #region PlayDot
         public static void Play(string key, int durationMillis, PositionID position, int[] dotPoints) 
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
         public static void Play(string key, int durationMillis, PositionID position, List<int> dotPoints)
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
         public static void Play(string key, int durationMillis, PositionID position, byte[] dotPoints)
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
         public static void Play(string key, int durationMillis, PositionID position, List<byte> dotPoints)
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
         public static void Play(string key, int durationMillis, PositionID position, DotPoint[] dotPoints)
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
         public static void Play(string key, int durationMillis, PositionID position, List<DotPoint> dotPoints)
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
         #endregion
 
         #region PlayPath
         public static void Play<A>(string key, int durationMillis, PositionID position, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, (DotPoint[])null, pathPoints);
+            => Connection.Play(key, durationMillis, position, (DotPoint[])null, pathPoints);
         #endregion
 
         #region PlayDotAndPath
         public static void Play<A>(string key, int durationMillis, PositionID position, int[] dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
         public static void Play<A>(string key, int durationMillis, PositionID position, List<int> dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
         public static void Play<A>(string key, int durationMillis, PositionID position, byte[] dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
         public static void Play<A>(string key, int durationMillis, PositionID position, List<byte> dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
         public static void Play<A>(string key, int durationMillis, PositionID position, DotPoint[] dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
         public static void Play<A>(string key, int durationMillis, PositionID position, List<DotPoint> dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
         #endregion
 
         #region PlayMirroredDot
         public static void PlayMirrored(string key, int durationMillis, PositionID position, int[] dotPoints, MirrorDirection mirrorDirection)
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
         public static void PlayMirrored(string key, int durationMillis, PositionID position, List<int> dotPoints, MirrorDirection mirrorDirection)
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
         public static void PlayMirrored(string key, int durationMillis, PositionID position, byte[] dotPoints, MirrorDirection mirrorDirection)
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
         public static void PlayMirrored(string key, int durationMillis, PositionID position, List<byte> dotPoints, MirrorDirection mirrorDirection)
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
         public static void PlayMirrored(string key, int durationMillis, PositionID position, DotPoint[] dotPoints, MirrorDirection mirrorDirection)
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
         public static void PlayMirrored(string key, int durationMillis, PositionID position, List<DotPoint> dotPoints, MirrorDirection mirrorDirection)
-            => Connection.Submit(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
         #endregion
 
         #region PlayMirroredDotAndPath
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, int[] dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, List<int> dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, byte[] dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, List<byte> dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, DotPoint[] dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, List<DotPoint> dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
-            => Connection.Submit(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
+            => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
         #endregion
 
         #region PlayRegistered
         public static void PlayRegistered(string key) 
-            => Connection.SubmitRegistered(key);
+            => Connection.PlayRegistered(key);
         public static void PlayRegistered(string key, int startTimeMillis)
-            => Connection.SubmitRegisteredMillis(key, startTimeMillis: startTimeMillis);
+            => Connection.PlayRegisteredMillis(key, startTimeMillis: startTimeMillis);
         public static void PlayRegistered(string key, ScaleOption option)
-            => Connection.SubmitRegistered(key, scaleOption: option);
+            => Connection.PlayRegistered(key, scaleOption: option);
         public static void PlayRegistered(string key, RotationOption option) 
-            => Connection.SubmitRegistered(key, rotationOption: option);
+            => Connection.PlayRegistered(key, rotationOption: option);
         public static void PlayRegistered(string key, ScaleOption scaleOption, RotationOption rotationOption) 
-            => Connection.SubmitRegistered(key, scaleOption: scaleOption, rotationOption: rotationOption);
+            => Connection.PlayRegistered(key, scaleOption: scaleOption, rotationOption: rotationOption);
         #endregion
 
         #region PlayRegisteredAlt
         public static void PlayRegistered(string key, string altKey) 
-            => Connection.SubmitRegistered(key, altKey);
+            => Connection.PlayRegistered(key, altKey);
         public static void PlayRegistered(string key, string altKey, ScaleOption option) 
-            => Connection.SubmitRegistered(key, altKey, scaleOption: option);
+            => Connection.PlayRegistered(key, altKey, scaleOption: option);
         public static void PlayRegistered(string key, string altKey, RotationOption option) 
-            => Connection.SubmitRegistered(key, altKey, rotationOption: option);
+            => Connection.PlayRegistered(key, altKey, rotationOption: option);
         public static void PlayRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption) 
-            => Connection.SubmitRegistered(key, altKey, scaleOption: scaleOption, rotationOption: rotationOption);
+            => Connection.PlayRegistered(key, altKey, scaleOption: scaleOption, rotationOption: rotationOption);
         #endregion
     }
 }

@@ -279,8 +279,8 @@ namespace bHapticsLib
         }
         #endregion
 
-        #region Submit
-        public void Submit<A, B>(
+        #region Play
+        public void Play<A, B>(
             string key,
             int durationMillis,
             PositionID position,
@@ -295,8 +295,8 @@ namespace bHapticsLib
 
             if (position == PositionID.Vest)
             {
-                Submit($"{key}Front", durationMillis, PositionID.VestFront, dotPoints, pathPoints, dotMirrorDirection);
-                Submit($"{key}Back", durationMillis, PositionID.VestBack, dotPoints, pathPoints, dotMirrorDirection);
+                Play($"{key}Front", durationMillis, PositionID.VestFront, dotPoints, pathPoints, dotMirrorDirection);
+                Play($"{key}Back", durationMillis, PositionID.VestBack, dotPoints, pathPoints, dotMirrorDirection);
                 return;
             }
 
@@ -364,8 +364,8 @@ namespace bHapticsLib
         }
         #endregion
 
-        #region SubmitRegistered
-        public void SubmitRegistered(string key, string altKey = null, ScaleOption scaleOption = null, RotationOption rotationOption = null)
+        #region PlayRegistered
+        public void PlayRegistered(string key, string altKey = null, ScaleOption scaleOption = null, RotationOption rotationOption = null)
         {
             if (!IsAlive())
                 return;
@@ -383,7 +383,7 @@ namespace bHapticsLib
 
             SubmitQueue.Enqueue(request);
         }
-        public void SubmitRegisteredMillis(string key, int startTimeMillis = 0)
+        public void PlayRegisteredMillis(string key, int startTimeMillis = 0)
         {
             if (!IsAlive())
                 return;

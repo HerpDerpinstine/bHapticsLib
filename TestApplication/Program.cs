@@ -10,6 +10,7 @@ namespace TestApplication
         private static byte[] TestPacket = new byte[bHapticsManager.MaxMotorsPerDotPoint] { 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         private static HapticPattern testFeedback;
         private static HapticPattern testFeedbackSwapped;
+        private static bHapticsConnection Connection;
 
         private static void Main()
         {
@@ -18,7 +19,16 @@ namespace TestApplication
             testFeedbackSwapped = HapticPattern.LoadSwappedFromFile("testFeedbackSwapped", testFeedbackPath);
 
             Console.WriteLine("Initializing...");
+            
             bHapticsManager.Connect("bHapticsLib", "TestApplication", maxRetries: 0);
+
+            Thread.Sleep(1000);
+
+            Connection = new bHapticsConnection("bHapticsLib2", "AdditionalConnection", maxRetries: 0);
+            Connection.BeginInit();
+
+            Console.WriteLine(Connection.Status);
+
             Console.WriteLine();
 
             Console.WriteLine($"Press 0 for {nameof(bHapticsManager.ConnectionStatus)}");
@@ -79,7 +89,7 @@ namespace TestApplication
                     Thread.Sleep(1);
             }
 
-            if (!bHapticsManager.Disconnect())
+            if (!Connection.EndInit() || !bHapticsManager.Disconnect())
                 Console.WriteLine("Failed to Disconnect!");
         }
 
