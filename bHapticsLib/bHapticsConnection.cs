@@ -149,8 +149,8 @@ namespace bHapticsLib
             JSONNode statusArray = Socket.LastResponse.Status;
             if (type == PositionID.Vest)
             {
-                JSONNode frontStatus = statusArray[PositionID.VestFront.ToString()];
-                JSONNode backStatus = statusArray[PositionID.VestBack.ToString()];
+                JSONNode frontStatus = statusArray[PositionID.VestFront.ToPacketString()];
+                JSONNode backStatus = statusArray[PositionID.VestBack.ToPacketString()];
 
                 int totalCount = frontStatus.Count + backStatus.Count;
                 int[] returnval = new int[totalCount];
@@ -166,7 +166,7 @@ namespace bHapticsLib
             }
             else
             {
-                JSONNode posArray = statusArray[type.ToString()];
+                JSONNode posArray = statusArray[type.ToPacketString()];
                 int totalCount = posArray.Count;
                 int[] returnval = new int[totalCount];
                 for (int i = 0; i < totalCount; i++)

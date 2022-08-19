@@ -88,8 +88,6 @@ namespace bHapticsLib.Internal
             FirstTry = true;
         }
 
-
-
         public void Dispose()
         {
             try
