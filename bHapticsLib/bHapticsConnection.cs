@@ -37,9 +37,9 @@ namespace bHapticsLib
         private bool ShouldRun = true;
 
         internal bHapticsConnection() { }
-        public bHapticsConnection(string id, string name, bool tryToReconnect, int maxRetries)
-            : this(id, name, tryToReconnect, maxRetries, IPAddress.Loopback) { }
-        public bHapticsConnection(string id, string name, bool tryToReconnect, int maxRetries, IPAddress ipaddress)
+        public bHapticsConnection(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
+            : this(IPAddress.Loopback, id, name, tryToReconnect, maxRetries) { }
+        public bHapticsConnection(IPAddress ipaddress, string id, string name, bool tryToReconnect = true, int maxRetries = 5)
         {
             ID = id;
             Name = name;
