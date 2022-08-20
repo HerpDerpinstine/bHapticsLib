@@ -50,6 +50,10 @@ namespace bHapticsLib
                 // Hands
                 PositionID.HandLeft => "HandL",
                 PositionID.HandRight => "HandR",
+                
+                // Gloves
+                PositionID.GloveLeft => "GloveL",
+                PositionID.GloveRight => "GloveR",
 
                 // Feet
                 PositionID.FootLeft => "FootL",
