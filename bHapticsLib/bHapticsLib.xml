@@ -4,5 +4,59 @@
         <name>bHapticsLib</name>
     </assembly>
     <members>
+        <member name="T:bHapticsLib.bHapticsStatus">
+            <summary>
+            Enum for Connection Status
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.bHapticsStatus.Disconnected">
+            <summary>
+            Is Disconnected from the bHaptics Player
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.bHapticsStatus.Connecting">
+            <summary>
+            Is attempting to Connect to the bHaptics Player
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.bHapticsStatus.Connected">
+            <summary>
+            Is Connected to the bHaptics Player
+            </summary>
+        </member>
+        <member name="T:bHapticsLib.Extensions">
+            <summary>
+            Extra Extensions
+            </summary>
+        </member>
+        <member name="M:bHapticsLib.Extensions.ToOscAddress(bHapticsLib.PositionID)">
+            <summary>
+            Converts PositionID to an Open-Sound Control formatted address.
+            </summary>
+            <returns>
+            An Open-Sound Control formatted address string.
+            </returns>
+        </member>
+        <member name="T:bHapticsLib.Internal.ThreadedTask">
+            <summary>
+            Handles Multi-Threaded Tasking
+            </summary>
+        </member>
+        <member name="M:bHapticsLib.Internal.ThreadedTask.BeginInit">
+            <summary>
+            Initializes the Task's Thread
+            </summary>
+            <returns>
+            If the initialization was successful or not.
+            </returns>
+        </member>
+        <member name="M:bHapticsLib.Internal.ThreadedTask.EndInit">
+            <summary>
+            Aborts the Task's Thread
+            </summary>
+            <returns>
+            If the abortion was successful or not.
+            </returns>
+        </member>
     </members>
 </doc>

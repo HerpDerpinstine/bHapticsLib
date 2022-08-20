@@ -24,6 +24,10 @@ namespace bHapticsLib
         private ThreadSafeQueue<SubmitRequest> SubmitQueue = new ThreadSafeQueue<SubmitRequest>();
         #endregion
 
+        #region Callbacks
+
+        #endregion
+
         #region Threading
         private IPAddress IPAddress = IPAddress.Loopback;
         private static int Port = 15881;

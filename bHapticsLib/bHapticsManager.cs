@@ -15,7 +15,6 @@ namespace bHapticsLib
 
         #region Connection
         private static bHapticsConnection Connection = new bHapticsConnection();
-
         public static bHapticsStatus ConnectionStatus { get => Connection.Status; }
 
         public static bool Connect(string id, string name, bool tryToReconnect = true, int maxRetries = 5)

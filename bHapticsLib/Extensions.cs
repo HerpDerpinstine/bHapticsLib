@@ -5,10 +5,19 @@ using System.Collections.Generic;
 
 namespace bHapticsLib
 {
+    /// <summary>
+    /// Extra Extensions
+    /// </summary>
     public static class Extensions
     {
         private static string OscAddressHeader = "/bhaptics";
 
+        /// <summary>
+        /// Converts PositionID to an Open-Sound Control formatted address.
+        /// </summary>
+        /// <returns>
+        /// An Open-Sound Control formatted address string.
+        /// </returns>
         public static string ToOscAddress(this PositionID value)
             => (value) switch
             {
