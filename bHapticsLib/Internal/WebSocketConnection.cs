@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Net;
 using System.Timers;
 using WebSocketDotNet;
 using WebSocketDotNet.Messages;
-using bHapticsLib.Internal.SimpleJSON;
 using bHapticsLib.Internal.Models.Connection;
-using System.Net;
+using bHapticsLib.Internal.SimpleJSON;
 
 namespace bHapticsLib.Internal
 {

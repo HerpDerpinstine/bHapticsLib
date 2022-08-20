@@ -1,5 +1,4 @@
-﻿using System;
-using bHapticsLib.Internal.SimpleJSON;
+﻿using bHapticsLib.Internal.SimpleJSON;
 
 namespace bHapticsLib.Internal.Models.Connection
 {

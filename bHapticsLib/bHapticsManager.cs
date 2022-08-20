@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net;
-using bHapticsLib.Internal;
 
 namespace bHapticsLib
 {

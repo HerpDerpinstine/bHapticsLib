@@ -1,7 +1,7 @@
-﻿using bHapticsLib.Internal.SimpleJSON;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using bHapticsLib.Internal.SimpleJSON;
 
 namespace bHapticsLib
 {
