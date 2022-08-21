@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Timers;
 using WebSocketDotNet;
 using WebSocketDotNet.Messages;
@@ -10,33 +9,24 @@ namespace bHapticsLib.Internal
 {
     internal class WebSocketConnection : IDisposable
     {
-        private string URL, ID, Name;
-        private bool TryToReconnect;
-        private int MaxRetries;
-
+        private bHapticsConnection Parent;
+        
         internal bool FirstTry;
         private bool isConnected;
+
         private int RetryCount;
         private int RetryDelay = 3; // In Seconds
         private Timer RetryTimer;
-        internal WebSocket Socket;
 
+        internal WebSocket Socket;
         internal PlayerResponse LastResponse;
 
-        private bHapticsConnection Parent;
-
-        internal WebSocketConnection(bHapticsConnection parent, string id, string name, bool tryToReconnect, int maxRetries, IPAddress ipaddress, int port, string endpoint)
+        internal WebSocketConnection(bHapticsConnection parent)
         {
-            URL = $"ws://{ipaddress}:{port}/{endpoint}";
             Parent = parent;
 
-            ID = id.Replace(" ", "_");
-            Name = name.Replace(" ", "_");
-
-            TryToReconnect = tryToReconnect;
-            MaxRetries = maxRetries;
-
-            Socket = new WebSocket($"{URL}?app_id={ID}&app_name={Name}", false);
+            string URL = $"ws://{parent._ipaddress}:{bHapticsConnection.Port}/{bHapticsConnection.Endpoint}?app_id={parent.ID}&app_name={parent.Name}";
+            Socket = new WebSocket(URL, false);
 
             Socket.TextReceived += (txt) =>
             {
@@ -77,7 +67,7 @@ namespace bHapticsLib.Internal
                 LastResponse = null;
             };
 
-            if (TryToReconnect)
+            if (parent.TryToReconnect)
             {
                 RetryTimer = new Timer(RetryDelay * 1000); // S -> MS
                 RetryTimer.AutoReset = true;
@@ -94,7 +84,7 @@ namespace bHapticsLib.Internal
             {
                 Socket.SendClose();
                 isConnected = false;
-                if (TryToReconnect)
+                if (Parent.TryToReconnect)
                 {   
                     RetryTimer.Stop();
                     RetryTimer.Dispose();
@@ -120,16 +110,16 @@ namespace bHapticsLib.Internal
 
         private void RetryCheck()
         {
-            if (IsConnected() || !TryToReconnect)
+            if (IsConnected() || !Parent.TryToReconnect)
                 return;
 
             if ((Socket.State == WebSocketState.Connecting) 
                 || (Socket.State == WebSocketState.Closing))
                 return;
 
-            if (MaxRetries > 0)
+            if (Parent.MaxRetries > 0)
             {
-                if (RetryCount >= MaxRetries)
+                if (RetryCount >= Parent.MaxRetries)
                 {
                     Parent.EndInit();
                     return;

@@ -26,9 +26,26 @@ namespace bHapticsLib
         #endregion
 
         #region Threading
-        private IPAddress IPAddress = IPAddress.Loopback;
-        private static int Port = 15881;
-        private static string Endpoint = "v2/feedbacks";
+        internal IPAddress _ipaddress = IPAddress.Loopback;
+        /// <value>IP Address of Host Device running the bHaptics Player</value>
+        public IPAddress IPAddress
+        {
+            get => _ipaddress;
+            set
+            {
+                bool shouldRestart = (Socket != null);
+                if (shouldRestart)
+                    EndInit();
+
+                _ipaddress = value;
+
+                if (shouldRestart)
+                    BeginInit();
+            }
+        }
+        
+        internal static int Port = 15881;
+        internal static string Endpoint = "v2/feedbacks";
 
         internal string ID, Name;
         internal bool TryToReconnect;
@@ -43,14 +60,13 @@ namespace bHapticsLib
         public bHapticsConnection(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
             : this(IPAddress.Loopback, id, name, tryToReconnect, maxRetries) { }
 
-
         public bHapticsConnection(IPAddress ipaddress, string id, string name, bool tryToReconnect = true, int maxRetries = 5)
         {
-            ID = id;
-            Name = name;
+            ID = id.Replace(" ", "_");
+            Name = name.Replace(" ", "_");
             TryToReconnect = tryToReconnect;
             MaxRetries = maxRetries.Clamp(0, int.MaxValue);
-            IPAddress = ipaddress;
+            _ipaddress = ipaddress;
         }
 
         internal override bool BeginInitInternal()
@@ -58,7 +74,7 @@ namespace bHapticsLib
             if (Socket != null)
                 EndInit();
             
-            Socket = new WebSocketConnection(this, ID, Name, TryToReconnect, MaxRetries, IPAddress, Port, Endpoint);
+            Socket = new WebSocketConnection(this);
             ShouldRun = true;
             return true;
         }
