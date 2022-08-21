@@ -2,6 +2,9 @@
 
 namespace bHapticsLib
 {
+    /// <summary>
+    /// AIO Management
+    /// </summary>
     public static class bHapticsManager
     {
         #region Max Values

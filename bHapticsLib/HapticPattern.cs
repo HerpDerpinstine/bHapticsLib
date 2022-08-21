@@ -1,5 +1,8 @@
 ﻿namespace bHapticsLib
 {
+    /// <summary>
+    /// Haptic Pattern Utility
+    /// </summary>
     public class HapticPattern
     {
         public string Key { get; private set; }

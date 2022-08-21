@@ -1,5 +1,8 @@
 ﻿namespace bHapticsLib
 {
+    /// <summary>
+    /// Direction to Mirror a Pattern
+    /// </summary>
     public enum MirrorDirection : int
     {
         None = 0,

@@ -4,6 +4,16 @@
         <name>bHapticsLib</name>
     </assembly>
     <members>
+        <member name="T:bHapticsLib.bHapticsConnection">
+            <summary>
+            Connection Handler
+            </summary>
+        </member>
+        <member name="T:bHapticsLib.bHapticsManager">
+            <summary>
+            AIO Management
+            </summary>
+        </member>
         <member name="T:bHapticsLib.bHapticsStatus">
             <summary>
             Enum for Connection Status
@@ -37,6 +47,11 @@
             An Open-Sound Control formatted address string.
             </returns>
         </member>
+        <member name="T:bHapticsLib.HapticPattern">
+            <summary>
+            Haptic Pattern Utility
+            </summary>
+        </member>
         <member name="T:bHapticsLib.Internal.ThreadedTask">
             <summary>
             Handles Multi-Threaded Tasking
@@ -57,6 +72,76 @@
             <returns>
             If the abortion was successful or not.
             </returns>
+        </member>
+        <member name="T:bHapticsLib.MirrorDirection">
+            <summary>
+            Direction to Mirror a Pattern
+            </summary>
+        </member>
+        <member name="T:bHapticsLib.PositionID">
+            <summary>
+            ID of Haptic Position
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.Vest">
+            <summary>
+            TactSuit
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.Head">
+            <summary>
+            Tactal
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.HandLeft">
+            <summary>
+            Tactosy for Left Hand
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.HandRight">
+            <summary>
+            Tactosy for Right Hand
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.FootLeft">
+            <summary>
+            Tactosy for Left Foot
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.FootRight">
+            <summary>
+            Tactosy for Right Foot
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.ArmLeft">
+            <summary>
+            Tactosy for Left Arm
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.ArmRight">
+            <summary>
+            Tactosy for Right Arm
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.VestFront">
+            <summary>
+            Front of TactSuit
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.VestBack">
+            <summary>
+            Back of TactSuit
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.GloveLeft">
+            <summary>
+            TactGlove for Left Hand
+            </summary>
+        </member>
+        <member name="F:bHapticsLib.PositionID.GloveRight">
+            <summary>
+            TactGlove for Right Hand
+            </summary>
         </member>
     </members>
 </doc>

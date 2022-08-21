@@ -10,6 +10,9 @@ using bHapticsLib.Internal.SimpleJSON;
 
 namespace bHapticsLib
 {
+    /// <summary>
+    /// Connection Handler
+    /// </summary>
     public class bHapticsConnection : ThreadedTask
     {
         #region Type Cache
@@ -22,10 +25,6 @@ namespace bHapticsLib
         private List<RegisterRequest> RegisterCache = new List<RegisterRequest>();
         private ThreadSafeQueue<RegisterRequest> RegisterQueue = new ThreadSafeQueue<RegisterRequest>();
         private ThreadSafeQueue<SubmitRequest> SubmitQueue = new ThreadSafeQueue<SubmitRequest>();
-        #endregion
-
-        #region Callbacks
-
         #endregion
 
         #region Threading
@@ -41,8 +40,12 @@ namespace bHapticsLib
         private bool ShouldRun = true;
 
         internal bHapticsConnection() { }
+
+
         public bHapticsConnection(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
             : this(IPAddress.Loopback, id, name, tryToReconnect, maxRetries) { }
+
+
         public bHapticsConnection(IPAddress ipaddress, string id, string name, bool tryToReconnect = true, int maxRetries = 5)
         {
             ID = id;
