@@ -3,7 +3,9 @@
     /// <summary>Haptic Pattern Utility</summary>
     public class HapticPattern
     {
+        /// <value>Pattern key id</value>
         public string Key { get; private set; }
+
 
         public static HapticPattern LoadFromFile(string key, string tactFilePath)
         {

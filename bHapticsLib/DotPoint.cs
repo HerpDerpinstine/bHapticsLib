@@ -13,7 +13,7 @@ namespace bHapticsLib
             Intensity = intensity;
         }
 
-        /// <value>Index of Haptic Node</value>
+        /// <value>Index of Haptic Motor</value>
         public int Index
         {
             get => node["index"].AsInt;

@@ -100,8 +100,12 @@ namespace bHapticsLib
         #endregion
 
         #region StopPlaying
+        /// <summary>Stops the specified pattern</summary>
+        /// <param name="key">The key id of the pattern</param>
         public static void StopPlaying(string key) 
             => Connection.StopPlaying(key);
+
+        /// <summary>Stops the currently playing patterns</summary>
         public static void StopPlayingAll() 
             => Connection.StopPlayingAll();
         #endregion
