@@ -1,68 +1,42 @@
 ﻿namespace bHapticsLib
 {
-    /// <summary>
-    /// ID of Haptic Position
-    /// </summary>
+    /// <summary>ID of Haptic Position</summary>
     public enum PositionID : int
     {
-        /// <summary>
-        /// TactSuit
-        /// </summary>
+        /// <summary>TactSuit</summary>
         Vest = 3,
 
-        /// <summary>
-        /// Tactal
-        /// </summary>
+        /// <summary>Tactal</summary>
         Head = 4,
 
-        /// <summary>
-        /// Tactosy for Left Hand
-        /// </summary>
+        /// <summary>Tactosy for Left Hand</summary>
         HandLeft = 6,
 
-        /// <summary>
-        /// Tactosy for Right Hand
-        /// </summary>
+        /// <summary>Tactosy for Right Hand</summary>
         HandRight = 7,
 
-        /// <summary>
-        /// Tactosy for Left Foot
-        /// </summary>
+        /// <summary>Tactosy for Left Foot</summary>
         FootLeft = 8,
 
-        /// <summary>
-        /// Tactosy for Right Foot
-        /// </summary>
+        /// <summary>Tactosy for Right Foot</summary>
         FootRight = 9,
 
-        /// <summary>
-        /// Tactosy for Left Arm
-        /// </summary>
+        /// <summary>Tactosy for Left Arm</summary>
         ArmLeft = 10,
 
-        /// <summary>
-        /// Tactosy for Right Arm
-        /// </summary>
+        /// <summary>Tactosy for Right Arm</summary>
         ArmRight = 11,
 
-        /// <summary>
-        /// Front of TactSuit
-        /// </summary>
+        /// <summary>Front of TactSuit</summary>
         VestFront = 201,
 
-        /// <summary>
-        /// Back of TactSuit
-        /// </summary>
+        /// <summary>Back of TactSuit</summary>
         VestBack = 202,
 
-        /// <summary>
-        /// TactGlove for Left Hand
-        /// </summary>
+        /// <summary>TactGlove for Left Hand</summary>
         GloveLeft = 203,
 
-        /// <summary>
-        /// TactGlove for Right Hand
-        /// </summary>
+        /// <summary>TactGlove for Right Hand</summary>
         GloveRight = 204,
 
 

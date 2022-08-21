@@ -10,9 +10,7 @@ using bHapticsLib.Internal.SimpleJSON;
 
 namespace bHapticsLib
 {
-    /// <summary>
-    /// Connection Handler
-    /// </summary>
+    /// <summary>bHaptics Player Connection Handler</summary>
     public class bHapticsConnection : ThreadedTask
     {
         #region Type Cache
@@ -129,6 +127,7 @@ namespace bHapticsLib
 
         internal bool IsConnected() => Socket?.IsConnected() ?? false;
 
+        /// <value>Current Status of Connection</value>
         public bHapticsStatus Status
         {
             get => !IsAlive() ? bHapticsStatus.Disconnected

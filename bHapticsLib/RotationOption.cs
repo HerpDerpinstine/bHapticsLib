@@ -2,6 +2,7 @@
 
 namespace bHapticsLib
 {
+    /// <summary>Rotational Option for Haptic Patterns</summary>
     public class RotationOption
     {
         internal JSONObject node = new JSONObject();

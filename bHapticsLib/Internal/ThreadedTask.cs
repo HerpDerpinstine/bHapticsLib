@@ -2,9 +2,7 @@
 
 namespace bHapticsLib.Internal
 {
-    /// <summary>
-    /// Handles Multi-Threaded Tasking
-    /// </summary>
+    /// <summary>Handles Multi-Threaded Tasking</summary>
     public abstract class ThreadedTask
     {
         private Thread thread;
@@ -12,12 +10,8 @@ namespace bHapticsLib.Internal
         internal bool IsAlive()
             => thread?.IsAlive ?? false;
 
-        /// <summary>
-        /// Initializes the Task's Thread
-        /// </summary>
-        /// <returns>
-        /// If the initialization was successful or not.
-        /// </returns>
+        /// <summary>Initializes the Task's Thread</summary>
+        /// <returns>If the initialization was successful or not.</returns>
         public bool BeginInit()
         {
             if (!BeginInitInternal())
@@ -27,12 +21,8 @@ namespace bHapticsLib.Internal
         }
         internal abstract bool BeginInitInternal();
 
-        /// <summary>
-        /// Aborts the Task's Thread
-        /// </summary>
-        /// <returns>
-        /// If the abortion was successful or not.
-        /// </returns>
+        /// <summary>Aborts the Task's Thread</summary>
+        /// <returns>If the abortion was successful or not.</returns>
         public bool EndInit()
         {
             if (!EndInitInternal())

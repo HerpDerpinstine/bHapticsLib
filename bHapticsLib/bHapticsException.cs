@@ -2,6 +2,7 @@
 
 namespace bHapticsLib
 {
+    /// <summary>Exception Thrown from bHapticsLib</summary>
     public class bHapticsException : Exception
     {
         public bHapticsException() { }

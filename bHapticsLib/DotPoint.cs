@@ -2,6 +2,7 @@
 
 namespace bHapticsLib
 {
+    /// <summary>Haptic Point for Dot Mode</summary>
     public class DotPoint
     {
         internal JSONObject node = new JSONObject();

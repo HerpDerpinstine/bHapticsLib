@@ -2,6 +2,7 @@
 
 namespace bHapticsLib
 {
+    /// <summary>Scaling Option for Haptic Patterns</summary>
     public class ScaleOption
     {
         internal JSONObject node = new JSONObject();

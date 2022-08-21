@@ -2,6 +2,7 @@
 
 namespace bHapticsLib
 {
+    /// <summary>Haptic Point for Path Mode</summary>
     public class PathPoint
     {
         internal JSONObject node = new JSONObject();
