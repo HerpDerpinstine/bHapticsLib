@@ -22,6 +22,12 @@ namespace bHapticsLib
         /// <value>Current Status of Connection</value>
         public static bHapticsStatus ConnectionStatus { get => Connection.Status; }
 
+        /// <summary>Connects to the bHaptics Player</summary>
+        /// <param name="id">Application Identifier</param>
+        /// <param name="name">Application Name</param>
+        /// <param name="tryToReconnect">If you want the Connection to Automatically Retry after Failure</param>
+        /// <param name="maxRetries">The amount of Retries after Failure before Disconnecting</param>
+        /// <returns>true was Successful, otherwise false</returns>
         public static bool Connect(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
         {
             if (string.IsNullOrEmpty(id))
@@ -41,6 +47,8 @@ namespace bHapticsLib
             return Connection.BeginInit();
         }
 
+        /// <summary>Disconnects from the bHaptics Player</summary>
+        /// <returns>true was Successful, otherwise false</returns>
         public static bool Disconnect()
         {
             if (ConnectionStatus == bHapticsStatus.Disconnected)
@@ -52,22 +60,41 @@ namespace bHapticsLib
         #endregion
 
         #region Device
+        /// <summary>Gets the total amount of devices currently connected to the bHaptics Player</summary>
+        /// <returns>The total amount of devices currently connected to the bHaptics Player</returns>
         public static int GetConnectedDeviceCount() 
             => Connection.GetConnectedDeviceCount();
+
+        /// <summary>Gets if any devices are currently connected to the bHaptics Player</summary>
+        /// <returns>true if there is a device, otherwise false</returns>
         public static bool IsAnyDevicesConnected() 
             => GetConnectedDeviceCount() > 0;
+
+        /// <summary>Gets if a specific device is currently connected to the bHaptics Player</summary>
+        /// <returns>true if the device is connected, otherwise false</returns>
         public static bool IsDeviceConnected(PositionID type) 
             => Connection.IsDeviceConnected(type);
 
+        /// <summary>Gets the current status a specific device.</summary>
+        /// <returns>An Integer Array containing the current intensity value for each motor of the device</returns>
         public static int[] GetDeviceStatus(PositionID type)
             => Connection.GetDeviceStatus(type);
+
+        /// <summary>Gets if any motor of a specific device is currently at an intensity value of more than 0</summary>
+        /// <returns>true if there is a motor active, otherwise false</returns>
         public static bool IsAnyMotorActive(PositionID type)
             => GetDeviceStatus(type)?.ContainsValueMoreThan(0) ?? false;
 #endregion
 
         #region IsPlaying
+        /// <summary>Gets if a specified pattern is currently playing</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <returns>true if the specified pattern is playing, otherwise false</returns>
         public static bool IsPlaying(string key) 
             => Connection.IsPlaying(key);
+
+        /// <summary>Gets if any pattern is currently playing</summary>
+        /// <returns>true if any pattern is playing, otherwise false</returns>
         public static bool IsPlayingAny()
             => Connection.IsPlayingAny();
         #endregion
