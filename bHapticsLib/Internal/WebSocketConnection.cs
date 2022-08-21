@@ -54,12 +54,7 @@ namespace bHapticsLib.Internal
                 Parent.QueueRegisterCache();
             };
 
-            /*
-            Socket.Closing += (closeCode, msg) =>
-            {
-
-            };
-            */
+            // Socket.Closing += (closeCode, msg) => { };
 
             Socket.Closed += (closeCode, msg) =>
             {

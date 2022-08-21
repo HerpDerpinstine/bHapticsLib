@@ -6,26 +6,32 @@ namespace bHapticsLib
     public static class bHapticsManager
     {
         #region Max Values
+        /// <value>Max Intensity of Point in Integer Array</value>
         public const int MaxIntensityInInt = 500;
+        /// <value>Max Intensity of Point in Byte Array</value>
         public const byte MaxIntensityInByte = 200;
+        /// <value>Max Motors per DotPoint</value>
         public const int MaxMotorsPerDotPoint = 20;
+        /// <value>Max Motors per PathPoint</value>
         public const int MaxMotorsPerPathPoint = 3;
         #endregion
 
         #region Connection
         private static bHapticsConnection Connection = new bHapticsConnection();
+
+        /// <value>Current Status of Connection</value>
         public static bHapticsStatus ConnectionStatus { get => Connection.Status; }
 
         public static bool Connect(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
         {
-            if (ConnectionStatus != bHapticsStatus.Disconnected)
-                return false; // To-Do: Throw Exception
-
             if (string.IsNullOrEmpty(id))
                 return false; // To-Do: Throw Exception
 
             if (string.IsNullOrEmpty(name))
                 return false; // To-Do: Throw Exception
+
+            if (ConnectionStatus != bHapticsStatus.Disconnected)
+                Disconnect();
 
             Connection.ID = id;
             Connection.Name = name;
@@ -38,7 +44,7 @@ namespace bHapticsLib
         public static bool Disconnect()
         {
             if (ConnectionStatus == bHapticsStatus.Disconnected)
-                return false; // To-Do: Throw Exception
+                return true;
 
             StopPlayingAll();
             return Connection.EndInit();

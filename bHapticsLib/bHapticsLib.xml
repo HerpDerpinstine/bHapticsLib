@@ -19,6 +19,21 @@
         <member name="T:bHapticsLib.bHapticsManager">
             <summary>AIO bHaptics Management</summary>
         </member>
+        <member name="F:bHapticsLib.bHapticsManager.MaxIntensityInInt">
+            <value>Max Intensity of Point in Integer Array</value>
+        </member>
+        <member name="F:bHapticsLib.bHapticsManager.MaxIntensityInByte">
+            <value>Max Intensity of Point in Byte Array</value>
+        </member>
+        <member name="F:bHapticsLib.bHapticsManager.MaxMotorsPerDotPoint">
+            <value>Max Motors per DotPoint</value>
+        </member>
+        <member name="F:bHapticsLib.bHapticsManager.MaxMotorsPerPathPoint">
+            <value>Max Motors per PathPoint</value>
+        </member>
+        <member name="P:bHapticsLib.bHapticsManager.ConnectionStatus">
+            <value>Current Status of Connection</value>
+        </member>
         <member name="T:bHapticsLib.bHapticsStatus">
             <summary>Enum for Connection Status</summary>
         </member>
@@ -80,10 +95,10 @@
             <summary>Haptic Point for Path Mode</summary>
         </member>
         <member name="P:bHapticsLib.PathPoint.X">
-            <value>X Axis of Position</value>
+            <value>X Axis of Point Position</value>
         </member>
         <member name="P:bHapticsLib.PathPoint.Y">
-            <value>Y Axis of Position</value>
+            <value>Y Axis of Point Position</value>
         </member>
         <member name="P:bHapticsLib.PathPoint.Intensity">
             <value>Point Intensity</value>

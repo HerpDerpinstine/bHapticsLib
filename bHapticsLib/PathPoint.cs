@@ -15,14 +15,14 @@ namespace bHapticsLib
             MotorCount = motorCount;
         }
 
-        /// <value>X Axis of Position</value>
+        /// <value>X Axis of Point Position</value>
         public float X
         {
             get => node["x"].AsFloat;
             set => node["x"] = value;
         }
 
-        /// <value>Y Axis of Position</value>
+        /// <value>Y Axis of Point Position</value>
         public float Y
         {
             get => node["y"].AsFloat;
