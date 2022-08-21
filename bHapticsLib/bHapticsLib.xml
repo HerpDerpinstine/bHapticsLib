@@ -13,9 +13,6 @@
         <member name="P:bHapticsLib.bHapticsConnection.Status">
             <value>Current Status of Connection</value>
         </member>
-        <member name="T:bHapticsLib.bHapticsException">
-            <summary>Exception Thrown from bHapticsLib</summary>
-        </member>
         <member name="T:bHapticsLib.bHapticsManager">
             <summary>AIO bHaptics Management</summary>
         </member>
@@ -31,26 +28,74 @@
         <member name="F:bHapticsLib.bHapticsManager.MaxMotorsPerPathPoint">
             <value>Max Motors per PathPoint</value>
         </member>
-        <member name="P:bHapticsLib.bHapticsManager.ConnectionStatus">
+        <member name="P:bHapticsLib.bHapticsManager.Status">
             <value>Current Status of Connection</value>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Connect(System.String,System.String,System.Boolean,System.Int32)">
+            <summary>Connects to the bHaptics Player</summary>
+            <param name="id">Application Identifier</param>
+            <param name="name">Application Name</param>
+            <param name="tryToReconnect">If you want the Connection to Automatically Retry after Failure</param>
+            <param name="maxRetries">The amount of Retries after Failure before Disconnecting</param>
+            <returns>true was Successful, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Disconnect">
+            <summary>Disconnects from the bHaptics Player</summary>
+            <returns>true was Successful, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.GetConnectedDeviceCount">
+            <summary>Gets the total amount of devices currently connected to the bHaptics Player</summary>
+            <returns>The total amount of devices currently connected to the bHaptics Player</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.IsAnyDevicesConnected">
+            <summary>Gets if any devices are currently connected to the bHaptics Player</summary>
+            <returns>true if there is a device, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.IsDeviceConnected(bHapticsLib.PositionID)">
+            <summary>Gets if a specific device is currently connected to the bHaptics Player</summary>
+            <returns>true if the device is connected, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.GetDeviceStatus(bHapticsLib.PositionID)">
+            <summary>Gets the current status a specific device.</summary>
+            <returns>An Integer Array containing the current intensity value for each motor of the device</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.IsAnyMotorActive(bHapticsLib.PositionID)">
+            <summary>Gets if any motor of a specific device is currently at an intensity value of more than 0</summary>
+            <returns>true if there is a motor active, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.IsPlaying(System.String)">
+            <summary>Gets if a specified pattern is currently playing</summary>
+            <param name="key">The key id of the pattern</param>
+            <returns>true if the specified pattern is playing, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.IsPlayingAny">
+            <summary>Gets if any pattern is currently playing</summary>
+            <returns>true if any pattern is playing, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.StopPlaying(System.String)">
+            <summary>Stops the specified pattern</summary>
+            <param name="key">The key id of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.StopPlayingAll">
+            <summary>Stops the currently playing patterns</summary>
         </member>
         <member name="T:bHapticsLib.bHapticsStatus">
             <summary>Enum for Connection Status</summary>
         </member>
         <member name="F:bHapticsLib.bHapticsStatus.Disconnected">
-            <summary>Is Disconnected from the bHaptics Player</summary>
+            <summary>Disconnected from the bHaptics Player</summary>
         </member>
         <member name="F:bHapticsLib.bHapticsStatus.Connecting">
-            <summary>Is attempting to Connect to the bHaptics Player</summary>
+            <summary>Attempting to Connect to the bHaptics Player</summary>
         </member>
         <member name="F:bHapticsLib.bHapticsStatus.Connected">
-            <summary>Is Connected to the bHaptics Player</summary>
+            <summary>Connected to the bHaptics Player</summary>
         </member>
         <member name="T:bHapticsLib.DotPoint">
             <summary>Haptic Point for Dot Mode</summary>
         </member>
         <member name="P:bHapticsLib.DotPoint.Index">
-            <value>Index of Haptic Node</value>
+            <value>Index of Haptic Motor</value>
         </member>
         <member name="P:bHapticsLib.DotPoint.Intensity">
             <value>Point Intensity</value>
@@ -64,6 +109,9 @@
         </member>
         <member name="T:bHapticsLib.HapticPattern">
             <summary>Haptic Pattern Utility</summary>
+        </member>
+        <member name="P:bHapticsLib.HapticPattern.Key">
+            <value>Pattern key id</value>
         </member>
         <member name="T:bHapticsLib.Internal.ThreadedTask">
             <summary>Handles Multi-Threaded Tasking</summary>

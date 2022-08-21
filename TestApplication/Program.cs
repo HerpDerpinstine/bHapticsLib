@@ -31,7 +31,7 @@ namespace TestApplication
 
             Console.WriteLine();
 
-            Console.WriteLine($"Press 0 for {nameof(bHapticsManager.ConnectionStatus)}");
+            Console.WriteLine($"Press 0 for {nameof(bHapticsManager.Status)}");
             Console.WriteLine();
 
             Console.WriteLine($"Press 2 for {nameof(bHapticsManager.GetConnectedDeviceCount)}()");
@@ -106,7 +106,7 @@ namespace TestApplication
 
 
                 case ConsoleKey.D0:
-                    Console.WriteLine($"{nameof(bHapticsManager.ConnectionStatus)}: {bHapticsManager.ConnectionStatus}");
+                    Console.WriteLine($"{nameof(bHapticsManager.Status)}: {bHapticsManager.Status}");
                     goto default;
 
 

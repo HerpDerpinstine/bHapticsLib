@@ -11,7 +11,9 @@ using bHapticsLib.Internal.SimpleJSON;
 namespace bHapticsLib
 {
     /// <summary>bHaptics Player Connection Handler</summary>
+#pragma warning disable IDE1006 // Naming Styles
     public class bHapticsConnection : ThreadedTask
+#pragma warning restore IDE1006 // Naming Styles
     {
         #region Type Cache
         private static readonly Type intType = typeof(int);

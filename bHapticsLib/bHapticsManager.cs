@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace bHapticsLib
 {
     /// <summary>AIO bHaptics Management</summary>
+#pragma warning disable IDE1006 // Naming Styles
     public static class bHapticsManager
+#pragma warning restore IDE1006 // Naming Styles
     {
         #region Max Values
         /// <value>Max Intensity of Point in Integer Array</value>
@@ -20,7 +23,7 @@ namespace bHapticsLib
         private static bHapticsConnection Connection = new bHapticsConnection();
 
         /// <value>Current Status of Connection</value>
-        public static bHapticsStatus ConnectionStatus { get => Connection.Status; }
+        public static bHapticsStatus Status { get => Connection.Status; }
 
         /// <summary>Connects to the bHaptics Player</summary>
         /// <param name="id">Application Identifier</param>
@@ -31,12 +34,12 @@ namespace bHapticsLib
         public static bool Connect(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
         {
             if (string.IsNullOrEmpty(id))
-                return false; // To-Do: Throw Exception
+                throw new ArgumentNullException(nameof(id));
 
             if (string.IsNullOrEmpty(name))
-                return false; // To-Do: Throw Exception
+                throw new ArgumentNullException(nameof(name));
 
-            if (ConnectionStatus != bHapticsStatus.Disconnected)
+            if (Status != bHapticsStatus.Disconnected)
                 Disconnect();
 
             Connection.ID = id;
@@ -51,7 +54,7 @@ namespace bHapticsLib
         /// <returns>true was Successful, otherwise false</returns>
         public static bool Disconnect()
         {
-            if (ConnectionStatus == bHapticsStatus.Disconnected)
+            if (Status == bHapticsStatus.Disconnected)
                 return true;
 
             StopPlayingAll();
