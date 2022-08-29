@@ -13,6 +13,82 @@
         <member name="P:bHapticsLib.bHapticsConnection.Status">
             <value>Current Status of Connection</value>
         </member>
+        <member name="M:bHapticsLib.bHapticsConnection.GetConnectedDeviceCount">
+            <summary>Gets the total amount of devices currently connected to the bHaptics Player</summary>
+            <returns>The total amount of devices currently connected to the bHaptics Player</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.IsDeviceConnected(bHapticsLib.PositionID)">
+            <summary>Gets if a specific device is currently connected to the bHaptics Player</summary>
+            <returns>true if the device is connected, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.GetDeviceStatus(bHapticsLib.PositionID)">
+            <summary>Gets the current status a specific device.</summary>
+            <returns>An Integer Array containing the current intensity value for each motor of the device</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.IsPlaying(System.String)">
+            <summary>Gets if a specified pattern is currently playing</summary>
+            <param name="key">The key id of the pattern</param>
+            <returns>true if the specified pattern is playing, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.IsPlayingAny">
+            <summary>Gets if any pattern is currently playing</summary>
+            <returns>true if any pattern is playing, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.StopPlaying(System.String)">
+            <summary>Stops the specified pattern</summary>
+            <param name="key">The key id of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.StopPlayingAll">
+            <summary>Stops all currently playing patterns</summary>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.IsPatternRegistered(System.String)">
+            <summary>Checks if the specified pattern is Registered in the Cache</summary>
+            <param name="key">The key id of the pattern</param>
+            <returns>true if Registered, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.RegisterPatternFromFile(System.String,System.String)">
+            <summary>Registers a pattern from file path in the cache</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFilePath">The file path of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.RegisterPatternFromJson(System.String,System.String)">
+            <summary>Registers a pattern from raw json in the cache</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFileJson">The raw json of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.RegisterPatternSwappedFromFile(System.String,System.String)">
+            <summary>Registers a pattern swapped from file path in the cache</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFilePath">The file path of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.RegisterPatternSwappedFromJson(System.String,System.String)">
+            <summary>Registers a pattern swapped from raw json in the cache</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFileJson">The raw json of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.Play``2(System.String,System.Int32,bHapticsLib.PositionID,``0,``1,bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern</summary>
+            <typeparam name="A">DotPoint Collection Type</typeparam>
+            <typeparam name="B">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Collection of int, byte, or DotPoint</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+            <param name="dotMirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.PlayRegistered(System.String,System.String,bHapticsLib.ScaleOption,bHapticsLib.RotationOption)">
+            <summary>Plays a registered pattern from the Cache</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="altKey">Alternative Key id of this pattern, can be null</param>
+            <param name="scaleOption">Custom Playback Scale Option, can be null</param>
+            <param name="rotationOption">Custom Playback Rotation Option, can be null</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.PlayRegisteredMillis(System.String,System.Int32)">
+            <summary>Plays a registered pattern from the Cache</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="startTimeMillis">Playback Start Time Delay in Milliseconds</param>
+        </member>
         <member name="T:bHapticsLib.bHapticsManager">
             <summary>AIO bHaptics Management</summary>
         </member>
@@ -37,11 +113,11 @@
             <param name="name">Application Name</param>
             <param name="tryToReconnect">If you want the Connection to Automatically Retry after Failure</param>
             <param name="maxRetries">The amount of Retries after Failure before Disconnecting</param>
-            <returns>true was Successful, otherwise false</returns>
+            <returns>true if Successful, otherwise false</returns>
         </member>
         <member name="M:bHapticsLib.bHapticsManager.Disconnect">
             <summary>Disconnects from the bHaptics Player</summary>
-            <returns>true was Successful, otherwise false</returns>
+            <returns>true if Successful, otherwise false</returns>
         </member>
         <member name="M:bHapticsLib.bHapticsManager.GetConnectedDeviceCount">
             <summary>Gets the total amount of devices currently connected to the bHaptics Player</summary>
@@ -77,7 +153,293 @@
             <param name="key">The key id of the pattern</param>
         </member>
         <member name="M:bHapticsLib.bHapticsManager.StopPlayingAll">
-            <summary>Stops the currently playing patterns</summary>
+            <summary>Stops all currently playing patterns</summary>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.IsPatternRegistered(System.String)">
+            <summary>Checks if the specified pattern is Registered in the Cache</summary>
+            <param name="key">The key id of the pattern</param>
+            <returns>true if Registered, otherwise false</returns>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.RegisterPatternFromJson(System.String,System.String)">
+            <summary>Registers a pattern from raw json in the cache</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFileJson">The raw json of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.RegisterPatternFromFile(System.String,System.String)">
+            <summary>Registers a pattern from file path in the cache</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFilePath">The file path of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.RegisterPatternSwappedFromJson(System.String,System.String)">
+            <summary>Registers a pattern swapped from raw json in the cache</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFileJson">The raw json of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.RegisterPatternSwappedFromFile(System.String,System.String)">
+            <summary>Registers a pattern swapped from file path in the cache</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFilePath">The file path of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play(System.String,System.Int32,bHapticsLib.PositionID,System.Int32[])">
+            <summary>Plays a pattern</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of int signifying DotPoints</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{System.Int32})">
+            <summary>Plays a pattern</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of int signifying DotPoints</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play(System.String,System.Int32,bHapticsLib.PositionID,System.Byte[])">
+            <summary>Plays a pattern</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of byte signifying DotPoints</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{System.Byte})">
+            <summary>Plays a pattern</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of byte signifying DotPoints</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play(System.String,System.Int32,bHapticsLib.PositionID,bHapticsLib.DotPoint[])">
+            <summary>Plays a pattern</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of DotPoint</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{bHapticsLib.DotPoint})">
+            <summary>Plays a pattern</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of DotPoint</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play``1(System.String,System.Int32,bHapticsLib.PositionID,``0)">
+            <summary>Plays a pattern</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play``1(System.String,System.Int32,bHapticsLib.PositionID,System.Int32[],``0)">
+            <summary>Plays a pattern</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of int signifying DotPoints</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play``1(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{System.Int32},``0)">
+            <summary>Plays a pattern</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of int signifying DotPoints</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play``1(System.String,System.Int32,bHapticsLib.PositionID,System.Byte[],``0)">
+            <summary>Plays a pattern</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of byte signifying DotPoints</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play``1(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{System.Byte},``0)">
+            <summary>Plays a pattern</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of byte signifying DotPoints</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play``1(System.String,System.Int32,bHapticsLib.PositionID,bHapticsLib.DotPoint[],``0)">
+            <summary>Plays a pattern</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of DotPoint</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.Play``1(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{bHapticsLib.DotPoint},``0)">
+            <summary>Plays a pattern</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of DotPoint</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored(System.String,System.Int32,bHapticsLib.PositionID,System.Int32[],bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of int signifying DotPoints</param>
+            <param name="mirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{System.Int32},bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of int signifying DotPoints</param>
+            <param name="mirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored(System.String,System.Int32,bHapticsLib.PositionID,System.Byte[],bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of byte signifying DotPoints</param>
+            <param name="mirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{System.Byte},bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of byte signifying DotPoints</param>
+            <param name="mirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored(System.String,System.Int32,bHapticsLib.PositionID,bHapticsLib.DotPoint[],bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of DotPoint</param>
+            <param name="mirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{bHapticsLib.DotPoint},bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of DotPoint</param>
+            <param name="mirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored``1(System.String,System.Int32,bHapticsLib.PositionID,System.Int32[],``0,bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of int signifying DotPoints</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+            <param name="dotMirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored``1(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{System.Int32},``0,bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of int signifying DotPoints</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+            <param name="dotMirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored``1(System.String,System.Int32,bHapticsLib.PositionID,System.Byte[],``0,bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of byte signifying DotPoints</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+            <param name="dotMirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored``1(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{System.Byte},``0,bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of byte signifying DotPoints</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+            <param name="dotMirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored``1(System.String,System.Int32,bHapticsLib.PositionID,bHapticsLib.DotPoint[],``0,bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">Array of DotPoint</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+            <param name="dotMirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayMirrored``1(System.String,System.Int32,bHapticsLib.PositionID,System.Collections.Generic.List{bHapticsLib.DotPoint},``0,bHapticsLib.MirrorDirection)">
+            <summary>Plays a pattern mirrored</summary>
+            <typeparam name="A">PathPoint Collection Type</typeparam>
+            <param name="key">Key id of this pattern</param>
+            <param name="durationMillis">Duration of Playback</param>
+            <param name="position">Position for Playback</param>
+            <param name="dotPoints">List of DotPoint</param>
+            <param name="pathPoints">Collection of PathPoint</param>
+            <param name="dotMirrorDirection">Direction to Mirror Playback</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayRegistered(System.String)">
+            <summary>Plays a registered pattern from the Cache</summary>
+            <param name="key">Key id of this pattern</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayRegistered(System.String,System.Int32)">
+            <summary>Plays a registered pattern from the Cache</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="startTimeMillis">Playback Start Time Delay in Milliseconds</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayRegistered(System.String,bHapticsLib.ScaleOption)">
+            <summary>Plays a registered pattern from the Cache</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="option">Custom Playback Scale Option, can be null</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayRegistered(System.String,bHapticsLib.RotationOption)">
+            <summary>Plays a registered pattern from the Cache</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="option">Custom Playback Rotation Option, can be null</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayRegistered(System.String,bHapticsLib.ScaleOption,bHapticsLib.RotationOption)">
+            <summary>Plays a registered pattern from the Cache</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="scaleOption">Custom Playback Scale Option, can be null</param>
+            <param name="rotationOption">Custom Playback Rotation Option, can be null</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayRegistered(System.String,System.String)">
+            <summary>Plays a registered pattern from the Cache</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="altKey">Alternative Key id of this pattern, can be null</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayRegistered(System.String,System.String,bHapticsLib.ScaleOption)">
+            <summary>Plays a registered pattern from the Cache</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="altKey">Alternative Key id of this pattern, can be null</param>
+            <param name="option">Custom Playback Scale Option, can be null</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayRegistered(System.String,System.String,bHapticsLib.RotationOption)">
+            <summary>Plays a registered pattern from the Cache</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="altKey">Alternative Key id of this pattern, can be null</param>
+            <param name="option">Custom Playback Rotation Option, can be null</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsManager.PlayRegistered(System.String,System.String,bHapticsLib.ScaleOption,bHapticsLib.RotationOption)">
+            <summary>Plays a registered pattern from the Cache</summary>
+            <param name="key">Key id of this pattern</param>
+            <param name="altKey">Alternative Key id of this pattern, can be null</param>
+            <param name="scaleOption">Custom Playback Scale Option, can be null</param>
+            <param name="rotationOption">Custom Playback Rotation Option, can be null</param>
         </member>
         <member name="T:bHapticsLib.bHapticsStatus">
             <summary>Enum for Connection Status</summary>
@@ -112,6 +474,51 @@
         </member>
         <member name="P:bHapticsLib.HapticPattern.Key">
             <value>Pattern key id</value>
+        </member>
+        <member name="M:bHapticsLib.HapticPattern.LoadFromJson(System.String,System.String)">
+            <summary>Loads a pattern from raw json into HapticPattern</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFileJson">The raw json of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.HapticPattern.LoadFromFile(System.String,System.String)">
+            <summary>Loads a pattern from file path into HapticPattern</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFilePath">The file path of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.HapticPattern.LoadSwappedFromJson(System.String,System.String)">
+            <summary>Loads a pattern swapped from raw json into HapticPattern</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFileJson">The raw json of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.HapticPattern.LoadSwappedFromFile(System.String,System.String)">
+            <summary>Loads a pattern swapped from file path into HapticPattern</summary>
+            <param name="key">The key id of the pattern</param>
+            <param name="tactFilePath">The file path of the pattern</param>
+        </member>
+        <member name="M:bHapticsLib.HapticPattern.IsRegistered">
+            <summary>Checks if the HapticPattern is Registered</summary>
+        </member>
+        <member name="M:bHapticsLib.HapticPattern.IsPlaying">
+            <summary>Checks if the HapticPattern is Playing</summary>
+        </member>
+        <member name="M:bHapticsLib.HapticPattern.Stop">
+            <summary>Stops the HapticPattern</summary>
+        </member>
+        <member name="M:bHapticsLib.HapticPattern.Play">
+            <summary>Plays the HapticPattern</summary>
+        </member>
+        <member name="M:bHapticsLib.HapticPattern.Play(bHapticsLib.ScaleOption)">
+            <summary>Plays the HapticPattern</summary>
+            <param name="option">Custom Playback Scale Option</param>
+        </member>
+        <member name="M:bHapticsLib.HapticPattern.Play(bHapticsLib.RotationOption)">
+            <summary>Plays the HapticPattern</summary>
+            <param name="option">Custom Playback Rotation Option</param>
+        </member>
+        <member name="M:bHapticsLib.HapticPattern.Play(bHapticsLib.ScaleOption,bHapticsLib.RotationOption)">
+            <summary>Plays the HapticPattern</summary>
+            <param name="scaleOption">Custom Playback Scale Option</param>
+            <param name="rotationOption">Custom Playback Rotation Option</param>
         </member>
         <member name="T:bHapticsLib.Internal.ThreadedTask">
             <summary>Handles Multi-Threaded Tasking</summary>

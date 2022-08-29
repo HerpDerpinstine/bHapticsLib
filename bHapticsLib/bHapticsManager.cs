@@ -30,7 +30,7 @@ namespace bHapticsLib
         /// <param name="name">Application Name</param>
         /// <param name="tryToReconnect">If you want the Connection to Automatically Retry after Failure</param>
         /// <param name="maxRetries">The amount of Retries after Failure before Disconnecting</param>
-        /// <returns>true was Successful, otherwise false</returns>
+        /// <returns>true if Successful, otherwise false</returns>
         public static bool Connect(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
         {
             if (string.IsNullOrEmpty(id))
@@ -39,8 +39,9 @@ namespace bHapticsLib
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
 
-            if (Status != bHapticsStatus.Disconnected)
-                Disconnect();
+            if ((Status != bHapticsStatus.Disconnected) 
+                && !Disconnect())
+                return false;
 
             Connection.ID = id;
             Connection.Name = name;
@@ -51,7 +52,7 @@ namespace bHapticsLib
         }
 
         /// <summary>Disconnects from the bHaptics Player</summary>
-        /// <returns>true was Successful, otherwise false</returns>
+        /// <returns>true if Successful, otherwise false</returns>
         public static bool Disconnect()
         {
             if (Status == bHapticsStatus.Disconnected)
@@ -87,7 +88,7 @@ namespace bHapticsLib
         /// <returns>true if there is a motor active, otherwise false</returns>
         public static bool IsAnyMotorActive(PositionID type)
             => GetDeviceStatus(type)?.ContainsValueMoreThan(0) ?? false;
-#endregion
+        #endregion
 
         #region IsPlaying
         /// <summary>Gets if a specified pattern is currently playing</summary>
@@ -108,122 +109,361 @@ namespace bHapticsLib
         public static void StopPlaying(string key) 
             => Connection.StopPlaying(key);
 
-        /// <summary>Stops the currently playing patterns</summary>
+        /// <summary>Stops all currently playing patterns</summary>
         public static void StopPlayingAll() 
             => Connection.StopPlayingAll();
         #endregion
 
         #region RegisterPattern
+        /// <summary>Checks if the specified pattern is Registered in the Cache</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <returns>true if Registered, otherwise false</returns>
         public static bool IsPatternRegistered(string key) 
             => Connection.IsPatternRegistered(key);
-        public static void RegisterPatternFromJson(string key, string tactFileStr)
-            => Connection.RegisterPatternFromJson(key, tactFileStr);
+
+        /// <summary>Registers a pattern from raw json in the cache</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <param name="tactFileJson">The raw json of the pattern</param>
+        public static void RegisterPatternFromJson(string key, string tactFileJson)
+            => Connection.RegisterPatternFromJson(key, tactFileJson);
+
+        /// <summary>Registers a pattern from file path in the cache</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <param name="tactFilePath">The file path of the pattern</param>
         public static void RegisterPatternFromFile(string key, string tactFilePath)
             => Connection.RegisterPatternFromFile(key, tactFilePath);
-        public static void RegisterPatternSwappedFromJson(string key, string tactFileStr)
-            => Connection.RegisterPatternSwappedFromJson(key, tactFileStr);
+
+        /// <summary>Registers a pattern swapped from raw json in the cache</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <param name="tactFileJson">The raw json of the pattern</param>
+        public static void RegisterPatternSwappedFromJson(string key, string tactFileJson)
+            => Connection.RegisterPatternSwappedFromJson(key, tactFileJson);
+
+        /// <summary>Registers a pattern swapped from file path in the cache</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <param name="tactFilePath">The file path of the pattern</param>
         public static void RegisterPatternSwappedFromFile(string key, string tactFilePath)
             => Connection.RegisterPatternSwappedFromFile(key, tactFilePath);
         #endregion
 
         #region PlayDot
+        /// <summary>Plays a pattern</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of int signifying DotPoints</param>
         public static void Play(string key, int durationMillis, PositionID position, int[] dotPoints) 
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
+
+        /// <summary>Plays a pattern</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of int signifying DotPoints</param>
         public static void Play(string key, int durationMillis, PositionID position, List<int> dotPoints)
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
+
+        /// <summary>Plays a pattern</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of byte signifying DotPoints</param>
         public static void Play(string key, int durationMillis, PositionID position, byte[] dotPoints)
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
+
+        /// <summary>Plays a pattern</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of byte signifying DotPoints</param>
         public static void Play(string key, int durationMillis, PositionID position, List<byte> dotPoints)
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
+
+        /// <summary>Plays a pattern</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of DotPoint</param>
         public static void Play(string key, int durationMillis, PositionID position, DotPoint[] dotPoints)
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
+
+        /// <summary>Plays a pattern</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of DotPoint</param>
         public static void Play(string key, int durationMillis, PositionID position, List<DotPoint> dotPoints)
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null);
         #endregion
 
         #region PlayPath
+        /// <summary>Plays a pattern</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
         public static void Play<A>(string key, int durationMillis, PositionID position, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, (DotPoint[])null, pathPoints);
         #endregion
 
         #region PlayDotAndPath
+        /// <summary>Plays a pattern</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of int signifying DotPoints</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
         public static void Play<A>(string key, int durationMillis, PositionID position, int[] dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
+
+        /// <summary>Plays a pattern</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of int signifying DotPoints</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
         public static void Play<A>(string key, int durationMillis, PositionID position, List<int> dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
+
+        /// <summary>Plays a pattern</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of byte signifying DotPoints</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
         public static void Play<A>(string key, int durationMillis, PositionID position, byte[] dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
+
+        /// <summary>Plays a pattern</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of byte signifying DotPoints</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
         public static void Play<A>(string key, int durationMillis, PositionID position, List<byte> dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
+
+        /// <summary>Plays a pattern</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of DotPoint</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
         public static void Play<A>(string key, int durationMillis, PositionID position, DotPoint[] dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
+
+        /// <summary>Plays a pattern</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of DotPoint</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
         public static void Play<A>(string key, int durationMillis, PositionID position, List<DotPoint> dotPoints, A pathPoints)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints);
         #endregion
 
         #region PlayMirroredDot
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of int signifying DotPoints</param>
+        /// <param name="mirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored(string key, int durationMillis, PositionID position, int[] dotPoints, MirrorDirection mirrorDirection)
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
+
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of int signifying DotPoints</param>
+        /// <param name="mirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored(string key, int durationMillis, PositionID position, List<int> dotPoints, MirrorDirection mirrorDirection)
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
+
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of byte signifying DotPoints</param>
+        /// <param name="mirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored(string key, int durationMillis, PositionID position, byte[] dotPoints, MirrorDirection mirrorDirection)
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
+
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of byte signifying DotPoints</param>
+        /// <param name="mirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored(string key, int durationMillis, PositionID position, List<byte> dotPoints, MirrorDirection mirrorDirection)
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
+
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of DotPoint</param>
+        /// <param name="mirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored(string key, int durationMillis, PositionID position, DotPoint[] dotPoints, MirrorDirection mirrorDirection)
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
+
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of DotPoint</param>
+        /// <param name="mirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored(string key, int durationMillis, PositionID position, List<DotPoint> dotPoints, MirrorDirection mirrorDirection)
             => Connection.Play(key, durationMillis, position, dotPoints, (PathPoint[])null, mirrorDirection);
         #endregion
 
         #region PlayMirroredDotAndPath
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of int signifying DotPoints</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
+        /// <param name="dotMirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, int[] dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
+
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of int signifying DotPoints</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
+        /// <param name="dotMirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, List<int> dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
+
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of byte signifying DotPoints</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
+        /// <param name="dotMirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, byte[] dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
+
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of byte signifying DotPoints</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
+        /// <param name="dotMirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, List<byte> dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
+
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Array of DotPoint</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
+        /// <param name="dotMirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, DotPoint[] dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
+
+        /// <summary>Plays a pattern mirrored</summary>
+        /// <typeparam name="A">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">List of DotPoint</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
+        /// <param name="dotMirrorDirection">Direction to Mirror Playback</param>
         public static void PlayMirrored<A>(string key, int durationMillis, PositionID position, List<DotPoint> dotPoints, A pathPoints, MirrorDirection dotMirrorDirection)
             where A : IList<PathPoint>, ICollection<PathPoint>
             => Connection.Play(key, durationMillis, position, dotPoints, pathPoints, dotMirrorDirection);
         #endregion
 
         #region PlayRegistered
+        /// <summary>Plays a registered pattern from the Cache</summary>
+        /// <param name="key">Key id of this pattern</param>
         public static void PlayRegistered(string key) 
             => Connection.PlayRegistered(key);
+
+        /// <summary>Plays a registered pattern from the Cache</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="startTimeMillis">Playback Start Time Delay in Milliseconds</param>
         public static void PlayRegistered(string key, int startTimeMillis)
             => Connection.PlayRegisteredMillis(key, startTimeMillis: startTimeMillis);
+
+        /// <summary>Plays a registered pattern from the Cache</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="option">Custom Playback Scale Option, can be null</param>
         public static void PlayRegistered(string key, ScaleOption option)
             => Connection.PlayRegistered(key, scaleOption: option);
+
+        /// <summary>Plays a registered pattern from the Cache</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="option">Custom Playback Rotation Option, can be null</param>
         public static void PlayRegistered(string key, RotationOption option) 
             => Connection.PlayRegistered(key, rotationOption: option);
+
+        /// <summary>Plays a registered pattern from the Cache</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="scaleOption">Custom Playback Scale Option, can be null</param>
+        /// <param name="rotationOption">Custom Playback Rotation Option, can be null</param>
         public static void PlayRegistered(string key, ScaleOption scaleOption, RotationOption rotationOption) 
             => Connection.PlayRegistered(key, scaleOption: scaleOption, rotationOption: rotationOption);
         #endregion
 
         #region PlayRegisteredAlt
+        /// <summary>Plays a registered pattern from the Cache</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="altKey">Alternative Key id of this pattern, can be null</param>
         public static void PlayRegistered(string key, string altKey) 
             => Connection.PlayRegistered(key, altKey);
+
+        /// <summary>Plays a registered pattern from the Cache</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="altKey">Alternative Key id of this pattern, can be null</param>
+        /// <param name="option">Custom Playback Scale Option, can be null</param>
         public static void PlayRegistered(string key, string altKey, ScaleOption option) 
             => Connection.PlayRegistered(key, altKey, scaleOption: option);
+
+        /// <summary>Plays a registered pattern from the Cache</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="altKey">Alternative Key id of this pattern, can be null</param>
+        /// <param name="option">Custom Playback Rotation Option, can be null</param>
         public static void PlayRegistered(string key, string altKey, RotationOption option) 
             => Connection.PlayRegistered(key, altKey, rotationOption: option);
+
+        /// <summary>Plays a registered pattern from the Cache</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="altKey">Alternative Key id of this pattern, can be null</param>
+        /// <param name="scaleOption">Custom Playback Scale Option, can be null</param>
+        /// <param name="rotationOption">Custom Playback Rotation Option, can be null</param>
         public static void PlayRegistered(string key, string altKey, ScaleOption scaleOption, RotationOption rotationOption) 
             => Connection.PlayRegistered(key, altKey, scaleOption: scaleOption, rotationOption: rotationOption);
         #endregion

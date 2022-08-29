@@ -58,7 +58,6 @@ namespace bHapticsLib
 
         internal bHapticsConnection() { }
 
-
         public bHapticsConnection(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
             : this(IPAddress.Loopback, id, name, tryToReconnect, maxRetries) { }
 
@@ -156,7 +155,12 @@ namespace bHapticsLib
         #endregion
 
         #region Device
+        /// <summary>Gets the total amount of devices currently connected to the bHaptics Player</summary>
+        /// <returns>The total amount of devices currently connected to the bHaptics Player</returns>
         public int GetConnectedDeviceCount() => Socket?.LastResponse?.ConnectedDeviceCount ?? 0;
+
+        /// <summary>Gets if a specific device is currently connected to the bHaptics Player</summary>
+        /// <returns>true if the device is connected, otherwise false</returns>
         public bool IsDeviceConnected(PositionID type)
         {
             if ((type == PositionID.VestFront)
@@ -164,6 +168,9 @@ namespace bHapticsLib
                 type = PositionID.Vest;
             return Socket?.LastResponse?.ConnectedPositions?.ContainsValue(type.ToPacketString()) ?? false;
         }
+
+        /// <summary>Gets the current status a specific device.</summary>
+        /// <returns>An Integer Array containing the current intensity value for each motor of the device</returns>
         public int[] GetDeviceStatus(PositionID type)
         {
             if ((Socket == null)
@@ -201,17 +208,27 @@ namespace bHapticsLib
         #endregion
 
         #region IsPlaying
+        /// <summary>Gets if a specified pattern is currently playing</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <returns>true if the specified pattern is playing, otherwise false</returns>
         public bool IsPlaying(string key) => Socket?.LastResponse?.ActiveKeys?.ContainsValue(key) ?? false;
+
+        /// <summary>Gets if any pattern is currently playing</summary>
+        /// <returns>true if any pattern is playing, otherwise false</returns>
         public bool IsPlayingAny() => (Socket?.LastResponse?.ActiveKeys?.Count > 0);
         #endregion
 
         #region StopPlaying
+        /// <summary>Stops the specified pattern</summary>
+        /// <param name="key">The key id of the pattern</param>
         public void StopPlaying(string key)
         {
             if (!IsAlive() || !IsConnected())
                 return;
             SubmitQueue.Enqueue(new SubmitRequest { key = key, type = "turnOff" });
         }
+
+        /// <summary>Stops all currently playing patterns</summary>
         public void StopPlayingAll()
         {
             if (!IsAlive() || !IsConnected())
@@ -221,8 +238,14 @@ namespace bHapticsLib
         #endregion
 
         #region PatternRegister
+        /// <summary>Checks if the specified pattern is Registered in the Cache</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <returns>true if Registered, otherwise false</returns>
         public bool IsPatternRegistered(string key) => Socket?.LastResponse?.RegisteredKeys?.ContainsValue(key) ?? false;
 
+        /// <summary>Registers a pattern from file path in the cache</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <param name="tactFilePath">The file path of the pattern</param>
         public void RegisterPatternFromFile(string key, string tactFilePath)
         {
             if (!File.Exists(tactFilePath))
@@ -231,22 +254,28 @@ namespace bHapticsLib
             RegisterPatternFromJson(key, File.ReadAllText(tactFilePath));
         }
 
-        public void RegisterPatternFromJson(string key, string tactFileStr)
+        /// <summary>Registers a pattern from raw json in the cache</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <param name="tactFileJson">The raw json of the pattern</param>
+        public void RegisterPatternFromJson(string key, string tactFileJson)
         {
             if (string.IsNullOrEmpty(key))
                 return; // To-Do: Exception Here
 
-            if (string.IsNullOrEmpty(tactFileStr))
+            if (string.IsNullOrEmpty(tactFileJson))
                 return; // To-Do: Exception Here
 
             RegisterRequest request = new RegisterRequest();
             request.key = key;
-            request.project = JSON.Parse(tactFileStr)[nameof(request.project)].AsObject;
+            request.project = JSON.Parse(tactFileJson)[nameof(request.project)].AsObject;
 
             RegisterCache.Add(request);
             RegisterQueue.Enqueue(request);
         }
 
+        /// <summary>Registers a pattern swapped from file path in the cache</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <param name="tactFilePath">The file path of the pattern</param>
         public void RegisterPatternSwappedFromFile(string key, string tactFilePath)
         {
             if (!File.Exists(tactFilePath))
@@ -255,18 +284,21 @@ namespace bHapticsLib
             RegisterPatternSwappedFromJson(key, File.ReadAllText(tactFilePath));
         }
 
-        public void RegisterPatternSwappedFromJson(string key, string tactFileStr)
+        /// <summary>Registers a pattern swapped from raw json in the cache</summary>
+        /// <param name="key">The key id of the pattern</param>
+        /// <param name="tactFileJson">The raw json of the pattern</param>
+        public void RegisterPatternSwappedFromJson(string key, string tactFileJson)
         {
             if (string.IsNullOrEmpty(key))
                 return; // To-Do: Exception Here
 
-            if (string.IsNullOrEmpty(tactFileStr))
+            if (string.IsNullOrEmpty(tactFileJson))
                 return; // To-Do: Exception Here
 
             RegisterRequest request = new RegisterRequest();
             request.key = key;
 
-            JSONObject project = JSON.Parse(tactFileStr)[nameof(project)].AsObject;
+            JSONObject project = JSON.Parse(tactFileJson)[nameof(project)].AsObject;
             JSONArray tracks = project[nameof(tracks)].AsArray;
             LoopTracks(tracks, (effect) =>
             {
@@ -304,6 +336,15 @@ namespace bHapticsLib
         #endregion
 
         #region Play
+        /// <summary>Plays a pattern</summary>
+        /// <typeparam name="A">DotPoint Collection Type</typeparam>
+        /// <typeparam name="B">PathPoint Collection Type</typeparam>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="durationMillis">Duration of Playback</param>
+        /// <param name="position">Position for Playback</param>
+        /// <param name="dotPoints">Collection of int, byte, or DotPoint</param>
+        /// <param name="pathPoints">Collection of PathPoint</param>
+        /// <param name="dotMirrorDirection">Direction to Mirror Playback</param>
         public void Play<A, B>(
             string key,
             int durationMillis,
@@ -389,6 +430,11 @@ namespace bHapticsLib
         #endregion
 
         #region PlayRegistered
+        /// <summary>Plays a registered pattern from the Cache</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="altKey">Alternative Key id of this pattern, can be null</param>
+        /// <param name="scaleOption">Custom Playback Scale Option, can be null</param>
+        /// <param name="rotationOption">Custom Playback Rotation Option, can be null</param>
         public void PlayRegistered(string key, string altKey = null, ScaleOption scaleOption = null, RotationOption rotationOption = null)
         {
             if (!IsAlive())
@@ -407,6 +453,10 @@ namespace bHapticsLib
 
             SubmitQueue.Enqueue(request);
         }
+
+        /// <summary>Plays a registered pattern from the Cache</summary>
+        /// <param name="key">Key id of this pattern</param>
+        /// <param name="startTimeMillis">Playback Start Time Delay in Milliseconds</param>
         public void PlayRegisteredMillis(string key, int startTimeMillis = 0)
         {
             if (!IsAlive())
