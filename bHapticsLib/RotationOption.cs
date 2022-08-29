@@ -13,12 +13,14 @@ namespace bHapticsLib
             OffsetY = offsetY;
         }
 
+        /// <value>Rotation Angle X Axis</value>
         public float OffsetAngleX
         {
             get => node["offsetAngleX"].AsFloat;
             set => node["offsetAngleX"] = value;
         }
 
+        /// <value>Rotation Y Axis</value>
         public float OffsetY
         {
             get => node["offsetY"].AsFloat;

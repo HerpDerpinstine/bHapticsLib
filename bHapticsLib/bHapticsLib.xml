@@ -600,8 +600,20 @@
         <member name="T:bHapticsLib.RotationOption">
             <summary>Rotational Option for Haptic Patterns</summary>
         </member>
+        <member name="P:bHapticsLib.RotationOption.OffsetAngleX">
+            <value>Rotation Angle X Axis</value>
+        </member>
+        <member name="P:bHapticsLib.RotationOption.OffsetY">
+            <value>Rotation Y Axis</value>
+        </member>
         <member name="T:bHapticsLib.ScaleOption">
             <summary>Scaling Option for Haptic Patterns</summary>
+        </member>
+        <member name="P:bHapticsLib.ScaleOption.Intensity">
+            <value>Scale of Intensity, default is 1x</value>
+        </member>
+        <member name="P:bHapticsLib.ScaleOption.Duration">
+            <value>Scale of Duration of Playback, default is 1x</value>
         </member>
     </members>
 </doc>

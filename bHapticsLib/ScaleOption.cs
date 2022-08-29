@@ -13,12 +13,14 @@ namespace bHapticsLib
             Duration = duration;
         }
 
+        /// <value>Scale of Intensity, default is 1x</value>
         public float Intensity
         {
             get => node["intensity"].AsFloat;
             set => node["intensity"] = value;
         }
 
+        /// <value>Scale of Duration of Playback, default is 1x</value>
         public float Duration
         {
             get => node["duration"].AsFloat;
