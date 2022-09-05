@@ -10,6 +10,33 @@
         <member name="P:bHapticsLib.bHapticsConnection.IPAddress">
             <value>IP Address of Host Device running the bHaptics Player</value>
         </member>
+        <member name="P:bHapticsLib.bHapticsConnection.ID">
+            <value>Application Identifier</value>
+        </member>
+        <member name="P:bHapticsLib.bHapticsConnection.Name">
+            <value>Application Name</value>
+        </member>
+        <member name="F:bHapticsLib.bHapticsConnection.TryToReconnect">
+            <value>If the Connection should attempt to Reconnect after failure or unexpected closure</value>
+        </member>
+        <member name="P:bHapticsLib.bHapticsConnection.MaxRetries">
+            <value>Maximum number of Connection Retry Attempts to Perform, 0 for infinite, default value is 5</value>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.#ctor(System.String,System.String,System.Boolean,System.Int32)">
+            <summary>bHaptics Player Connection Handler</summary>
+            <param name="id">Application Identifier</param>
+            <param name="name">Application Name</param>
+            <param name="tryToReconnect">If the Connection should attempt to Reconnect after failure or unexpected closure</param>
+            <param name="maxRetries">Maximum number of Connection Retry Attempts to Perform, 0 for infinite, default value is 5</param>
+        </member>
+        <member name="M:bHapticsLib.bHapticsConnection.#ctor(System.Net.IPAddress,System.String,System.String,System.Boolean,System.Int32)">
+            <summary>bHaptics Player Connection Handler</summary>
+            <param name="ipaddress">IP Address of Host Device running the bHaptics Player</param>
+            <param name="id">Application Identifier</param>
+            <param name="name">Application Name</param>
+            <param name="tryToReconnect">If the Connection should attempt to Reconnect after failure or unexpected closure</param>
+            <param name="maxRetries">Maximum number of Connection Retry Attempts to Perform, 0 for infinite, default value is 5</param>
+        </member>
         <member name="P:bHapticsLib.bHapticsConnection.Status">
             <value>Current Status of Connection</value>
         </member>
@@ -111,8 +138,8 @@
             <summary>Connects to the bHaptics Player</summary>
             <param name="id">Application Identifier</param>
             <param name="name">Application Name</param>
-            <param name="tryToReconnect">If you want the Connection to Automatically Retry after Failure</param>
-            <param name="maxRetries">The amount of Retries after Failure before Disconnecting</param>
+            <param name="tryToReconnect">If the Connection should attempt to Reconnect after failure or unexpected closure</param>
+            <param name="maxRetries">Maximum number of Connection Retry Attempts to Perform, 0 for infinite, default value is 5</param>
             <returns>true if Successful, otherwise false</returns>
         </member>
         <member name="M:bHapticsLib.bHapticsManager.Disconnect">
