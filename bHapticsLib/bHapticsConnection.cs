@@ -45,9 +45,6 @@ namespace bHapticsLib
                     BeginInit();
             }
         }
-
-        private static int RegisterChunkSize = 5;
-        private static int SubmitChunkSize = 100;
         
         internal static int Port = 15881;
         internal static string Endpoint = "v2/feedbacks";
@@ -110,9 +107,13 @@ namespace bHapticsLib
 
                 if (IsConnected())
                 {
-                    ApplyRegisterQueue();
-                    if (Packet.Register.Count == 0)
-                        ApplySubmitQueue();
+                    RegisterRequest registerRequest;
+                    while ((registerRequest = RegisterQueue.Dequeue()) != null)
+                        Packet.Register.Add(registerRequest);
+
+                    SubmitRequest submitRequest;
+                    while ((submitRequest = SubmitQueue.Dequeue()) != null)
+                        Packet.Submit.Add(submitRequest);
 
                     if (!Packet.IsEmpty())
                     {
@@ -123,32 +124,6 @@ namespace bHapticsLib
 
                 if (ShouldRun)
                     Thread.Sleep(1);
-            }
-        }
-
-        private void ApplyRegisterQueue()
-        {
-            int total = 0;
-            RegisterRequest registerRequest;
-            while ((registerRequest = RegisterQueue.Dequeue()) != null)
-            {
-                Packet.Register.Add(registerRequest);
-                total++;
-                if (total >= RegisterChunkSize)
-                    break;
-            }
-        }
-
-        private void ApplySubmitQueue()
-        {
-            int total = 0;
-            SubmitRequest submitRequest;
-            while ((submitRequest = SubmitQueue.Dequeue()) != null)
-            {
-                Packet.Submit.Add(submitRequest);
-                total++;
-                if (total >= SubmitChunkSize)
-                    break;
             }
         }
 
