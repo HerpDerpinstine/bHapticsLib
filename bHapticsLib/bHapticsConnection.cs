@@ -28,30 +28,60 @@ namespace bHapticsLib
         #endregion
 
         #region Threading
-        internal IPAddress _ipaddress = IPAddress.Loopback;
+        internal static int Port = 15881;
+        internal static string Endpoint = "v2/feedbacks";
+
+        private IPAddress _ipaddress = IPAddress.Loopback;
         /// <value>IP Address of Host Device running the bHaptics Player</value>
         public IPAddress IPAddress
         {
             get => _ipaddress;
             set
             {
-                bool shouldRestart = (Socket != null);
-                if (shouldRestart)
-                    EndInit();
-
-                _ipaddress = value;
-
-                if (shouldRestart)
-                    BeginInit();
+                if (value == null)
+                    RestartAndRunAction(() => _ipaddress = IPAddress.Loopback);
+                else
+                    RestartAndRunAction(() => _ipaddress = value);
             }
         }
-        
-        internal static int Port = 15881;
-        internal static string Endpoint = "v2/feedbacks";
 
-        internal string ID, Name;
-        internal bool TryToReconnect;
-        internal int MaxRetries;
+        private string _id;
+        /// <value>Application Identifier</value>
+        public string ID
+        {
+            get => _id;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentNullException(nameof(value));
+                RestartAndRunAction(() => _id = value.Replace(" ", "_"));
+            }
+        }
+
+        private string _name;
+        /// <value>Application Name</value>
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentNullException(nameof(value));
+                RestartAndRunAction(() => _name = value.Replace(" ", "_"));
+            }
+        }
+
+        /// <value>If the Connection should attempt to Reconnect after failure or unexpected closure</value>
+        public bool TryToReconnect;
+
+        private int _maxRetries = 5;
+        /// <value>Maximum number of Connection Retry Attempts to Perform, 0 for infinite, default value is 5</value>
+        public int MaxRetries
+        {
+            get => _maxRetries;
+            set => _maxRetries = value.Clamp(0, int.MaxValue);
+        }
+
         internal WebSocketConnection Socket;
         private PlayerPacket Packet = new PlayerPacket();
         private bool ShouldRun = true;
@@ -59,15 +89,24 @@ namespace bHapticsLib
         internal bHapticsConnection() { }
 
         public bHapticsConnection(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
-            : this(IPAddress.Loopback, id, name, tryToReconnect, maxRetries) { }
+            : this(null, id, name, tryToReconnect, maxRetries) { }
 
         public bHapticsConnection(IPAddress ipaddress, string id, string name, bool tryToReconnect = true, int maxRetries = 5)
+            => Setup(ipaddress, id, name, tryToReconnect, maxRetries);
+
+        internal void Setup(IPAddress ipaddress, string id, string name, bool tryToReconnect, int maxRetries)
         {
-            ID = id.Replace(" ", "_");
-            Name = name.Replace(" ", "_");
+            if (string.IsNullOrEmpty(id))
+                throw new ArgumentNullException(nameof(id));
+
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
+            ID = id;
+            Name = name;
             TryToReconnect = tryToReconnect;
-            MaxRetries = maxRetries.Clamp(0, int.MaxValue);
-            _ipaddress = ipaddress;
+            MaxRetries = maxRetries;
+            IPAddress = ipaddress;
         }
 
         internal override bool BeginInitInternal()
@@ -140,6 +179,18 @@ namespace bHapticsLib
                     continue;
                 RegisterQueue.Enqueue(request);
             }
+        }
+
+        private void RestartAndRunAction(Action whileDisconnected)
+        {
+            bool shouldRestart = (Socket != null);
+            if (shouldRestart)
+                EndInit();
+
+            whileDisconnected();
+
+            if (shouldRestart)
+                BeginInit();
         }
 
         internal bool IsConnected() => Socket?.IsConnected() ?? false;
