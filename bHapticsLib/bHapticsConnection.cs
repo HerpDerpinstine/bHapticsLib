@@ -88,9 +88,20 @@ namespace bHapticsLib
 
         internal bHapticsConnection() { }
 
+        /// <summary>bHaptics Player Connection Handler</summary>
+        /// <param name="id">Application Identifier</param>
+        /// <param name="name">Application Name</param>
+        /// <param name="tryToReconnect">If the Connection should attempt to Reconnect after failure or unexpected closure</param>
+        /// <param name="maxRetries">Maximum number of Connection Retry Attempts to Perform, 0 for infinite, default value is 5</param>
         public bHapticsConnection(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
             : this(null, id, name, tryToReconnect, maxRetries) { }
 
+        /// <summary>bHaptics Player Connection Handler</summary>
+        /// <param name="ipaddress">IP Address of Host Device running the bHaptics Player</param>
+        /// <param name="id">Application Identifier</param>
+        /// <param name="name">Application Name</param>
+        /// <param name="tryToReconnect">If the Connection should attempt to Reconnect after failure or unexpected closure</param>
+        /// <param name="maxRetries">Maximum number of Connection Retry Attempts to Perform, 0 for infinite, default value is 5</param>
         public bHapticsConnection(IPAddress ipaddress, string id, string name, bool tryToReconnect = true, int maxRetries = 5)
             => Setup(ipaddress, id, name, tryToReconnect, maxRetries);
 

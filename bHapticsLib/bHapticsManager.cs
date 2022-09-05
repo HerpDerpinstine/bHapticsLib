@@ -28,23 +28,16 @@ namespace bHapticsLib
         /// <summary>Connects to the bHaptics Player</summary>
         /// <param name="id">Application Identifier</param>
         /// <param name="name">Application Name</param>
-        /// <param name="tryToReconnect">If you want the Connection to Automatically Retry after Failure</param>
-        /// <param name="maxRetries">The amount of Retries after Failure before Disconnecting</param>
+        /// <param name="tryToReconnect">If the Connection should attempt to Reconnect after failure or unexpected closure</param>
+        /// <param name="maxRetries">Maximum number of Connection Retry Attempts to Perform, 0 for infinite, default value is 5</param>
         /// <returns>true if Successful, otherwise false</returns>
         public static bool Connect(string id, string name, bool tryToReconnect = true, int maxRetries = 5)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentNullException(nameof(id));
-
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
-
-            if ((Status != bHapticsStatus.Disconnected) 
-                && !Disconnect())
-                return false;
-
             Connection.Setup(null, id, name, tryToReconnect, maxRetries);
-            return Connection.BeginInit();
+            if (Status == bHapticsStatus.Disconnected)
+                return Connection.BeginInit();
+            else
+                return true;
         }
 
         /// <summary>Disconnects from the bHaptics Player</summary>
