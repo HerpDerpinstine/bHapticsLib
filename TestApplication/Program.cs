@@ -16,7 +16,9 @@ namespace TestApplication
         {
             string testFeedbackPath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "testfeedback.tact");
             testFeedback = HapticPattern.LoadFromFile("testfeedback", testFeedbackPath);
-            testFeedbackSwapped = HapticPattern.LoadSwappedFromFile("testFeedbackSwapped", testFeedbackPath);
+
+            for (int i = 0; i < 30; i++)
+                testFeedbackSwapped = HapticPattern.LoadSwappedFromFile($"testFeedbackSwapped{i}", testFeedbackPath);
 
             Console.WriteLine("Initializing...");
             

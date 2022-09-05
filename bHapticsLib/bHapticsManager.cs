@@ -43,8 +43,8 @@ namespace bHapticsLib
                 && !Disconnect())
                 return false;
 
-            Connection.ID = id;
-            Connection.Name = name;
+            Connection.ID = id.Replace(" ", "_");
+            Connection.Name = name.Replace(" ", "_");
             Connection.TryToReconnect = tryToReconnect;
             Connection.MaxRetries = maxRetries.Clamp(0, int.MaxValue);
 
