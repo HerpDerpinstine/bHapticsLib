@@ -290,12 +290,21 @@ namespace bHapticsLib
             if (string.IsNullOrEmpty(tactFileJson))
                 return; // To-Do: Exception Here
 
+            JSONNode node = JSON.Parse(tactFileJson);
+            if (!node.HasKey("project"))
+                return; // To-Do: Exception Here
+
+            JSONNode projectNode = node[nameof(RegisterRequest.project)];
+            if ((projectNode == null) || projectNode.IsNull || !projectNode.IsObject)
+                return;
+
             RegisterRequest request = new RegisterRequest();
             request.key = key;
-            request.project = JSON.Parse(tactFileJson)[nameof(request.project)].AsObject;
+            request.project = projectNode.AsObject;
 
             RegisterCache.Add(request);
-            RegisterQueue.Enqueue(request);
+            if (IsConnected())
+                RegisterQueue.Enqueue(request);
         }
 
         /// <summary>Registers a pattern swapped from file path in the cache</summary>
@@ -320,10 +329,19 @@ namespace bHapticsLib
             if (string.IsNullOrEmpty(tactFileJson))
                 return; // To-Do: Exception Here
 
+            JSONNode node = JSON.Parse(tactFileJson);
+            if (!node.HasKey("project"))
+                return; // To-Do: Exception Here
+
+            JSONNode projectNode = node[nameof(RegisterRequest.project)];
+            if ((projectNode == null) || projectNode.IsNull || !projectNode.IsObject)
+                return;
+
             RegisterRequest request = new RegisterRequest();
             request.key = key;
 
-            JSONObject project = JSON.Parse(tactFileJson)[nameof(project)].AsObject;
+            JSONObject project = projectNode.AsObject;
+
             JSONArray tracks = project[nameof(tracks)].AsArray;
             LoopTracks(tracks, (effect) =>
             {
@@ -339,7 +357,8 @@ namespace bHapticsLib
             request.project = project;
 
             RegisterCache.Add(request);
-            RegisterQueue.Enqueue(request);
+            if (IsConnected())
+                RegisterQueue.Enqueue(request);
         }
 
         private static void LoopTracks(JSONArray tracks, Action<JSONObject> act)
