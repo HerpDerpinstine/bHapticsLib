@@ -55,7 +55,7 @@ Supports .NET Framework 3.5 through .NET 6 and beyond.</Description>
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <PackageReference Include="WebSocketDotNet" Version="0.5.5" />
+	  <PackageReference Include="WebSocketDotNet" Version="1.0.0" />
 	</ItemGroup>
 	
 	<ItemGroup>
