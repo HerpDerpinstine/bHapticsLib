@@ -26,7 +26,11 @@ namespace bHapticsLib.Internal
             Parent = parent;
 
             string URL = $"ws://{parent.IPAddress}:{bHapticsConnection.Port}/{bHapticsConnection.Endpoint}?app_id={parent.ID}&app_name={parent.Name}";
-            Socket = new WebSocket(URL, false);
+            Socket = new WebSocket(URL, new WebSocketConfiguration()
+            {
+                AutoConnect = false,
+                UseAutomaticReceiveThread = true
+            });
 
             Socket.TextReceived += (txt) =>
             {
