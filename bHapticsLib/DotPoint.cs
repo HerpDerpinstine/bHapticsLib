@@ -7,6 +7,9 @@ namespace bHapticsLib
     {
         internal JSONObject node = new JSONObject();
 
+        /// <summary>Haptic Point for Dot Mode</summary>
+        /// <param name="index">Index of Haptic Motor</param>
+        /// <param name="intensity">Point Intensity</param>
         public DotPoint(int index = 0, int intensity = 50)
         {
             Index = index;

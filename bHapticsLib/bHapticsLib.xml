@@ -456,6 +456,11 @@
         <member name="T:bHapticsLib.DotPoint">
             <summary>Haptic Point for Dot Mode</summary>
         </member>
+        <member name="M:bHapticsLib.DotPoint.#ctor(System.Int32,System.Int32)">
+            <summary>Haptic Point for Dot Mode</summary>
+            <param name="index">Index of Haptic Motor</param>
+            <param name="intensity">Point Intensity</param>
+        </member>
         <member name="P:bHapticsLib.DotPoint.Index">
             <value>Index of Haptic Motor</value>
         </member>
@@ -549,6 +554,13 @@
         <member name="T:bHapticsLib.PathPoint">
             <summary>Haptic Point for Path Mode</summary>
         </member>
+        <member name="M:bHapticsLib.PathPoint.#ctor(System.Single,System.Single,System.Int32,System.Int32)">
+            <summary>Haptic Point for Path Mode</summary>
+            <param name="x">X Axis of Point Position</param>
+            <param name="y">Y Axis of Point Position</param>
+            <param name="intensity">Point Intensity</param>
+            <param name="motorCount">Point Motor Count</param>
+        </member>
         <member name="P:bHapticsLib.PathPoint.X">
             <value>X Axis of Point Position</value>
         </member>
@@ -557,6 +569,9 @@
         </member>
         <member name="P:bHapticsLib.PathPoint.Intensity">
             <value>Point Intensity</value>
+        </member>
+        <member name="P:bHapticsLib.PathPoint.MotorCount">
+            <value>Point Motor Count</value>
         </member>
         <member name="T:bHapticsLib.PositionID">
             <summary>ID of Haptic Position</summary>
@@ -600,6 +615,11 @@
         <member name="T:bHapticsLib.RotationOption">
             <summary>Rotational Option for Haptic Patterns</summary>
         </member>
+        <member name="M:bHapticsLib.RotationOption.#ctor(System.Single,System.Single)">
+            <summary>Rotational Option for Haptic Patterns</summary>
+            <param name="offsetAngleX">Rotation Angle X Axis</param>
+            <param name="offsetY">Rotation Y Axis</param>
+        </member>
         <member name="P:bHapticsLib.RotationOption.OffsetAngleX">
             <value>Rotation Angle X Axis</value>
         </member>
@@ -608,6 +628,11 @@
         </member>
         <member name="T:bHapticsLib.ScaleOption">
             <summary>Scaling Option for Haptic Patterns</summary>
+        </member>
+        <member name="M:bHapticsLib.ScaleOption.#ctor(System.Single,System.Single)">
+            <summary>Scaling Option for Haptic Patterns</summary>
+            <param name="intensity">Scale of Intensity, default is 1x</param>
+            <param name="duration">Scale of Duration of Playback, default is 1x</param>
         </member>
         <member name="P:bHapticsLib.ScaleOption.Intensity">
             <value>Scale of Intensity, default is 1x</value>

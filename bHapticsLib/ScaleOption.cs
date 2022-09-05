@@ -7,6 +7,9 @@ namespace bHapticsLib
     {
         internal JSONObject node = new JSONObject();
 
+        /// <summary>Scaling Option for Haptic Patterns</summary>
+        /// <param name="intensity">Scale of Intensity, default is 1x</param>
+        /// <param name="duration">Scale of Duration of Playback, default is 1x</param>
         public ScaleOption(float intensity = 1f, float duration = 1f)
         {
             Intensity = intensity;

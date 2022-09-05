@@ -7,6 +7,9 @@ namespace bHapticsLib
     {
         internal JSONObject node = new JSONObject();
 
+        /// <summary>Rotational Option for Haptic Patterns</summary>
+        /// <param name="offsetAngleX">Rotation Angle X Axis</param>
+        /// <param name="offsetY">Rotation Y Axis</param>
         public RotationOption(float offsetAngleX = 0, float offsetY = 0)
         {
             OffsetAngleX = offsetAngleX;
